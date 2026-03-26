@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="res_bank_afriland" model="res.bank">
+            <field name="name">AFRILAND FIRST BANK</field>
+            <field name="sigle">AFRILAND FIRST BANK</field>
+            <field name="phone">(225)20315830</field>
+            <field name="responsable">ADADJEU KENGNE OLIVIER</field>
+            <field name="street">17, Avenue NOGUES</field>
+            <field name="street2">Immeuble WOODIN Center 01 BP 6928 Abidjan 01</field>
+            <field name="capital">12505550000</field>
+            <field name="num_inscription">A. 0106 K</field>
+        </record>
+        <record id="res_bank_baci" model="res.bank">
+            <field name="name">Banque Atlantique - Côte d’Ivoire (BACI)</field>
+            <field name="sigle">BACI</field>
+            <field name="phone">(225) 20.31.59.00/50</field>
+            <field name="street">Avenue Noguès -</field>
+            <field name="street2">Immeuble Atlantique 04 BP 1036 Abidjan 04</field>
+            <field name="responsable">Arsène COULIBALY</field>
+            <field name="capital">24963330000</field>
+            <field name="num_inscription">A.0034G</field>
+        </record>
+
+        <record id="res_bank_bbg" model="res.bank">
+            <field name="name">Bridge Bank Group Côte d’Ivoire (BBG-CI)</field>
+            <field name="sigle">BBG-CI</field>
+            <field name="phone">(225) 20.25.85.85</field>
+            <field name="street">33, Avenue du Général de Gaulle,</field>
+            <field name="street2">Plateau 01 BP 13002 Abidjan 01 Côte d’Ivoire</field>
+            <field name="responsable">Jean-Pierre
+                CARPENTIER
+            </field>
+            <field name="capital">10000000000</field>
+            <field name="num_inscription">A 0131 M</field>
+        </record>
+
+        <record id="res_bank_bda" model="res.bank">
+            <field name="name">Banque D'Abidjan</field>
+            <field name="sigle">BDA</field>
+            <field name="street">Immeuble Grande Poste du Plateau</field>
+            <field name="street2">Place de la République 01 BP 10252 Abidjan 01</field>
+            <field name="phone">20 31 70 70</field>
+            <field name="responsable">Malèye FAYE</field>
+            <field name="capital">22000000000</field>
+            <field name="num_inscription">A.00201 N</field>
+        </record>
+
+        <record id="res_bank_bdu" model="res.bank">
+            <field name="name">Banque de l'Union Côte d'Ivoire</field>
+            <field name="sigle">BDU-CI</field>
+            <field name="street">Abidjan Plateau, Immeuble JECEDA</field>
+            <field name="street2">Brd de la République 01 BP 5294 ABIDJAN 01</field>
+            <field name="phone">20 20 30 50</field>
+            <field name="responsable">IDRISSA
+                WELE DIALLO
+            </field>
+            <field name="capital">11413000000</field>
+            <field name="num_inscription">A.0180 Q (FILIALE)</field>
+        </record>
+
+        <record id="res_bank_bgfi" model="res.bank">
+            <field name="name">BGFIBANK COTE D’IVOIRE</field>
+            <field name="sigle">BGFIBank</field>
+            <field name="street">22, Avenue Joseph</field>
+            <field name="street2">Anoma 01 BP 2325
+                Abidjan 01
+            </field>
+            <field name="phone">(225) 21 56 91 56</field>
+            <field name="responsable">Malick N'DIAYE
+            </field>
+            <field name="capital">10000000000</field>
+            <field name="num_inscription">A 0162 W</field>
+        </record>
+
+        <record id="res_bank_bicici" model="res.bank">
+            <field name="name">Banque Internationale pour le Commerce et l’Industrie de la Côte d’Ivoire ( BICICI )
+            </field>
+            <field name="sigle">BICICI</field>
+            <field name="street">Avenue Franchet d’Espérey</field>
+            <field name="street2">01 BP 1298
+                Abidjan 01
+            </field>
+            <field name="phone">(225) 20.24 24 24/77 59 68</field>
+            <field name="responsable">KOUASSI Yao
+            </field>
+            <field name="capital">16666670000</field>
+            <field name="num_inscription">A.0006 B</field>
+        </record>
+
+        <record id="res_bank_bms" model="res.bank">
+            <field name="name">Banque Malienne de Solidarité
+            </field>
+            <field name="sigle">BMS</field>
+            <field name="street">Angle Rue Paris Village,</field>
+            <field name="street2">Avenue Botreau ROUSSEL 16 BP 114 Abidjan 16
+            </field>
+            <field name="phone">20 30 73 80/
+                58 03 02 44
+            </field>
+            <field name="responsable">SOUMANO SAIBA MOHAMED
+            </field>
+            <field name="capital">5088000000</field>
+            <field name="num_inscription">SUCCURSALE</field>
+        </record>
+
+        <record id="res_bank_bni" model="res.bank">
+            <field name="name">Banque Nationale d’Investissement (BNI)
+            </field>
+            <field name="sigle">BNI</field>
+            <field name="street">Avenue Marchand</field>
+            <field name="street2">Immeuble SCIAM 01 BP 670 Abidjan 01
+            </field>
+            <field name="phone">(225) 20.20.98.00 / 20 20 98 75
+            </field>
+            <field name="responsable">Youssouf Fadiga
+            </field>
+            <field name="capital">20500000000</field>
+            <field name="num_inscription">A.0092 X</field>
+        </record>
+
+        <record id="res_bank_boa" model="res.bank">
+            <field name="name">Bank Of Africa-Côte d’Ivoire (BOA-Côte d’Ivoire)
+            </field>
+            <field name="sigle">BOA</field>
+            <field name="street">Immeuble BOA-CI</field>
+            <field name="street2">Angle avenue Terrasson de Fougères et Rue Gourges, 01 BP 4132 Abidjan
+            </field>
+            <field name="phone">(225) 20.30.34.00</field>
+            <field name="responsable">Vincent ISTASSE
+            </field>
+            <field name="capital">20000000000</field>
+            <field name="num_inscription">A.0032 E</field>
+        </record>
+
+        <record id="res_bank_brm" model="res.bank">
+            <field name="name">Banque Régionale des Marchés
+            </field>
+            <field name="sigle">BRM-CI</field>
+            <field name="street">Angle Avenue du Docteur Crozet et Bd De la République</field>
+            <field name="street2">face Stade FHB 17 BP 106 Abidjan 17
+            </field>
+            <field name="phone">20 30 75 50/55</field>
+            <field name="responsable">Germaine DIENE épse SOKHNA
+            </field>
+            <field name="capital">3000000000</field>
+            <field name="num_inscription">SUCCURSALE</field>
+        </record>
+
+        <record id="res_bank_bsic" model="res.bank">
+            <field name="name">Banque Sahélo-Saharienne pour l’Investissement et le Commerce - Côte d’Ivoire (BSIC -
+                Côte d’Ivoire
+            </field>
+            <field name="sigle">BSIC-CI</field>
+            <field name="street">Abidjan Plateau</field>
+            <field name="street2">Avenue NOGUES 01 BP 10323 Abidjan 01
+            </field>
+            <field name="phone">(225) 20.30.99.99 / 20.30.99.56</field>
+            <field name="responsable">SALIF NAMBALA KEITA
+            </field>
+            <field name="capital">18700000000</field>
+            <field name="num_inscription">A0154 M</field>
+        </record>
+
+        <record id="res_bank_cbi" model="res.bank">
+            <field name="name">CORIS BANK INTERNATIONALE
+            </field>
+            <field name="sigle">CBI-CI</field>
+            <field name="street">Abidjan Plateau</field>
+            <field name="street2">Boulevard de la République n°23 Angle Rue Marchande 01B.P. 4690 Abidjan 01
+            </field>
+            <field name="phone">(225) 20 20 94 50</field>
+            <field name="responsable">SANON Mamadou
+            </field>
+            <field name="capital">15400000000</field>
+            <field name="num_inscription">A 0166 A</field>
+        </record>
+
+        <record id="res_bank_citibank" model="res.bank">
+            <field name="name">CITIBANK CI
+            </field>
+            <field name="sigle">CITIBANK</field>
+            <field name="street">28, Avenue Delafosse,</field>
+            <field name="street2">Immeuble Botreau- Roussel, 1er étage 01 BP 3698 Abidjan 01
+            </field>
+            <field name="phone">(225) 20.20.90.24/91 07</field>
+            <field name="responsable">Khady N'DIAYE
+            </field>
+            <field name="capital">10300000000</field>
+            <field name="num_inscription">A.0118 Y</field>
+        </record>
+
+        <record id="res_bank_cnce" model="res.bank">
+            <field name="name">Caisse Nationale des Caisses d’Epargne de la Côte d’Ivoire (CNCE)
+            </field>
+            <field name="sigle">CNCE</field>
+            <field name="street">ABIDJAN-PLATEAU,</field>
+            <field name="street2">II Avenue Joseph ANOMA, Rue des Banques, 14me étage immeuble SMGL 01 BP 6889 Abidjan
+                01
+            </field>
+            <field name="phone">225) 20 25 43 00 / 20 25 53 42</field>
+            <field name="responsable">Issa Tanou
+                FADIGA
+            </field>
+            <field name="capital">40000000000</field>
+            <field name="num_inscription">A 0155 N</field>
+        </record>
+
+
+        <record id="res_bank_dbci" model="res.bank">
+            <field name="name">Diamond Bank Côte d’Ivoire
+            </field>
+            <field name="sigle">DBCI</field>
+            <field name="street">ABIDJAN-PLATEAU,</field>
+            <field name="street2">rez de chaussée immeuble. IVOTEL angle Avenue Terrasson de Fougères et Rue Gourgas 01 B.P.11920 Abidjan 01
+            </field>
+            <field name="phone">(225) 20 30 95 95/20 30 94 50</field>
+            <field name="responsable">Gomez KOUASSI
+            </field>
+            <field name="capital">20450000000</field>
+            <field name="num_inscription">SUCCURSALE</field>
+        </record>
+
+
+        <record id="res_bank_ecobank" model="res.bank">
+            <field name="name">Ecobank - Côte d’Ivoire
+            </field>
+            <field name="sigle">ECOBANK-CI</field>
+            <field name="street">Avenue HOUDAILLE,</field>
+            <field name="street2">Place de la République 01 BP 4107 Abidjan 01
+            </field>
+            <field name="phone">(225) 20.21.10.41 /20 31.94.15</field>
+            <field name="responsable">Paul-Harry AITHNARD
+            </field>
+            <field name="capital">20450000000</field>
+            <field name="num_inscription">A.0059 J</field>
+        </record>
+
+        <record id="res_bank_fidelis" model="res.bank">
+            <field name="name">Fidelis finance
+            </field>
+            <field name="sigle">FIDELIS	</field>
+            <field name="street">Rue Lycée Technique </field>
+            <field name="street2">Angle rue Cannebière - Cocody
+            </field>
+            <field name="phone">((+225) 22 44 88 00</field>
+            <field name="responsable">Nomel YAPO
+            </field>
+            <field name="capital">1400000000</field>
+            <field name="num_inscription">A 0186 X</field>
+        </record>
+
+        <record id="res_bank_gtbank" model="res.bank">
+            <field name="name">Guaranty Trust Bank Cote d’Ivoire (GTBANK-CI)
+            </field>
+            <field name="sigle">GTBANK-CI</field>
+            <field name="street">Abidjan Plateau </field>
+            <field name="street2">Avenue du SENATEUR LAGAROSSE B.P.13141 Abidjan 01
+            </field>
+            <field name="phone">(225) 20 31 15 00/05</field>
+            <field name="responsable">DAN SHUAIB
+            </field>
+            <field name="capital">14832000000</field>
+            <field name="num_inscription">A 0163 X</field>
+        </record>
+
+        <record id="res_bank_mansa" model="res.bank">
+            <field name="name">MANSA BANK
+            </field>
+            <field name="sigle">MANSA BANK</field>
+            <field name="street">Abidjan, cocody  </field>
+            <field name="street2">II Plateaux rue J41, villa River Forest
+            </field>
+            <field name="phone">(225) 22 54 28 16</field>
+            <field name="responsable">KABA El Hassan
+            </field>
+            <field name="capital">12000000000</field>
+            <field name="num_inscription">A 02 11 Z</field>
+        </record>
+
+        <record id="res_bank_nsia" model="res.bank">
+            <field name="name">NSIA BANQUE
+            </field>
+            <field name="sigle">NSIA BANQUEK</field>
+            <field name="street">8-10 Avenue Joseph</field>
+            <field name="street2">Anoma 01 BP 1274
+Abidjan 01
+            </field>
+            <field name="phone">(225) 20.20.07.20</field>
+            <field name="responsable">Léonce YACE</field>
+            <field name="capital">23170000000</field>
+            <field name="num_inscription">A.0042 Q</field>
+        </record>
+
+
+        <record id="res_bank_versus" model="res.bank">
+            <field name="name">
+                VERSUS BANK S.A.
+            </field>
+            <field name="sigle">VERSUSBANK</field>
+            <field name="street">Bd Botreau-Roussel</field>
+            <field name="street2">Immeuble CRRAE 01 BP 1874 Abidjan 01</field>
+            <field name="phone">(225)20.25.60.60/90</field>
+            <field name="responsable">
+                Guy KOIZAN
+            </field>
+            <field name="capital">10000000000</field>
+            <field name="num_inscription">A 0112 R</field>
+        </record>
+
+
+    <record id="res_bank_uba" model="res.bank">
+        <field name="name">
+            United Bank for Africa Côte d'Ivoire (UBA)
+        </field>
+        <field name="sigle">UBA</field>
+        <field name="street">Bd Botreau-Roussel</field>
+        <field name="street2">Immeuble Kharrat BP 808 Abidjan 17</field>
+        <field name="phone">(225)20 31 22 22 / 23</field>
+        <field name="responsable">
+            KONE SARATA
+        </field>
+        <field name="capital">120474300000</field>
+        <field name="num_inscription">A 0150 H</field>
+    </record>
+
+
+    <record id="res_bank_standbic" model="res.bank">
+        <field name="name">
+            Stanbic Côte d’Ivoire
+        </field>
+        <field name="sigle">STABIC BANK</field>
+        <field name="street">Bd VGE</field>
+        <field name="street2">Immeuble Plein Ciel 26 BP 701</field>
+        <field name="phone">(225)21 22 34 00/30</field>
+        <field name="responsable">
+            Hervé BOYER
+        </field>
+        <field name="capital">22900000000</field>
+        <field name="num_inscription">A 0198 K</field>
+    </record>
+
+
+    <record id="res_bank_sib" model="res.bank">
+        <field name="name">
+            Société Ivoirienne de Banque (SIB)
+        </field>
+        <field name="sigle">SIB</field>
+        <field name="street">34, Bd de la République</field>
+        <field name="street2">Immeuble Alpha 2000 01 BP 1300 Abidjan 01</field>
+        <field name="phone">(225)20.20.00.00</field>
+        <field name="responsable">
+            Daouda COULIBALY
+        </field>
+        <field name="capital">10000000000</field>
+        <field name="num_inscription">A.0007 C</field>
+    </record>
+
+    <record id="res_bank_sgci" model="res.bank">
+        <field name="name">
+            Société Générale Côte d’Ivoire (SG-CI)
+        </field>
+        <field name="sigle">SGBCI</field>
+        <field name="street">5-7 Avenue Joseph Anoma 01</field>
+        <field name="street2">BP 1355 Abidjan 01</field>
+        <field name="phone">(225)20.20.32.66</field>
+        <field name="responsable">
+            Aymeric VILLEBRUN
+        </field>
+        <field name="capital">15555555000</field>
+        <field name="num_inscription">A.0008 D</field>
+    </record>
+
+
+    <record id="res_bank_scb" model="res.bank">
+        <field name="name">
+            Standard Chartered Bank Côte d’Ivoire (SCB)
+        </field>
+        <field name="sigle">SCBCI</field>
+        <field name="street">23, Bd de la République</field>
+        <field name="street2">17 BP 1141 Abidjan 17</field>
+        <field name="phone">(225)20.30.32.00/73</field>
+        <field name="responsable">
+            ISAAC FOLY
+        </field>
+        <field name="capital">10300000000</field>
+        <field name="num_inscription">A. 0097 A</field>
+    </record>
+
+    <record id="res_bank_safca" model="res.bank">
+        <field name="name">
+            Alios finance
+        </field>
+        <field name="sigle">SAFCA</field>
+        <field name="street">1, Rue des Carrossiers, Zone 3</field>
+        <field name="street2">Immeuble SAFCA 04 BP 27 Abidjan 04</field>
+        <field name="phone">(225)21 21 07 07</field>
+        <field name="responsable">
+            Thierry PAPILLION
+        </field>
+        <field name="capital">3247900000</field>
+        <field name="num_inscription">A 0001 W</field>
+    </record>
+
+    <record id="res_bank_orabank" model="res.bank">
+        <field name="name">
+            ORABANK
+        </field>
+        <field name="sigle">ORABANK</field>
+        <field name="street">Abidjan-Plateau, ex score Angle Bd République</field>
+        <field name="street2">Av Joseph ANOMA BP 312 Post Entreprises</field>
+        <field name="phone">(225)20.25.55.54/55</field>
+        <field name="responsable">
+           KANE MAMOUDOU
+        </field>
+        <field name="capital">44443750000</field>
+        <field name="num_inscription">A 0121 B</field>
+    </record>
+
+    <record id="res_bank_orange" model="res.bank">
+        <field name="name">
+            Orange Abidjan Compagnie
+        </field>
+        <field name="sigle">OAC</field>
+        <field name="street">Abidjan Plateau 7 Avenue Noguès</field>
+        <field name="street2">Immeuble SCI Broadway (BSIC) 5ème étage, 01 BP 5754 Abidjan 01</field>
+        <field name="phone">(225)20 31 15 00/05</field>
+        <field name="responsable">
+           ALEXANDRE ORO
+        </field>
+        <field name="capital">14832000000</field>
+        <field name="num_inscription">A 0214 C</field>
+    </record>
+    </data>
+</odoo>

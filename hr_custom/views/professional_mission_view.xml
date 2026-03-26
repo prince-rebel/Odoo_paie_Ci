@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Gestion des missions -->
+        <record id="professional_mission_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_mission.form</field>
+            <field name="model">hr_custom.professional_mission</field>
+            <field name="arch" type="xml">
+                <form string="form. Mission professionnelle ">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <field name="employee_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="object" required="1"/>
+                        </group>
+                        <group col="4">
+                            <field name="date_of_departure" required="1"/>
+                            <field name="means_of_transport_id" required="1"/>
+                            <field name="date_of_return" required="1"/>
+                            <field name="imputation_budgetaire_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="destination_ids" string="Destinations" widget="many2many_tags" required="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="professional_mission_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_mission.tree</field>
+            <field name="model">hr_custom.professional_mission</field>
+            <field name="arch" type="xml">
+                <tree string="List. Mission professionnelle">
+                    <field name="object"/>
+                    <field name="date_of_departure"/>
+                    <field name="date_of_return"/>
+                    <field name="employee_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="professional_mission_search_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_mission.search</field>
+            <field name="model">hr_custom.professional_mission</field>
+            <field name="arch" type="xml">
+                <search string="Search. Mission professionnelle">
+                    <field name="name"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Date de départ" name="date_of_departure" domain="[]"
+                                context="{'group_by':'date_of_departure'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="professional_mission_act_window" model="ir.actions.act_window">
+            <field name="name">Mission pro.</field>
+            <field name="res_model">hr_custom.professional_mission</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="professional_mission_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer la première mission professionnelle en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+
+        <!-- vue des destination -->
+
+        <record id="destination_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.destination.tree</field>
+            <field name="model">hr_custom.destination</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="country_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="destination_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.destination.form</field>
+            <field name="model">hr_custom.destination</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="country_id"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="destination_search_view" model="ir.ui.view">
+            <field name="name">hr_custom.destination.search</field>
+            <field name="model">hr_custom.destination</field>
+            <field name="arch" type="xml">
+                <search string="Search. Destination">
+                    <field name="name"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Pays" name="country_id" domain="[]"
+                                context="{'group_by':'country_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="destination_act_window" model="ir.actions.act_window">
+            <field name="name">Destination des missions</field>
+            <field name="res_model">hr_custom.destination</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="destination_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer la première destination pour les missions professionnelles en cliquant
+                    sur le bouton créer situé en haut à gauche.
+                </p>
+            </field>
+        </record>
+
+        <!-- vue des moyens de transports -->
+
+        <record id="means_of_transport_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.means_of_transport.tree</field>
+            <field name="model">hr_custom.means_of_transport</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="means_of_transport_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.means_of_transport.form</field>
+            <field name="model">hr_custom.means_of_transport</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="means_of_transport_search_view" model="ir.ui.view">
+            <field name="name">hr_custom.means_of_transport.search</field>
+            <field name="model">hr_custom.means_of_transport</field>
+            <field name="arch" type="xml">
+                <search string="Search. Moyen de transport">
+                    <field name="name"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Moyen de transport" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="means_of_transport_act_window" model="ir.actions.act_window">
+            <field name="name">Moyens de transport (Mission)</field>
+            <field name="res_model">hr_custom.means_of_transport</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="means_of_transport_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer le premier moyen de transport pour les missions professionnelles en cliquant
+                    sur le bouton créer situé en haut à gauche.
+                </p>
+            </field>
+        </record>
+
+        <!-- vue du pays-->
+
+        <record id="res_country_form_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.res_country.form</field>
+            <field name="model">res.country</field>
+            <field name="inherit_id" ref="base.view_country_form"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="nationality"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

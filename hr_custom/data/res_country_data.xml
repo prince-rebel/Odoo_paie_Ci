@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="base.bf" model="res.country">
+            <field name="nationality">Burkinabé</field>
+        </record>
+        <record id="base.cm" model="res.country">
+            <field name="nationality">Camerounaise</field>
+        </record>
+        <record id="base.ci" model="res.country">
+            <field name="nationality">Ivoirienne</field>
+        </record>
+        <record id="base.fr" model="res.country">
+            <field name="nationality">Française</field>
+        </record>
+        <record id="base.gh" model="res.country">
+            <field name="nationality">Ghanéenne</field>
+        </record>
+        <record id="base.gn" model="res.country">
+            <field name="nationality">Guinéenne</field>
+        </record>
+        <record id="base.lr" model="res.country">
+            <field name="nationality">Libérienne</field>
+        </record>
+        <record id="base.ml" model="res.country">
+            <field name="nationality">Malienne</field>
+        </record>
+    </data>
+</odoo>

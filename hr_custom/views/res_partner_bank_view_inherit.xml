@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_partner_bank_form_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.res_partner_bank.form</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="box_office_code" required="1"/>
+                    <field name="rib" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='bank_id']" position="attributes">
+                    <field name="required">1</field>
+                </xpath>
+            </field>
+        </record>
+        <record id="res_partner_bank_tree_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.res_partner_bank.tree</field>
+            <field name="model">res.partner.bank</field>
+            <field name="inherit_id" ref="base.view_partner_bank_tree"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bank_name']" position="attributes">
+                    <attribute name="string">Banque</attribute>
+                </xpath>
+                <field name="acc_number" position="after">
+                    <field name="box_office_code"/>
+                    <field name="rib"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

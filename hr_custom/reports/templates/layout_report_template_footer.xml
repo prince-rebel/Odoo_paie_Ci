@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_template_footer">
+            <div class="footer">
+                <div class="text-center">
+                    <div style="font-size: 9px; border-top: 1px solid #FF9633; margin-bottom: 10px;">
+                        <strong>
+                            NEURONES TECHNOLOGIES
+                            <br/>
+                            Siège social : Angré, 8ème Tranche, Abidjan
+
+                            <br/>
+                            www.neuronestech.com
+                            <br/>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

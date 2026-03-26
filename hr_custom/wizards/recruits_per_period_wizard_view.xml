@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="recruits_per_period_wizard_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.recruits_per_period_wizard.form</field>
+            <field name="model">hr_custom.recruits_per_period_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <footer>
+                        <button name="print_report_new_employee_pdf" string="Imprimer en pdf" type="object"
+                                class="btn-primary"/>
+                        <button name="print_report_new_employee_xls" string="Imprimer en xls" type="object"
+                                class="btn-primary"/>
+                        <button string="Annuler" class="btn-default" special="cancel"/>
+                    </footer>
+
+                </form>
+            </field>
+
+        </record>
+
+        <record id="recruits_per_period_wizard_act_window" model="ir.actions.act_window">
+            <field name="name">Liste des nouvelles recrues</field>
+            <field name="res_model">hr_custom.recruits_per_period_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_employee_resignation_pdf">
+            <t t-call="web.html_container">
+                <t t-call="hr_custom.doc_report_employee_layout">
+                    <div class="page" style="text-align: center; padding:225px 0px 50px 0px;">
+                        <br/>
+                        <center>
+                            <table style="border-collapse:collapse;bordercolor=#111111; align:center;">
+                                <tr>
+                                    <td style="border:none; width:20%;"/>
+                                    <td style="border:3px solid black; width:60%; align:center; text-align:center; padding-top: 20px;font-family:DejaVu Serif;">
+                                        <h3 style="font-family:DejaVu Serif;">
+                                            <b>LISTE DES DEPARTS PAR MOTIF</b>
+                                        </h3>
+                                    </td>
+                                    <td style="border:none; width:20%;"/>
+                                </tr>
+                            </table>
+                        </center>
+                        <br/>
+                        <br/>
+                        <t t-set="num" t-value="1"/>
+                        <table class="table" style="text-align:center;">
+                            <thead class="thead-light">
+                                <tr>
+                                    <td style="font-family:DejaVu Serif;">N°</td>
+                                    <td style="font-family:DejaVu Serif;">MTLE</td>
+                                    <td style="font-family:DejaVu Serif;">CAT</td>
+                                    <td style="font-family:DejaVu Serif;">STATUT</td>
+                                    <td style="font-family:DejaVu Serif;">NOM ET PRENOMS</td>
+                                    <td style="font-family:DejaVu Serif;">FONCTION</td>
+                                    <td style="font-family:DejaVu Serif;">SERVICE</td>
+                                    <td style="font-family:DejaVu Serif;">DEPARTEMENT</td>
+                                    <td style="font-family:DejaVu Serif;">DIRECTION</td>
+                                    <td style="font-family:DejaVu Serif;">SEXE</td>
+                                    <td style="font-family:DejaVu Serif;">EMBAUCHE</td>
+                                    <td style="font-family:DejaVu Serif;">NAISSANCE</td>
+                                    <td style="font-family:DejaVu Serif;">AGE</td>
+                                    <td style="font-family:DejaVu Serif;">NATURE DU CONTRAT</td>
+                                    <td style="font-family:DejaVu Serif;">DATE DE DÉPART</td>
+                                    <td style="font-family:DejaVu Serif;">MOTIF DE DÉPART</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="motifs" t-as="o">
+                                    <tr>
+                                        <td>
+                                            <span t-out="num"/>
+                                            <t t-set="num" t-value="num+1"/>
+                                        </td>
+                                        <td>
+                                            <t t-out="o['matricule']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <t t-out="o['cat']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <t t-out="o['status']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <t t-out="o['name']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <t t-out="o['job_id']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-out="o['service_id']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['department_id']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['direction_id']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['gender']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['hiring_date']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+
+                                        <td>
+                                            <span t-out="o['birthday']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['age']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['contract_type_id']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['departure_date']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td>
+                                            <span t-out="o['departure_reason']" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="pull-left" style="padding-top: 25px;text-justify: auto">
+                            <t t-foreach="total" t-as="t">
+                                <div style="text-align:justify;">
+                                    <b>
+                                        <h7 style="font-family:DejaVu Serif;text-align:left">
+                                            Effectif de l'entreprise:
+                                            <span t-out="t['total_employee']" style="font-family:DejaVu Serif;"/>
+                                        </h7>
+                                        <br/>
+                                        <h7 style="text-align:left;font-family:DejaVu Serif;">
+                                            Effectif Hommes:
+                                            <span t-out="t['total_male']" style="font-family:DejaVu Serif;"/>
+                                        </h7>
+                                        <br/>
+                                        <h7 style="text-align:left;font-family:DejaVu Serif;">
+                                            Effectif Femmes:
+                                            <span t-out="t['total_female']" style="font-family:DejaVu Serif;"/>
+                                        </h7>
+                                        <br/>
+                                        <br/>
+                                        <!--                                     <h7 style="text-align:left;">Motif départ:  </h7> <br/> -->
+                                    </b>
+                                </div>
+                            </t>
+                        </div>
+                        <div class="pull-right" style="padding-top: 25px;text-justify: auto">
+                            <div>
+                                <h6 style="font-family:DejaVu Serif;">
+                                    Fait à Abidjan, le
+                                    <span t-out="date" style="font-family:DejaVu Serif;text-transform: capitalize;"/>
+                                    .
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

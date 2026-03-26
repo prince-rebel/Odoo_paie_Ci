@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <menuitem
+                id="res_bank_menu"
+                name="Banque"
+                parent="hr.menu_human_resources_configuration"
+                sequence="1"
+                action="base.action_res_bank_form"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="res_partner_bank_menu"
+                name="Comptes bancaires"
+                parent="hr.menu_hr_employee_payroll"
+                sequence="5"
+                action="base.action_res_partner_bank_account_form"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="work_mission_menu_parent"
+                name="Travail et Mission"
+                parent="hr.menu_hr_root"
+                sequence="4"
+                groups="hr.group_hr_user"/>
+        <menuitem
+                id="professional_mission_menu"
+                name="Mission pro."
+                parent="hr_custom.work_mission_menu_parent"
+                sequence="4"
+                action="hr_custom.professional_mission_act_window"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="work_accident_menu"
+                name="Accidents de travail"
+                parent="hr_custom.work_mission_menu_parent"
+                sequence="5"
+                action="hr_custom.work_accident_act_window"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="destination_menu"
+                name="Destination des missions"
+                parent="hr.menu_human_resources_configuration"
+                sequence="5"
+                action="hr_custom.destination_act_window"
+                groups="hr.group_hr_manager"/>
+
+        <menuitem
+                id="menu_hr_cnce_moyens_transport"
+                name="Moyen de transport (Mission)"
+                parent="hr.menu_human_resources_configuration"
+                sequence="6"
+                action="hr_custom.means_of_transport_act_window"
+                groups="hr.group_hr_manager"/>
+
+        <menuitem
+                id="hr.menu_hr_departure_reason_tree"
+                name="Motif de départ"
+                sequence="7"
+                parent="hr.menu_human_resources_configuration"
+                />
+
+        <menuitem
+                id="hr_rapport_menu"
+                name="Rapports"
+                parent="hr.menu_hr_root"
+                sequence="99"
+                groups="hr.group_hr_user"
+                />
+
+        <menuitem
+                id="employee_resignation_menu"
+                name="Rapport des départs"
+                parent="hr_custom.hr_rapport_menu"
+                sequence="3"
+                action="hr_custom.employee_resignation_wizard_act_window"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="work_accident_wizard_menu"
+                name="Rapport des accidents de travail"
+                parent="hr_custom.hr_rapport_menu"
+                sequence="4"
+                action="hr_custom.work_accident_wizard_act_window"
+                groups="hr.group_hr_user"/>
+
+        <menuitem
+                id="recruits_per_period_wizard_menu"
+                name="Liste des nouvelles recrues"
+                parent="hr_custom.hr_rapport_menu"
+                sequence="5"
+                action="hr_custom.recruits_per_period_wizard_act_window"
+                groups="hr.group_hr_user"/>
+
+        <menuitem id="employee_list_wizard_menu"
+                  name="Liste du personnel"
+                  parent="hr_custom.hr_rapport_menu"
+                  action="hr_custom.employee_list_wizard_act_window"
+                  sequence="7"
+                  groups="hr.group_hr_user"/>
+
+
+
+    </data>
+</odoo>

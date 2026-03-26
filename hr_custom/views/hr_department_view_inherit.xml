@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_department_form_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.hr_department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name='manager_id' position="before">
+                    <field name="description"/>
+                    <field name="type" required="1"/>
+                </field>
+                <field name="name" position="attributes">
+                    <attribute name="string">Intitulé</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="hr_department_filter_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.hr_department.form</field>
+            <field name="model">hr.department</field>
+            <field name="inherit_id" ref="hr.view_department_filter"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//search" position="inside">
+                    <group string="Group By">
+                        <filter string="Type" name="type" domain="[]" context="{'group_by':'type'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="hr.hr_department_kanban_action" model="ir.actions.act_window">
+            <field name="name">Departments</field>
+            <field name="res_model">hr.department</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="context">{'search_default_type': 1}</field>
+
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new department
+                </p>
+                <p>
+                    Odoo's department structure is used to manage all documents
+                    related to employees by departments: expenses, timesheets,
+                    time off, recruitments, etc.
+                </p>
+            </field>
+        </record>
+
+
+
+    </data>
+</odoo>

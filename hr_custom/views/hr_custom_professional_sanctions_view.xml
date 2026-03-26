@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- vue des sanctions -->
+        <record id="professional_sanctions_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_sanctions.tree</field>
+            <field name="model">hr_custom.professional_sanctions</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date_of_penalty" required="1"/>
+                    <field name="type_sanction_id" required="1"/>
+                    <field name="name" required="1"/>
+                    <field name="number_of_days_suspension" required="1"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="professional_sanctions_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_sanctions.form</field>
+            <field name="model">hr_custom.professional_sanctions</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="date_of_penalty" required="1"/>
+                            <field name="type_sanction_id" required="1"/>
+                            <field name="name" required="1"/>
+                            <field name="number_of_days_suspension" required="1"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="professional_sanctions_search_view" model="ir.ui.view">
+            <field name="name">hr_custom.professional_sanctions.search</field>
+            <field name="model">hr_custom.professional_sanctions</field>
+            <field name="arch" type="xml">
+                <search string="Search. Sanctions">
+                    <field name="name"/>
+                    <group expand="1" string="Group By">
+                        <filter string="sanctions" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="mode_of_sanctions_act_window" model="ir.actions.act_window">
+            <field name="name">Sanctions</field>
+            <field name="res_model">hr_custom.professional_sanctions</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="professional_sanctions_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer la premiere sanction pour les sanctions en cliquant
+                    sur le bouton créer situé en haut à gauche.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

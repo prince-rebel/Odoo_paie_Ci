@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="res_bank_form_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.res_bank.form</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <div class="o_employee_avatar m-0 p-0">
+                        <field name="logo" widget="image" class="oe_avatar"/>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="sigle"/>
+                </xpath>
+                <xpath expr="//field[@name='bic']" position="after">
+                    <field name="num_inscription"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="before">
+                    <field name="responsable"/>
+                </xpath>
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="capital"/>
+                </xpath>
+            </field>
+        </record>
+
+
+        <record id="res_bank_tree_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.res_bank.tree</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_tree"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="num_inscription"/>
+                </xpath>
+                <field name="country" position="after">
+                    <field name="capital"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

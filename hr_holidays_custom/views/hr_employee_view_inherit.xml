@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="seniority_employee" position="after">
+                    <field name="date_return_last_holidays"/>
+                    <field name="estimed_date_leave"/>
+                    <field name="estimated_date_return_leave"/>
+                    <field name="number_days_estimed_holidays"/>
+                    <field name="stock_holiday"/>
+                    <field name="stock_total_holiday" readonly="True"/>
+                </field>
+                <!--<field name="leave_manager_id" position="after">
+                    <field name="stock_legal_absence"/>
+                </field>-->
+                <xpath expr="//group[@name='managers']" position="inside">
+                <field name="remaining_legal_absence_stock"/>
+            </xpath>
+                <notebook position="inside">
+                    <page string="Historique Prévisions Congés">
+                        <field name="planning_save_ids" readonly="1">
+                            <tree>
+                                <field name="date_return_last_holidays"/>
+                                <field name="estimed_date_leave"/>
+                                <field name="estimated_date_return_leave"/>
+                                <field name="number_days_estimed_holidays"/>
+                            </tree>
+                            <form>
+                                <group col="4">
+                                    <field name="date_return_last_holidays"/>
+                                    <field name="estimed_date_leave"/>
+                                    <field name="estimated_date_return_leave"/>
+                                    <field name="number_days_estimed_holidays"/>
+                                </group>
+                            </form>
+                        </field>
+                    </page>
+                    <page string="Historique Stocks Congés">
+						<field name="save_stock_holiday_ids" readonly="1">
+							<tree>
+								<field name="name"/>
+								<field name="number_days"/>
+							</tree>
+							<form>
+								<group col="4">
+									<field name="name"/>
+									<field name="number_days"/>
+								</group>
+							</form>
+						</field>
+					</page>
+                </notebook>
+            </field>
+        </record>
+
+    </data>
+</odoo>

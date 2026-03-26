@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cron_leave_allowance" model="ir.cron">
+            <field name="name">HR Holidays: Attribution automatique des allocations congés</field>
+            <field name="model_id" ref="model_hr_employee"/>
+            <field name="state">code</field>
+            <field eval="True" name="doall"/>
+            <field name="code">model.cron_get_leave_allowance()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+        </record>
+        <!--<record id="cron_end_contract" model="ir.cron">
+            <field name="name">Alerte fin de contrat</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field eval="True" name="doall"/>
+            <field name="model_id" ref="hr_custom.model_hr_contract"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_end_contract_notification()</field>
+        </record>-->
+
+    </data>
+</odoo>

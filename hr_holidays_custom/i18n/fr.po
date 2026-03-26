@@ -1,0 +1,757 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* hr_holidays_custom
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e-20211118\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-02-27 17:51+0000\n"
+"PO-Revision-Date: 2023-02-27 18:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: hr_holidays_custom
+#: model:ir.actions.report,print_report_name:hr_holidays_custom.action_resumption_of_service
+msgid ""
+"'Attestation de reprise de service - %s' % (object.employee_id."
+"identification_id)"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+",\n"
+"                                <br/>\n"
+"                                <br/>\n"
+"                                Atteste que"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+",\n"
+"                                <br/>\n"
+"                                <br/>\n"
+"                                Fonction :"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+".\n"
+"                                <br/>"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "<b>ATTESTATION DE REPRISE DE SERVICE</b>"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"<br/>\n"
+"                                <br/>\n"
+"                                Bénéficiaire d'un"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"<br/>\n"
+"                                <br/>\n"
+"                                Direction/Service :"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_needaction
+msgid "Action Needed"
+msgstr "Action nécessaire"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_ids
+msgid "Activities"
+msgstr "Activités"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_state
+msgid "Activity State"
+msgstr "État d'activité"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Icône du type d'activité"
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.presumption_of_service_form_view
+msgid "Annuler"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields.selection,name:hr_holidays_custom.selection__hr_holidays_custom_resumption_of_service__state__cancel
+msgid "Annulé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_attachment_count
+msgid "Attachment Count"
+msgstr "Nombre de pièces jointes"
+
+#. module: hr_holidays_custom
+#: model:ir.actions.report,name:hr_holidays_custom.action_resumption_of_service
+#: model:ir.model,name:hr_holidays_custom.model_report_hr_holidays_custom_report_resumption_of_service
+#: model:ir.ui.menu,name:hr_holidays_custom.resumption_of_service_menu
+msgid "Attestation de reprise de service"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__payroll_in
+msgid "Chômer et payer"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_leave_type__code
+msgid "Code"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_res_company
+msgid "Companies"
+msgstr "Entreprises"
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+msgid "Company"
+msgstr "Entreprise"
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_res_config_settings
+msgid "Config Settings"
+msgstr "Paramètres de configuration"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__holidays_id
+msgid "Congé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_res_company__number_holidays_expat
+msgid "Congés expatriés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_res_company__number_holidays_locaux
+msgid "Congés nationaux"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__create_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__create_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__create_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__create_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__create_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__create_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__create_date
+msgid "Created on"
+msgstr "Créé sur"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__date
+msgid "Date"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__resumption_date
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Date de reprise"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__date_return_last_holidays
+msgid "Date de retour Congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__date_return_last_holidays
+msgid "Date de retour congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"Date et\n"
+"                                        Signature\n"
+"                                        <br/>\n"
+"                                        N+1"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"Date et\n"
+"                                        Signature\n"
+"                                        <br/>\n"
+"                                        N+2"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"Date et\n"
+"                                        Signature du DRH"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__estimed_date_leave
+msgid "Date prévisonnelle de depart en congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__estimated_date_return_leave
+msgid "Date prévisonnelle de retour de congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__estimed_date_leave
+msgid "Date prévsionnelle de départ en congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__estimated_date_return_leave
+msgid "Date prévsionnelle de retour de congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__department_id
+msgid "Departement"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+msgid "Departément"
+msgstr ""
+"Departe\n"
+"ment"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__description
+msgid "Description"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__direction_id
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Direction"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__display_name
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__display_name
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__display_name
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Département"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__employee_id
+msgid "Employe"
+msgstr "Employé"
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_hr_employee
+msgid "Employee"
+msgstr "Employé(e)"
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+msgid "Employees"
+msgstr "Employé(e)s"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__employee_id
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__employee_id
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Employé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_res_config_settings__number_holidays_expat
+msgid "Employés expatriés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_res_config_settings__number_holidays_locaux
+msgid "Employés locaux"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__is_recurring
+msgid "Est-il récurrent?"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__state
+msgid "Etat"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "Fait à Abidjan, le"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_follower_ids
+msgid "Followers"
+msgstr "Suiveurs"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Suiveurs (Partenaires)"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Group By"
+msgstr "Groupé par"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__resumption_hour
+msgid "Heure de réprise"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.hr_employee_form_inherit
+msgid "Historique Prévisions Congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__planning_save_ids
+msgid "Historique Prévisions congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__save_stock_holiday_ids
+msgid "Historique Stock congé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.hr_employee_form_inherit
+msgid "Historique Stocks Congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__id
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__id
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__id
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__id
+msgid "ID"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_needaction
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_error
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "Je"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+msgid "Job"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_gantt_view
+msgid "Jours"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays____last_update
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service____last_update
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday____last_update
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__write_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__write_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__write_uid
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__write_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__write_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__write_date
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_legal_holidays__name
+msgid "Libellé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_tree_view
+msgid "List. Reprise de service"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_main_attachment_id
+msgid "Main Attachment"
+msgstr "Pièce jointe principale"
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "Matricule :"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_error
+msgid "Message Delivery error"
+msgstr "Erreur de livraison du message"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.presumption_of_service_form_view
+msgid "Mettre en brouillon"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "Mlle"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "Mme"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Date limite de mon activité"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__number_of_holidays
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__number_days
+msgid "Nombre de jours"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_employee__number_days_estimed_holidays
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_planning_holiday__number_days_estimed_holidays
+msgid "Nombre de jours de congés estimés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_res_company__number_holidays_expat
+#: model:ir.model.fields,help:hr_holidays_custom.field_res_config_settings__number_holidays_expat
+msgid "Nombre de jours de congés mensuels à attribuer aux employés expatriés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_res_company__number_holidays_locaux
+#: model:ir.model.fields,help:hr_holidays_custom.field_res_config_settings__number_holidays_locaux
+msgid "Nombre de jours de congés mensuels à attribuer aux employés locaux"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Nombre d'actions"
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__number_of_holidays
+msgid ""
+"Number of days of the time off request. Used in the calculation. To manually "
+"correct the duration, use this field."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.ui.menu,name:hr_holidays_custom.holiday_forecast_menu
+msgid "Prévisions Congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.actions.act_window,name:hr_holidays_custom.holiday_forecast_act_window
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_calendar_view
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_tree_view
+msgid "Prévisions Congés Annuels"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.actions.act_window,name:hr_holidays_custom.resumption_of_service_act_window
+#: model:ir.model,name:hr_holidays_custom.model_hr_holidays_custom_resumption_of_service
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_leave__resumption_of_service
+msgid "Reprise de service"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_hr_holidays_custom_save_stock_holiday
+msgid "Sauvegarde des stocks congés"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_hr_holidays_custom_save_planning_holiday
+msgid "Sauvegarde du planning congé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Search. Mission professionnelle"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__service_id
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.holiday_forecast_search_view
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.resumption_of_service_search_view
+msgid "Service"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__company_id
+msgid "Société"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_save_stock_holiday__name
+msgid "Stock congé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_hr_leave
+msgid "Time Off"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model,name:hr_holidays_custom.model_hr_leave_type
+msgid "Time Off Type"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__validator_id
+msgid "Validateur"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.presumption_of_service_form_view
+msgid "Valider"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields.selection,name:hr_holidays_custom.selection__hr_holidays_custom_resumption_of_service__state__done
+msgid "Validé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: code:addons/hr_holidays_custom/models/resumption_of_service.py:0
+#, python-format
+msgid ""
+"Vous ne pouvez imprimer la fiche de reprise de congé que si elle est "
+"validée. Merci de faire le nécessaire ou de contacter un administrateur su "
+"vous pensez que c'est une erreur."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.actions.act_window,help:hr_holidays_custom.resumption_of_service_act_window
+msgid ""
+"Vous pouvez créer la première reprise de service en cliquant sur le bouton "
+"créer situé en haut\n"
+"                    à gauche."
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,field_description:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields,help:hr_holidays_custom.field_hr_holidays_custom_resumption_of_service__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model:ir.model.fields.selection,name:hr_holidays_custom.selection__hr_holidays_custom_resumption_of_service__state__draft
+msgid "brouillon"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "congé"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "de"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.presumption_of_service_form_view
+msgid "form. Reprise de service"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid ""
+"jour(s)\n"
+"                                <br/>\n"
+"                                <br/>\n"
+"                                A repris le service le"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "mns"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "soussigné"
+msgstr ""
+
+#. module: hr_holidays_custom
+#: model_terms:ir.ui.view,arch_db:hr_holidays_custom.report_resumption_of_service
+msgid "soussignée"
+msgstr ""
