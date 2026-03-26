@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="benefits_in_kind_301_form" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.benefits_in_kind_301.form</field>
+            <field name="model">hr_payroll_custom.benefits_in_kind_301</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="data_file"/>
+                        </group>
+                    </sheet>
+                    <footer>
+                        <button name="compute_data" string="Importer" type="object"/>
+                        or
+                        <button name="cancel" string="Annuler" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="benefits_in_kind_301_act_window" model="ir.actions.act_window">
+            <field name="name">Importer les avantages Nature et espèces(301)</field>
+            <field name="res_model">hr_payroll_custom.benefits_in_kind_301</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

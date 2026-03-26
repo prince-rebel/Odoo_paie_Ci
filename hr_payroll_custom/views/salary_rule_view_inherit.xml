@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="salary_rule_form_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.salary_rule.form</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="inherit_id" ref="hr_payroll.hr_salary_rule_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="appears_on_payslip" position="before">
+                    <field name="is_tax_fdfp"/>
+                </field>
+                <field name="appears_on_payslip" position="after">
+                    <field name="appears_on_payroll"/>
+                    <field name="imputation_type"/>
+                    <field name="natural_advantage"/>
+                    <field name="use_to_compute_leave"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

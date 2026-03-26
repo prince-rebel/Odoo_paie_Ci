@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="hr_contract_form_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.hr_contract.form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="%(inverse_calculation_act_window)d" type="action" string="Calcul Inverse"
+                            groups="hr_payroll.group_hr_payroll_user,hr_payroll.group_hr_payroll_manager"/>
+                </header>
+                <!-- Remplacer le contenu du groupe 'salary' -->
+                <xpath expr="//group[@name='salary']" position="inside">
+                    <group name="salary">
+                        <field name="convention_id"/>
+                        <field name="activity_area_id"/>
+                        <field name="salary_category_id"/>
+                        <field name="wage" position="replace">
+                        <label for="wage"/>
+                        <div class="o_row" name="wage">
+                            <field name="wage" nolabel="1"/>
+                            <span>/ month</span>
+                        </div>
+                        </field>
+                        
+                        <field name="extra_pay"/>
+                    </group>
+                </xpath>
+                <notebook position="inside">
+                    <page string="Primes fixes" groups="hr_payroll.group_hr_payroll_user">
+                        <field name="fixed_premiums_ids">
+                            <tree string="Primes fixes" editable="top">
+                                <field name="input_type_id"/>
+                                <field name="amount"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="statement_301_layout">
+            <t t-if="not p" t-set="p" t-value="doc"/>
+            <div class="article">
+                <t t-raw="0"/>
+            </div>
+        </template>
+    </data>
+</odoo>

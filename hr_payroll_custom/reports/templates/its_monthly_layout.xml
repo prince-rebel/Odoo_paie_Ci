@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="its_monthly_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+            <div class="header">
+                <div class="row" style="padding-top:10px;padding-bottom:1px;">
+                    <table style="border:none;width:100%;">
+                        <tr>
+                            <td style="border:none;width:200px">
+                                <table style="border:1px solid black">
+                                    <tr>
+                                        <td style="border:1px solid black">
+                                            CACHE DU SERVICE
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:none;height:60px"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td style="border:none;width:700px">
+                                <h4 style="text-align:center">DIRECTION GENERALE DES IMPOTS</h4>
+                                <br/>
+                                <h5 style="text-align:center">
+                                    <b>DECLARATION DES IMPOTS SUR LES<br/>SALAIRES
+                                    </b>
+                                </h5>
+                            </td>
+                            <td style="border:none;width:200px">
+                                <table style="border:1px solid black">
+                                    <tr>
+                                        <td style="border:1px solid black">
+                                            DATE DE RECEPTION
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:none;height:60px"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="article">
+                <t t-raw="0"/>
+            </div>
+        </template>
+    </data>
+</odoo>

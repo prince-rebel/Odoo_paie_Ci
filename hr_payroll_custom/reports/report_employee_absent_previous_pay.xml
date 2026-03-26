@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_absent_prev_pay">
+            <t t-call="web.html_container">
+                <t t-call="hr_payroll_custom.payroll_report_layout">
+                    <t t-foreach="docs" t-as="o">
+                        <div class="page" style="font-family:DejaVu Serif;padding:195px 0px 100px 0px;">
+                            <table style="border-collapse:collapse;bordercolor=#111111; align:center;width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="border:none; width:10%;"/>
+                                        <td style="border:3px solid black; width:80%; align:center; text-decoration: underline black; text-align:center;">
+                                            <h2 style="text-decoration: underline black;padding-top:10px; padding-bottom:5px;text-align:center;font-family:DejaVu Serif;">
+                                                <b>
+                                                    Salariés absents de la précédente paie
+                                                    <br/>
+                                                    au mois de
+                                                    <span t-out="date_from"
+                                                          style="font-family:DejaVu Serif;text-transform:capitalize;"/>
+                                                </b>
+                                            </h2>
+                                        </td>
+                                        <td style="border:none; width:10%;"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
+                            <br/>
+                            <table style="border-collapse:collapse;bordercolor=#111111;align:center;width:100%;">
+                                <tr>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Matricule</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Nom</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Prenom</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Categorie</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Date d'embauche</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Libellé</strong>
+                                    </td>
+                                    <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">
+                                        <strong>Sortie</strong>
+                                    </td>
+                                </tr>
+                                <tr t-foreach='o.employee_ids' t-as='line'>
+                                    <t t-if="line.type == 'in'">
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-field="line.identification_id" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-field="line.name" style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-field="line.employee_id.first_name"
+                                                  style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-field="line.employee_id.salary_category_id.name"
+                                                  style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-out="line.employee_id.hiring_date.strftime('%d-%m-%Y')"
+                                                  style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;font-family:DejaVu Serif;">Présent
+                                        </td>
+                                        <td style="border:1px solid;text-align:center;">
+                                            <span t-out="o.old_date_from.strftime('%m-%Y')"
+                                                  style="font-family:DejaVu Serif;"/>
+                                        </td>
+                                    </t>
+                                </tr>
+                            </table>
+                        </div>
+                        <!--<div class="footer">
+                            <div class="text-center" style="padding-top:30px;">
+                                <p>
+                                    <span style="font-family:DejaVu Serif;text-align:center;">
+                                        <span class="page"/>
+                                        /
+                                        <span class="topage"/>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>-->
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

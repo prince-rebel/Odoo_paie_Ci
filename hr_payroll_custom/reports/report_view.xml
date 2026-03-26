@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_report_payslip" model="ir.actions.report">
+            <field name="name">Bulletin</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_payslip</field>
+            <field name="report_file">hr_payroll_custom.report_payslip</field>
+            <field name="print_report_name">"'Bulletin - %s' % (object.employee_id.name)"</field>
+            <field name="binding_model_id" ref="model_hr_payslip"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_pay_book_xls" model="ir.actions.report">
+            <field name="name">Livre de paye(xlsx)</field>
+            <field name="model">hr_payroll_custom.pay_book</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_pay_book_xls</field>
+            <field name="report_file">hr_payroll_custom.report_pay_book_xls</field>
+            <field name="print_report_name">'%s' % (object.name)</field>
+        </record>
+
+        <record id="action_payroll_by_post_xls" model="ir.actions.report">
+            <field name="name">Paye par poste et période(xlsx)</field>
+            <field name="model">hr_payroll_custom.payroll_by_post</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_payroll_by_post_xls</field>
+            <field name="report_file">hr_payroll_custom.report_payroll_by_post_xls</field>
+            <field name="print_report_name">'%s' % (object.rule_id.name)</field>
+        </record>
+
+         <record id="action_payroll_by_post_pdf" model="ir.actions.report">
+            <field name="name">Paye par poste et période(pdf)</field>
+            <field name="model">hr_payroll_custom.payroll_by_post</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_payroll_by_post_pdf</field>
+            <field name="report_file">hr_payroll_custom.report_payroll_by_post_pdf</field>
+            <field name="print_report_name">'%s' % (object.rule_id.name)</field>
+        </record>
+
+        <record id="action_salary_variation_employee_xls" model="ir.actions.report">
+            <field name="name">Etat des variations des salaires par employé</field>
+            <field name="model">hr_payroll_custom.salary_variation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_salary_variation_employee_xls</field>
+            <field name="report_file">hr_payroll_custom.report_salary_variation_employee_xls</field>
+            <field name="print_report_name">'Variation des salaires par employé'</field>
+        </record>
+
+        <record id="action_salary_variation_rule_xls" model="ir.actions.report">
+            <field name="name">État de réconciliation des salaires</field>
+            <field name="model">hr_payroll_custom.salary_variation</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_salary_variation_rule_xls</field>
+            <field name="report_file">hr_payroll_custom.report_salary_variation_rule_xls</field>
+            <field name="print_report_name">'Variation des salaires par employé'</field>
+        </record>
+
+        <record id="action_employee_absent_previous_pay_pdf" model="ir.actions.report">
+            <field name="name">Salariés absents de la précédente paie</field>
+            <field name="model">hr_payroll_custom.employee_variation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_absent_prev_pay</field>
+            <field name="report_file">hr_payroll_custom.report_absent_prev_pay</field>
+            <field name="print_report_name">'Salariés absents de la précédente paie'</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_employee_variation"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="action_change_in_paid_staffs_pdf" model="ir.actions.report">
+            <field name="name">Analyse des variations de l'effectif payé</field>
+            <field name="model">hr_payroll_custom.employee_variation</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_change_in_paid_staffs</field>
+            <field name="report_file">hr_payroll_custom.report_change_in_paid_staffs</field>
+            <field name="print_report_name">"Analyse des variations de l'effectif payé"</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_employee_variation"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_list_contributors_xls" model="ir.actions.report">
+            <field name="name">Liste des contributeurs CNPS</field>
+            <field name="model">hr_payroll_custom.cnps_monthly</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_list_contributors_xls</field>
+            <field name="report_file">hr_payroll_custom.report_list_contributors_xls</field>
+            <field name="print_report_name">'Liste des contributeur CNPS- %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_cnps_monthly"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_cmu_monthly_xls" model="ir.actions.report">
+            <field name="name">Liste des assurés CMU</field>
+            <field name="model">hr_payroll_custom.cmu_monthly</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_list_insured_cmu_xls</field>
+            <field name="report_file">hr_payroll_custom.report_list_insured_cmu_xls</field>
+            <field name="print_report_name">'Liste des assurés CMU - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_cmu_monthly"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_its_monthly" model="ir.actions.report">
+            <field name="name">Déclaration ITS mensuel</field>
+            <field name="model">hr_payroll_custom.its_monthly</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_its_monthly</field>
+            <field name="report_file">hr_payroll_custom.report_its_monthly</field>
+            <field name="print_report_name">'Déclaration ITS %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_its_monthly"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape_301"/>
+        </record>
+
+        <record id="action_statement_301" model="ir.actions.report">
+            <field name="name">Déclaration 301</field>
+            <field name="model">hr_payroll_custom.statement_301</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_statement_301</field>
+            <field name="report_file">hr_payroll_custom.report_statement_301</field>
+            <field name="print_report_name">'Déclaration 301 %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_statement_301"/>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape_301"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_list_contributors_disa_xls" model="ir.actions.report">
+            <field name="name">Liste des contributeurs DISA (XLS)</field>
+            <field name="model">hr_payroll_custom.statement_disa</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_list_contributors_disa_xls</field>
+            <field name="report_file">hr_payroll_custom.report_list_contributors_disa_xls</field>
+            <field name="print_report_name">'Liste des contributeur DISA- %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_statement_disa"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_report_list_contributors_disa_pdf" model="ir.actions.report">
+            <field name="name">Liste des contributeurs DISA (PDF)</field>
+            <field name="model">hr_payroll_custom.statement_disa</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_list_contributors_disa_pdf</field>
+            <field name="report_file">hr_payroll_custom.report_list_contributors_disa_pdf</field>
+            <field name="print_report_name">'Liste des contributeur DISA- %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_statement_disa"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="actiont_disa_supplements" model="ir.actions.report">
+            <field name="name">Déclaration Complément DISA</field>
+            <field name="model">hr_payroll_custom.statement_disa</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_disa_supplement</field>
+            <field name="report_file">hr_payroll_custom.report_disa_supplement</field>
+            <field name="print_report_name">'Déclaration Complément DISA - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_statement_disa"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape"/>
+        </record>
+
+
+        <record id="action_report_fdfp_monthly" model="ir.actions.report">
+            <field name="name">Déclaration FDFP</field>
+            <field name="model">hr_payroll_custom.fdfp_monthly</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_fdfp_monthly</field>
+            <field name="report_file">hr_payroll_custom.report_fdfp_monthly</field>
+            <field name="print_report_name">'Déclaration FDFP - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_fdfp_monthly"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape_301"/>
+        </record>
+
+
+        <record id="action_report_cnps_monthly" model="ir.actions.report">
+            <field name="name">Déclaration CNPS Mensuel</field>
+            <field name="model">hr_payroll_custom.cnps_monthly</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_cnps_monthly</field>
+            <field name="report_file">hr_payroll_custom.report_cnps_monthly</field>
+            <field name="print_report_name">'Déclaration CNPS - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_cnps_monthly"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_landscape"/>
+        </record>
+
+    </data>
+</odoo>

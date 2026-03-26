@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="hr_payroll_custom.fdfp_monthly_layout">
+            <t t-if="not o" t-set="o" t-value="doc"/>
+            <div class="header">
+                <div class="row" style="padding-top:2px;padding-bottom:1px;">
+                    <p style="text-align:center">
+                        <h4 style="text-align:center;margin-left:100px;padding-top:55px;">
+                            <b>C.- TAXES A LA CHARGE DE L'EMPLOYEUR A VERSER AU FDFP</b>
+                        </h4>
+                    </p>
+                </div>
+            </div>
+            <div class="article">
+                <t t-raw="0"/>
+            </div>
+
+        </template>
+    </data>
+</odoo>

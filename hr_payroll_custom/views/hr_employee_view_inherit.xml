@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr_custom.hr_employee_form_inherit"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <field name="employee_status" position="after">
+                    <field name="annual_leave_payment_date"/>
+                    <field name="days_worked_since_last_leave"/>
+                    <field name="leave_balance"/>
+                </field>
+                <field name='part_cmu' position="after">
+                    <field name="cmu_contributor"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</odoo>

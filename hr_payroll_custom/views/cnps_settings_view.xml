@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+                <!-- TRANCHE CNPS-->
+        <record id="cnps_slice_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.cnps_slice.form.view</field>
+            <field name="model">hr_payroll_custom.cnps_slice</field>
+            <field name="arch" type="xml">
+                <form string="Formulaire Tranche CNPS">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="True"/>
+                            <field name="type" required="True"/>
+                            <field name="sequence"/>
+                            <field name="amount_min"/>
+                            <field name="amount_max"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cnps_slice_tree_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.cnps_slice.tree.view</field>
+            <field name="model">hr_payroll_custom.cnps_slice</field>
+            <field name="arch" type="xml">
+                <tree string="Liste Tranche CNPS">
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="sequence"/>
+                    <field name="amount_min"/>
+                    <field name="amount_max"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cnps_slice_act_window" model="ir.actions.act_window">
+            <field name="name">Tranches CNPS</field>
+            <field name="res_model">hr_payroll_custom.cnps_slice</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+                <!-- COTISATION CNPS-->
+        <record id="cnps_cotisation_template_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.cnps_cotisation_template.form.view</field>
+            <field name="model">hr_payroll_custom.cnps_cotisation_template</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="True"/>
+                            <field name="type" required="True"/>
+                            <field name="rate" />
+                            <field name="sequence" />
+                            <field name="company_id"/>
+                            <field name="active"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cnps_cotisation_template_tree_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.cnps_cotisation_template.tree.view</field>
+            <field name="model">hr_payroll_custom.cnps_cotisation_template</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="rate"/>
+                    <field name="type"/>
+                    <field name="sequence"/>
+                    <field name="company_id"/>
+                    <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="cnps_cotisation_template_act_window" model="ir.actions.act_window">
+            <field name="name">Cotisations CNPS</field>
+            <field name="res_model">hr_payroll_custom.cnps_cotisation_template</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+
+    </data>
+</odoo>

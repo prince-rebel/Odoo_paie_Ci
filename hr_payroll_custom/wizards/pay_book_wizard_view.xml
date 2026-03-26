@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="pay_book_from_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.pay_book.form</field>
+            <field name="model">hr_payroll_custom.pay_book</field>
+            <field name="arch" type="xml">
+                <form string="Livre de paie">
+                    <group>
+                        <field name="name" required="1"/>
+                    </group>
+                    <group col="4">
+                        <field name="date_from" required="1"/>
+                        <field name="date_to" required="1"/>
+                        <field name="company_id" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Exporter en Excel" name="export_xls" type="object" class="btn-primary"
+                                context="{'xls_export':1}" icon="fa-download"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="pay_book_act_window" model="ir.actions.act_window">
+            <field name="name">Livre de paie</field>
+            <field name="res_model">hr_payroll_custom.pay_book</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+
+    </data>
+</odoo>
