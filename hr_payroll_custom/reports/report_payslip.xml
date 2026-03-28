@@ -560,6 +560,8 @@
                             <br/>
                             <t t-call="hr_payroll_custom.payslip_body"/>
                             <br/>
+                            <t t-call="hr_payroll_custom.paysil_sum"/>
+                            <br/>
                             <t t-call="hr_payroll_custom.account"/>
                         </div>
                     </t>
