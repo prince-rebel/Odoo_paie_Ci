@@ -501,11 +501,10 @@
             </div>
         </template>
 
-        <template id="hr_payroll.report_payslip">
+        <template id="hr_payroll_custom.report_payslip">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <t t-call="hr_payroll_custom.payslip_layout">
-                        <div id="employee_person_in_charge" style="display:none;"/>
                         <div class="page">
                             <style type="text/css">
                                 table {
