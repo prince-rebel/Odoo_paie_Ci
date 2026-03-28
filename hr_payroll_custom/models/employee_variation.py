@@ -184,6 +184,6 @@ class HrSalaryEmployeeVariationLine(models.Model):
     def get_employee_name(self):
         for rec in self:
             if rec.employee_id:
-                rec.name = rec.employee_id.name + ' ' + rec.employee_id.first_name
+                rec.name = (rec.employee_id.name or '') + ' ' + (rec.employee_id.first_name or '')
             else:
                 rec.name = "Indéfinie"

@@ -58,7 +58,7 @@ class PayrollVariables(models.TransientModel):
                                 payslip = run_id.slip_ids.filtered(lambda s: s.employee_id == employee)
                                 if len(payslip) > 1:
                                     raise exceptions.ValidationError(
-                                        _(f"L'employé {employee.identification_id} / {employee.name} {employee.first_name} "
+                                        _(f"L'employé {employee.identification_id} / {employee.name} {employee.first_name or ''} "
                                           f"possède plus d'un bulletin dans ce lot. Merci de les supprimer et de ne garder qu'un seul."))
                                 if payslip:
                                     if rec.type == 'input':

@@ -114,7 +114,7 @@ class PayBook(models.TransientModel):
                     res_line.append(self.get_payslip_line_data(emp['id'], sr['code'], date_from, date_to, id_company))
                 vals_line = {
                     'matricule': emp['registration_number'],
-                    'name': emp['name'] + ' ' + emp['first_name'],
+                    'name': (emp['name'] or '') + ' ' + (emp['first_name'] or ''),
                     'data': res_line
                 }
 
