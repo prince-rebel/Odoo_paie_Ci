@@ -271,34 +271,15 @@ result = (inputs.get("REIMBURSEMENT") or 0).amount
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
 temp = 0
-                
-                # Accéder de manière sécurisée aux valeurs dans 'inputs' et 'rules'
-                
-                # Utilisation de 'get' et 'getattr' pour éviter les erreurs de type
-if rules['BASE'] :
-    temp += round(BASE)
-if rules['SURSA'] :
-    temp += round(SURSA)
-#if rules['PANC'] :
-    #temp += round(PANC)
-#if inputs['GRATIF']:
-    #temp += round(GRATIF)
-#if inputs['CONG']:
-    #temp += round(CONG)
-#if rules['HS15'] :
-    #temp += round(HS15)
-#if rules['HS50'] :
-    #temp += round(HS50)
-#if rules['HS75'] :
-    #temp += round(HS75)
-#if rules['HS100'] :
-    #temp += round(HS100)
-
-#if rules['PREP'] :
-    #temp += round(PREP)
-if rules['PANC'] :
-    temp += round(PANC)
-
+base_info = rules.get('BASE')
+if base_info:
+    temp += round(base_info.get('total', 0))
+sursa_info = rules.get('SURSA')
+if sursa_info:
+    temp += round(sursa_info.get('total', 0))
+panc_info = rules.get('PANC')
+if panc_info:
+    temp += round(panc_info.get('total', 0))
 result = temp
             ]]></field>
         </record>
