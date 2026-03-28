@@ -263,7 +263,7 @@ result = (inputs.get("REIMBURSEMENT") or 0).amount
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-result = round(BASE) + round(SURSA) + round(PANC)
+result = round(categories['BASIC'] + categories['SURSA'] + categories['PRIM'] + categories['HSUPP'])
             ]]></field>
         </record>
 
