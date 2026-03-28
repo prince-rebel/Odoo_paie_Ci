@@ -35,7 +35,7 @@
         'reports/report_planning_holidays.xml',
         'reports/report_view.xml',
     ],
-    'demo': ['Demo'],
+    # 'demo': ['Demo'],
     'installable': True,
     'application': True,
     'auto_install': False
