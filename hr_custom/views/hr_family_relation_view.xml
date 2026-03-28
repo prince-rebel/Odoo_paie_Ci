@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        > <!--Gestion de la famille -->
+        <record id="hr_family_relation_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.employee_relation.form</field>
+            <field name="model">hr_custom.employee_relation</field>
+            <field name="arch" type="xml">
+                <form string="form. Famille childs">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="first_name" required="1"/>
+                            <field name="type_relation_id"/>
+                            <field name="date_of_birth" required="1"/>
+                            <field name="mobile"/>
+                            <field name="email"/>
+                            <field name="num_cmu"/>
+                            <field name="age"/>
+                            <field name="sexe"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_family_relation_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.employee_relation.tree</field>
+            <field name="model">hr_custom.employee_relation</field>
+            <field name="arch" type="xml">
+                <list string="List. Famille child">
+                    <field name="name" required="1"/>
+                    <field name="first_name" required="1"/>
+                    <field name="date_of_birth" required="1"/>
+                    <field name="mobile"/>
+                    <field name="email"/>
+                    <field name="num_cmu"/>
+                    <field name="age"/>
+                    <field name="sexe"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_family_relation_act_window" model="ir.actions.act_window">
+            <field name="name">Relations</field>
+            <field name="res_model">hr_custom.employee_relation</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer les relations en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

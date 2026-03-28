@@ -1,0 +1,49 @@
+<odoo>
+    <data>
+        <record id="hr_salary_category_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.salary_category.form</field>
+            <field name="model">hr_custom.salary_category</field>
+            <field name="arch" type="xml">
+                <form string="Catégorie salariale">
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                        </group>
+                        <group>
+                            <field name="category_salary_amount"/>
+                            <field name="activity_area_id"/>
+                            <field name="brut_indiciaire"/>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="hr_salary_category_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.salary_category.tree</field>
+            <field name="model">hr_custom.salary_category</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name"/>
+                    <field name="category_salary_amount"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_salary_category_act_window" model="ir.actions.act_window">
+            <field name="name">Catégorie salariale</field>
+            <field name="res_model">hr_custom.salary_category</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer le premier accident de travail en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

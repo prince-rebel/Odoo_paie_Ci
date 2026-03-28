@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="hr_employee_child_girl_id" model="employee_type_relation">
+            <field name="name">Fille</field>
+            <field name="code">girl</field>
+        </record>
+
+
+        <record id="hr_employee_child_boy_id" model="employee_type_relation">
+            <field name="name">Fils</field>
+            <field name="code">boy</field>
+
+        </record>
+
+        <record id="hr_employee_parent_mother_id" model="employee_type_relation">
+            <field name="name">Mère</field>
+            <field name="code">mother</field>
+        </record>
+
+        <record id="hr_employee_parent_father_id" model="employee_type_relation">
+            <field name="name">Père</field>
+            <field name="code">father</field>
+        </record>
+
+        <record id="hr_employee_parent_brother_id" model="employee_type_relation">
+            <field name="name">Frère</field>
+            <field name="code">brother</field>
+        </record>
+        <record id="hr_employee_parent_sister_id" model="employee_type_relation">
+            <field name="name">Soeur</field>
+            <field name="code">Sister</field>
+        </record>
+
+        <record id="hr_employee_grand_parent_father_id" model="employee_type_relation">
+            <field name="name">Grand-père</field>
+            <field name="code">grandfather</field>
+        </record>
+
+        <record id="hr_employee_grand_parent_mother_id" model="employee_type_relation">
+            <field name="name">Grande-mère</field>
+            <field name="code">grandmother</field>
+        </record>
+
+
+    </data>
+</odoo>

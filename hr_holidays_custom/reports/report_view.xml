@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_resumption_of_service" model="ir.actions.report">
+            <field name="name">Attestation de reprise de service</field>
+            <field name="model">hr_holidays_custom.resumption_of_service</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_holidays_custom.report_resumption_of_service</field>
+            <field name="report_file">hr_holidays_custom.report_resumption_of_service</field>
+            <field name="print_report_name">'Attestation de reprise de service - %s' % (object.employee_id.identification_id)</field>
+            <field name="binding_model_id" ref="model_hr_holidays_custom_resumption_of_service"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_detailed_report_holiday_xls" model="ir.actions.report">
+            <field name="name">Liste des congés et absences</field>
+            <field name="model">hr.leave</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_holidays_custom.report_detailed_report_holiday_xls</field>
+            <field name="report_file">hr_holidays_custom.report_detailed_report_holiday_xls</field>
+            <field name="print_report_name">'Liste des congés et absence'</field>
+        </record>
+
+        <record id="action_detailed_report_holiday_pdf" model="ir.actions.report">
+            <field name="name">Liste des congés et absences</field>
+            <field name="model">hr.leave</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_holidays_custom.report_detailed_report_holiday_pdf</field>
+            <field name="report_file">hr_holidays_custom.report_detailed_report_holiday_pdf</field>
+            <field name="print_report_name">'Liste des congés et absences'</field>
+            <field name="binding_model_id" ref="model_hr_leave"/>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_planning_report_holidays_xls" model="ir.actions.report">
+            <field name="name">Planning des congés annuel</field>
+            <field name="model">hr_holidays_custom.planning_holidays</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_holidays_custom.report_planning_holidays_xls</field>
+            <field name="report_file">hr_holidays_custom.report_planning_holidays_xls</field>
+            <field name="print_report_name">'Planning des congés annuel'</field>
+        </record>
+
+        <record id="action_planning_report_holidays_pdf" model="ir.actions.report">
+            <field name="name">Planning des congés annuel</field>
+            <field name="model">hr_holidays_custom.planning_holidays</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_holidays_custom.report_planning_holidays_pdf</field>
+            <field name="report_file">hr_holidays_custom.report_planning_holidays_pdf</field>
+            <field name="print_report_name">'Planning des congés annuel'</field>
+            <field name="binding_model_id" ref="model_hr_holidays_custom_planning_holidays"/>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

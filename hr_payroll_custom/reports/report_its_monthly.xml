@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_its_monthly">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_payroll_custom.its_monthly_layout">
+                        <div class="page" style="padding-top:5px;padding-bottom:1px;">
+                            <p style="font-size:14px;padding-top:2px;text-align:justify">
+                                Nom et Prénoms ou Raison sociale .......................
+                                <span t-out="o.company_id.name"/>
+                                <br/>
+                                Sigle..............<span t-out="o.company_id.acronym"/>...............Forme:...<span
+                                    t-out="o.company_id.legal_status"/>...........................
+                                <br/>
+                                <span>Adresse: .....
+                                    <span t-out="o.company_id.street2" style="margin-left:10px"/>
+                                    <span t-out="o.company_id.city" style="margin-left:10px"/>
+                                    <span t-out="o.company_id.country_id.name" style="margin-left:10px"/>
+                                    .................
+                                </span>
+                                ....................................
+                                <span style="margin-left:50px">Tel:.......
+                                    <span t-out="o.company_id.phone"/>
+                                    .............
+                                </span>
+                                <br/>
+                                service d'assiette des impôts divers de ......<span
+                                    t-out="o.company_id.tax_base_service"/>.......................................
+                            </p>
+                            <table style="width:100%;border:1px solid black;border-collapse:collapse">
+                                <tr style="height:15px;">
+                                    <td style="border:none">PERIODE D'IMPOSITION:
+                                        <span t-out="o.date_from.strftime('%m')" style="margin-left:10px"/>
+                                        <t t-if="3 >= int(o.date_from.strftime('%m')) and int(o.date_from.strftime('%m'))>=1">
+                                            <t t-set="quarter" t-value="1"/>
+                                            <span style="margin-left:20px">0
+                                                <t t-out="quarter"/>
+                                            </span>
+                                        </t>
+                                        <t t-if="int(o.date_from.strftime('%m'))>3 and  6>=int(o.date_from.strftime('%m'))">
+                                            <t t-set="quarter" t-value="2"/>
+                                            <span style="margin-left:20px">0
+                                                <t t-out="quarter"/>
+                                            </span>
+                                        </t>
+                                        <t t-if="9 >= int(o.date_from.strftime('%m')) and int(o.date_from.strftime('%m'))>6">
+                                            <t t-set="quarter" t-value="3"/>
+                                            <span style="margin-left:20px">0
+                                                <t t-out="quarter"/>
+                                            </span>
+                                        </t>
+                                        <t t-if="12 >= int(o.date_from.strftime('%m')) and int(o.date_from.strftime('%m'))>9">
+                                            <t t-set="quarter" t-value="4"/>
+                                            <span style="margin-left:20px">0
+                                                <t t-out="quarter"/>
+                                            </span>
+                                        </t>
+                                        <span style="margin-left:29px">
+                                            <span t-out="o.date_from.strftime('%Y')"/>
+                                        </span>
+                                    </td>
+                                    <td style="border:none">
+                                        <b>N° de COMPTE</b>
+                                        <b>
+                                            <span t-out="o.company_id.account_number"/>
+                                        </b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:10px;border:none">
+                                        <span style="margin-left:150px">
+                                            <span style="margin-left:3px">Mois</span>
+                                            <span style="margin-left:7px">Trim</span>
+                                            <span style="margin-left:14px">Année</span>
+                                        </span>
+                                    </td>
+                                    <td style="height:10px;border:none"/>
+                                </tr>
+                            </table>
+                            <div>
+                                <table style="width:100%;border-collapse:collapse">
+                                    <tr>
+                                        <td colspan="8" style="border:none">
+                                            <b>A - IMPOTS RETENUS AUX SALARIES</b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border:1px solid black">
+                                            0 1 - <b>IS</b>(Régime général seulement)
+                                            <br/>
+                                            0 2 - <b>CN</b>(Régime général seulement)
+                                            <br/>
+                                            0 3 - <b>IGR</b>(Régime général)
+                                            <br/>
+                                            0 4 - <b>IGR</b>(Régime agricole)
+                                            <br/>
+                                            0 6 -
+                                            <b>Total des retenues aux salariés(1+2+3+4)</b>
+                                        </td>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <t t-if="o.total_its_employee > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_its_employee).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <t t-if="o.total_cn > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_cn).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <t t-if="o.total_igr_employee > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_igr_employee).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <br/>
+                                            <t t-if="o.total_retenu_employee > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_retenu_employee).replace(',', ' ')"/>
+                                            </t>
+
+                                        </td>
+                                        <td style="border:none;border-right:1px solid black;text-align:center;">
+                                            <span style="text-align:center;font-size:12px">
+                                                <b>RESERVE A<br/>L'ADMINISTRATION
+                                                </b>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3" style="border:none;border-left:none">
+                                            <b>B - IMPOTS A LA CHARGE DE L'EMPLOYEUR</b>
+                                        </td>
+                                        <td style="border:1px solid black"/>
+                                        <td rowspan="9" style="border:1px solid black;border-top:none"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1- EFFECTIFS INSCRITS DANS L'ENTREPRISE AU
+                                            DERNIER<br/>JOUR DU MOIS OU DU TRIMESTRE
+                                        </td>
+                                        <td style="border:1px solid black">EFFECTIFS</td>
+                                        <td style="border:1px solid black">TOTAL SALAIRES BRUTS</td>
+                                        <td style="border:1px solid black">MONTANTS A PAYER</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">
+                                            0 7 -
+                                            <b>Personnel local(Régime général) (1,20%)</b>
+                                            <br/>
+                                            0 8 -
+                                            <b>Personnel expatrié(Regime général) (10,40%)</b>
+                                            <br/>
+                                            0 9 -
+                                            <b>Régime agricole (1,20%)</b>
+                                            <br/>
+                                            1 0 -
+                                            <b>Régime fermage(35,00%)</b>
+                                            <br/>
+                                            1 1 -
+                                            <b>Ensemble du personnel (7+8+9)</b>
+                                            <br/>
+                                        </td>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <t t-if="o.total_number_local > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_number_local).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <t t-if="o.total_number_expat">
+                                                <span t-out="'{0:,.0f}'.format(o.total_number_expat).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <span t-out="'{0:,.0f}'.format(o.total_number).replace(',', ' ')"/>
+                                        </td>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <t t-if="o.total_brut_imposable_local > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_brut_imposable_local).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <t t-if="o.total_brut_imposable_expat > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_brut_imposable_expat).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <span t-out="'{0:,.0f}'.format(o.total_brut_imposable_local + o.total_brut_imposable_expat).replace(',', ' ')"/>
+                                        </td>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <t t-if="o.total_mt_a_payer_local > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_mt_a_payer_local).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <t t-if="o.total_mt_a_payer_expat > 0">
+                                                <span t-out="'{0:,.0f}'.format(o.total_mt_a_payer_expat).replace(',', ' ')"/>
+                                            </t>
+                                            <br/>
+                                            <br/>
+                                            <br/>
+                                            <span t-out="'{0:,.0f}'.format(o.total_mt_a_payer).replace(',', ' ')"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1 2 -Montant total de la déclaration
+                                            (06+11)
+                                        </td>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <span t-out="'{0:,.0f}'.format(o.amount_total).replace(',', ' ')"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1 3 - Imputation ASDI 5% (*)</td>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1 4 - Imputation prélèvement 10% (*)</td>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1 5 - Régularisation sur mois précédents</td>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                    </tr>
+                                    <tr>
+                                        <td style="border:1px solid black">1 6 - Total à acquitter (12-13-14+15)</td>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black"/>
+                                        <td style="border:1px solid black;text-align:right;">
+                                            <span t-out="'{0:,.0f}'.format(o.amount_total).replace(',', ' ')"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" style="border:none;">
+                                            <table style="border-collapse:collapse;margin-left:90px;width:730px;">
+                                                <tr>
+                                                    <td colspan="4" style="border:1px solid black;text-align:center">
+                                                        POUR MEMOIRE: DETERMINATION DU TAUX D'USAGE
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border:1px solid black;text-align:center;width:100px">
+                                                        Budget
+                                                    </td>
+                                                    <td style="border:1px solid black;text-align:center;width:260px">
+                                                        Nature de l'impôt
+                                                    </td>
+                                                    <td colspan="2"
+                                                        style="border:1px solid black;text-align:center;width:340px">
+                                                        Taux
+                                                    </td>
+                                                </tr>
+                                                <tr style="height:10px;border:none">
+                                                    <td style="border:none;text-align:center;border-left:1px solid black"/>
+                                                    <td style="border:none;border-left:1px solid black"/>
+                                                    <td style="border-bottom:none;border:1px solid black;text-align:center">
+                                                        Personnel local
+                                                    </td>
+                                                    <td style="border-bottom:none;border:1px solid black;text-align:center">
+                                                        Personnel expatrié
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="border:1px solid black;text-align:center;border-top:none">
+                                                        Général
+                                                        <br/>
+                                                        Général
+                                                        <br/>
+                                                        FDFP
+                                                        <br/>
+                                                        FDFP
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                        <br/>
+                                                    </td>
+                                                    <td style="border:1px solid black;border-top:none">
+                                                        Contribution à la charge de l'employeur
+                                                        <br/>
+                                                        C. Nationale à la charge de l'employeur
+                                                        <br/>
+                                                        Taxe d'apprentissage
+                                                        <br/>
+                                                        Formation professionnelle continue
+                                                        <br/>
+                                                        <span style="margin-left:50px;">Taux cumulé</span>
+                                                        <br/>
+                                                        Applicable au salaire bruts après
+                                                        <br/>
+                                                        abattement de 20%, soit sur
+                                                        <br/>
+                                                        <span style="margin-left:50px;">Taux d'usage</span>
+                                                    </td>
+                                                    <td style="border:1px solid black;text-align:center">
+                                                        -
+                                                        <br/>
+                                                        1,50 %
+                                                        <br/>
+                                                        0,50 %
+                                                        <br/>
+                                                        1,50 %
+                                                        <br/>
+                                                        3,50 %
+                                                        <br/>
+                                                        <br/>
+                                                        80 %
+                                                        <br/>
+                                                        2,80 %
+                                                    </td>
+                                                    <td style="border:1px solid black;text-align:center">
+                                                        11,50 %
+                                                        <br/>
+                                                        1,50 %
+                                                        <br/>
+                                                        0,50 %
+                                                        <br/>
+                                                        1,50 %
+                                                        <br/>
+                                                        15 %
+                                                        <br/>
+                                                        <br/>
+                                                        80 %
+                                                        <br/>
+                                                        12 %
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <p style="font-size:12px">
+                                    VOIR IMPRIME JOINT POUR LA TAXE D'APPRENTISSAGE ET LA TAXE A LA FORMATION
+                                    PROFESSIONNELLE
+                                    <br/>
+                                    <b>ATTENTION: VOUS DEVREZ EFFECTUER TROIS REGLEMENTS DISTINCTS
+                                        <br/>
+                                        Règlement joint à l'ordre RECETTES DES GRANDES ENTREPRISES
+                                    </b>
+                                    <br/>
+                                    -Chèque bancaire barré
+                                    <span style="margin-left:250px">N°</span>
+                                    <span style="margin-left:100px">du</span>
+                                    <br/>sur d'un montant de
+                                    <br/>
+                                    -Chèque de virement postal N
+                                    <span style="margin-left:250px">du</span>
+                                    <span style="margin-left:100px">d'un montant de</span>
+                                    <br/>
+                                    -Espèce d'un montant de:
+                                    <br/>
+                                    <span style="margin-left:500px">A ABIDJAN</span>
+
+                                    <table style="padding-top:1px;border-collapse:collapse;border:1px solid black;height:30px;width:700px;">
+                                        <tr>
+                                            <td>PRISE EN RECETTE</td>
+                                            <td>PRISE EN CHARGE</td>
+                                            <td>PENALITES</td>
+                                            <td>VISA</td>
+                                            <td>REGULARISATION</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none;border-right:1px solid black">LJ:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">LJ:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">Frs:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black"/>
+                                            <td style="border:none;border-right:1px solid black">
+                                                Rôle:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none;border-right:1px solid black">Réf:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">Réf:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">N°:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black"/>
+                                            <td style="border:none;border-right:1px solid black">
+                                                Article:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none;border-right:1px solid black">Réf quitt:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">Montant:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black"/>
+                                            <td style="border:none;border-right:1px solid black">
+                                                Montant:
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="border:none;border-right:1px solid black">Montant:
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black">
+                                            </td>
+                                            <td style="border:none;border-right:1px solid black"/>
+                                            <td style="border:none;border-right:1px solid black">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </p>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

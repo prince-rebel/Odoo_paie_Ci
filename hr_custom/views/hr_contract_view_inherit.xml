@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_contract_form_inherit" model="ir.ui.view">
+        <field name="name">hr_custom.hr_contract.form</field>
+        <field name="model">hr.contract</field>
+        <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='department_id']" position="attributes">
+                <attribute name="string">Direction</attribute>
+            </xpath>
+            <field name="contract_type_id" position="after">
+                <field name="salary_category_id"/>
+            </field>
+            <field name="date_end" position="after">
+                <field name="trial_date_end"/>
+            </field>
+        </field>
+    </record>
+</odoo>

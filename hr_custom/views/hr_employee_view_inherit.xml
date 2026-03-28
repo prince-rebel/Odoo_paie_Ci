@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="hr_employee_form_inherit" model="ir.ui.view">
+            <field name="name">hr_custom.hr_employee.form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="8"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button name="%(hr_family_child_act_window)d" type="action"
+                            class="oe_stat_button" icon="fa-child" string="Enfants">
+                    </button>
+
+                    <button name="%(hr_family_contact_act_window)d" type="action"
+                            class="oe_stat_button" icon="fa-address-book" string="Urgences">
+                    </button>
+
+                    <button name="button_mission_pro" type="object"
+                            class="oe_stat_button" icon="fa-bullseye" string="Mission pro.">
+                    </button>
+                    <button name="button_work_accident" type="object"
+                            class="oe_stat_button" icon="fa-tasks" string="Accidents de travail">
+                    </button>
+
+                </xpath>
+<xpath expr="//field[@name='identification_id']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <field name="identification_id" position="after">
+                    <field name="identification_cnps"/>
+                    <field name="identification_cmu"/>
+                </field>
+                <field name="birthday" position="after">
+                    <field name="age"/>
+                </field>
+                <field name="spouse_complete_name" position="replace">
+                    <field name="conjoint_name"
+                        invisible="marital != 'married'"
+                        required="marital == 'married'"/>
+                    <field name="conjoint_first_name"
+                        invisible="marital != 'married'"
+                        required="marital == 'married'"/>
+                    <field name="gender_conjoint"
+                        invisible="marital != 'married'"
+                        required="marital == 'married'"/>
+                </field>
+
+                <xpath expr="//field[@name='spouse_birthdate']" position="attributes">
+                    <attribute name="string">Date de naissance conjoint(e)</attribute>
+                    <attribute name="required">marital == 'married'</attribute>
+                    <attribute name="invisible">marital != 'married'</attribute>
+                </xpath>
+                <xpath expr="//field[@name='marital']" position="attributes">
+                    <attribute name="string">Situation matrimoniale</attribute>
+                </xpath>
+
+                <field name="spouse_birthdate" position="after">
+                    <field name="birthplace"
+                        invisible="marital != 'married'"
+                        required="marital == 'married'"/>
+                    <field name="num_cmu_conjoint"
+                        invisible="marital != 'married'"/>
+                </field>
+                <field name="num_cmu_conjoint" position="after">
+                    <field name="part_igr" readonly="0"/>
+                    <field name="part_cmu" readonly="0"/>
+                </field>
+                <xpath expr="//field[@name='children']" position="attributes">
+                    <attribute name="string">Nombre d'enfants (Part IGR)</attribute>
+                </xpath>
+                <field name="children" position="before">
+                    <field name="total_children"/>
+                </field>
+                <field name="job_id" position="before">
+                    <field name="nature_employe"/>
+                </field>
+                <field name="job_id" position="after">
+                    <field name="employee_category_id"/>
+                    <field name="salary_category_id"/>
+                    <field name="payment_method"/>
+                    <field name="employee_status"/>
+                </field>
+                <field name="country_of_birth" position="after">
+                    <field name="piece_identite_id"/>
+                    <field name="num_piece"/>
+                </field>
+                <group name="payroll_group" position="after">
+                    <group string="Période de travail" name="work_time">
+                        <field name="hiring_date"/>
+                        <field name="seniority_employee"/>
+                    </group>
+                </group>
+                <field name="certificate" position="replace">
+                    <field name="level_of_study_id"/>
+                    <field name="diplome_id"/>
+                </field>
+                <field name="department_id" position="before">
+                    <field name="direction_id"/>
+                </field>
+                <field name="department_id" position="after">
+                    <field name="service_id"/>
+                </field>
+                <field name="study_field" position="replace">
+                    <field name="study_area_id"/>
+                </field>
+                <field name="employee_type" position="after">
+                    <field name="type"/>
+                </field>
+                <notebook position="inside">
+
+                    <page string="Visites médicales">
+                        <field name="medical_visit_ids">
+                            <list editable="top">
+                                <field name="name" required="1"/>
+                                <field name="predicted_date" required="1"/>
+                                <field name="effective_date"/>
+                                <field name="place_of_visit"/>
+                                <field name="remark"/>
+                            </list>
+                        </field>
+                    </page>
+                    <page string="Sanctions">
+                        <field name="professional_sanctions_ids">
+                            <list editable="top">
+                                <field name="date_of_penalty" required="1"/>
+                                <field name="type_sanction_id" required="1"/>
+                                <field name="name" required="1"/>
+                                <field name="number_of_days_suspension" required="1"/>
+                                <field name="description"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+        <!-- hr_contract.hr_hr_employee_view_form2 supprimé en Odoo 19 (hr_contract n'existe plus).
+             La gestion des comptes bancaires est désormais via bank_account_ids dans la vue standard. -->
+    </data>
+</odoo>

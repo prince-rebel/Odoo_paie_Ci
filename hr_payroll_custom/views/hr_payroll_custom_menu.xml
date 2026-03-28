@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem
+                id="pay_report_menu"
+                name="Rapport de paye"
+                sequence="74"
+                parent="hr_work_entry_enterprise.menu_hr_payroll_root"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="pay_book_menu"
+                name="Livre de paie"
+                sequence="3"
+                parent="hr_payroll_custom.pay_report_menu"
+                action="hr_payroll_custom.pay_book_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+
+        <menuitem
+                id="payroll_by_post_menu"
+                name="Paye par poste et période"
+                sequence="5"
+                parent="hr_payroll_custom.pay_report_menu"
+                action="hr_payroll_custom.payroll_by_post_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="salary_variation_menu"
+                name="Etat de variation des salaires"
+                sequence="7"
+                parent="hr_payroll_custom.pay_report_menu"
+                action="hr_payroll_custom.salary_variation_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="employee_variation_menu"
+                name="Variation des effectifs"
+                sequence="9"
+                parent="hr_payroll_custom.pay_report_menu"
+                action="hr_payroll_custom.employee_variation_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+
+
+        <menuitem
+                id="balance_any_account_menu"
+                name="Solde de tout compte"
+                parent="hr_work_entry_enterprise.menu_hr_payroll_root"
+                sequence="74"
+                action="balance_any_account_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+
+        <!--<menuitem name="Solde de tout compte" id="balance_any_account_menu" parent="hr_payroll.menu_hr_payroll_root"
+                  action="balance_any_account_act_window" sequence="11"
+                  groups="hr_payroll.group_hr_payroll_user,hr_payroll.group_hr_payroll_manager"/>-->
+
+        <menuitem
+                id="payroll_declaration_menu"
+                name="Déclaration de paie"
+                parent="hr_work_entry_enterprise.menu_hr_payroll_root"
+                sequence="76"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="social_declaration_menu"
+                name="Déclarations sociales"
+                parent="hr_payroll_custom.payroll_declaration_menu"
+                sequence="2"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="cnps_monthly_menu"
+                name="CNPS Mensuel"
+                sequence="2"
+                parent="hr_payroll_custom.social_declaration_menu"
+                action="hr_payroll_custom.cnps_monthly_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="cmu_monthly_menu"
+                name="CMU Mensuel"
+                sequence="4"
+                parent="hr_payroll_custom.social_declaration_menu"
+                action="hr_payroll_custom.cmu_monthly_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+
+        <menuitem
+                id="fiscal_declaration_menu"
+                name="Déclarations fiscales"
+                parent="hr_payroll_custom.payroll_declaration_menu"
+                sequence="4"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="fdfp_monthly_menu"
+                name="FDFP"
+                sequence="2"
+                parent="hr_payroll_custom.fiscal_declaration_menu"
+                action="hr_payroll_custom.fdfp_monthly_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="its_monthly_menu"
+                name="ITS"
+                sequence="4"
+                parent="hr_payroll_custom.fiscal_declaration_menu"
+                action="hr_payroll_custom.its_monthly_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="end_of_year_declaration_menu"
+                name="Déclarations de fin d'année"
+                parent="hr_payroll_custom.payroll_declaration_menu"
+                sequence="6"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="statement_301_menu"
+                name="301"
+                sequence="2"
+                parent="hr_payroll_custom.end_of_year_declaration_menu"
+                action="hr_payroll_custom.statement_301_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="statement_disa_menu"
+                name="DISA"
+                sequence="4"
+                parent="hr_payroll_custom.end_of_year_declaration_menu"
+                action="hr_payroll_custom.statement_disa_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="payroll_declaration_config_menu"
+                name="Déclaration Fiscale/Sociale"
+                parent="hr_work_entry_enterprise.menu_hr_payroll_configuration"
+                sequence="90"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="cnps_slice_menu"
+                name="Tranches CNPS Mensuel"
+                sequence="20"
+                parent="hr_payroll_custom.payroll_declaration_config_menu"
+                action="hr_payroll_custom.cnps_slice_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="hr_cnps_cotisation_template_menu"
+                name="Cotisations CNPS"
+                sequence="40"
+                parent="hr_payroll_custom.payroll_declaration_config_menu"
+                action="hr_payroll_custom.cnps_cotisation_template_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="fdfp_settings_menu"
+                name="Paramètres FDFP"
+                sequence="60"
+                parent="hr_payroll_custom.payroll_declaration_config_menu"
+                action="hr_payroll_custom.fdfp_settings_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+    </data>
+</odoo>

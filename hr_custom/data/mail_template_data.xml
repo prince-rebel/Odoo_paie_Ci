@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="template_end_trial_period" model="mail.template">
+            <field name="name">Modèle de fin de période d'essai</field>
+            <field name="model_id" ref="hr.model_hr_version"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_from">{{object.employee_id.company_id.email or''}}</field>
+            <field name="email_to">{{object.company_id.hr_director_id.work_email or ''}}</field>
+            <field name="email_cc">{{object.company_id.hr_manager_id.work_email or ''}};
+                {{object.company_id.hr_assistant_id.work_email or ''}}
+            </field>
+            <field name="subject">Alerte fin de periode d'essai ({{object.name}})</field>
+            <field name="lang">{{object.employee_id.user_id.lang}}</field>
+            <field name="body_html" type="html">
+                <p>Bonjour Monsieur/ Madame,</p>
+                <p>Nous vous informons que la periode d'essai du contrat <t t-out="object.name"/> de
+                    <t
+                            t-out="object.employee_id.name"/>
+                    <t t-out="object.employee_id.first_name"/>
+                    arrivera à terme le <t
+                            t-out="format_date(object.trial_date_end)"/>.
+                </p>
+                <br/>
+                <p>Cordialement!</p>
+            </field>
+        </record>
+
+        <record id="template_end_contract" model="mail.template">
+            <field name="name">Modèle de fin de contrat</field>
+            <field name="model_id" ref="hr.model_hr_version"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_from">{{object.employee_id.company_id.email or''}}</field>
+            <field name="email_to">{{object.company_id.hr_director_id.work_email or ''}}</field>
+            <field name="email_cc">{{object.company_id.hr_manager_id.work_email or ''}};
+                {{object.company_id.hr_assistant_id.work_email or ''}}
+            </field>
+            <field name="subject">Alerte fin de contrat ({{object.name}})</field>
+            <field name="lang">{{object.employee_id.user_id.lang}}</field>
+            <field name="body_html" type="html">
+                <p>Bonjour Monsieur/ Madame,</p>
+                <p>Nous vous informons que le contrat <t t-out="object.name"/> de
+                    <t
+                            t-out="object.employee_id.name"/>
+                    <t t-out="object.employee_id.first_name"/>
+                    matricule: <t t-out="object.employee_id.identification_id"/> arrivera
+                    à terme le <t t-out="format_date(object.contract_date_end)"/>.
+                </p>
+                <br/>
+                <p>Cordialement!</p>
+            </field>
+        </record>
+
+        <record id="template_email_retirement" model="mail.template">
+            <field name="name">Alerte depart à la retraite</field>
+            <field name="model_id" ref="hr_custom.model_hr_employee"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_from">{{object.company_id.email or''}}</field>
+            <field name="email_to">{{object.company_id.hr_director_id.work_email or ''}}</field>
+            <field name="email_cc">{{object.company_id.hr_manager_id.work_email or ''}};
+                {{object.company_id.hr_assistant_id.work_email or ''}}
+            </field>
+            <field name="subject">Alerte départ à la retraite ({{object.identification_id}})</field>
+            <!--<field name="lang">${object.user_id.lang}</field>-->
+            <field name="body_html" type="html">
+                <p>Bonjour Monsieur/ Madame,</p>
+                <p>Nous vous informons que l'agent <b><t t-out="object.name"/> <t t-out="object.first_name"/> </b> Matricule:
+                    <b><t t-out="object.identification_id"/></b> est admis à faire valoir ses droits à la retraite le <b>
+                        <t t-out="format_date(object.estimated_date_retirement)"/></b>.
+                </p>
+                <br/>
+                <p>Cordialement!</p>
+            </field>
+        </record>
+    </data>
+</odoo>

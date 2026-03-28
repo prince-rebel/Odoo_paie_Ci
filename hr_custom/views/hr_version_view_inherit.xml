@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        En Odoo 19, hr.contract est remplacé par hr.version.
+        Il n'existe pas de vue formulaire standalone pour hr.version.
+        Les champs contrat sont affichés dans l'onglet "Payroll" du formulaire hr.employee
+        via des champs related/inherited pointant vers version_id.
+
+        Ce fichier ajoute :
+        - salary_category_id : déjà visible dans l'onglet Work Information via hr_employee_view_inherit.xml
+        - trial_date_end : affiché dans le groupe "contract" de l'onglet Payroll
+    -->
+    <record id="hr_employee_form_inherit_contract_custom" model="ir.ui.view">
+        <field name="name">hr_custom.hr_employee_form.version</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="9"/>
+        <field name="arch" type="xml">
+            <!-- Afficher trial_date_end dans le groupe contrat de l'onglet Payroll -->
+            <field name="contract_date_end" position="after">
+                <field name="trial_date_end"/>
+            </field>
+        </field>
+    </record>
+</odoo>

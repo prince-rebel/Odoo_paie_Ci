@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_planning_holidays_pdf">
+           <t t-call="web.html_container">
+                <t t-call="hr_custom.doc_report_employee_layout">
+                    <div class="page" style="text-align: center; padding:30px 0px 10px 0px;">
+                        <div class="info_header" style="margin-left: 2px;">
+                                <div class="row" style="margin-left: 2px;">
+                                    <table style="width: 100%; border-style: none;">
+                                        <tr>
+                                            <td style="width: 50%; border-style: none; font-size: 16px; text-align:left;">
+                                                <div style="text-align:left;margin-left:2px;font-family:DejaVu Serif;">
+                                                    <strong style="color: #FF9633;">« Partout, proche de vous »</strong>
+                                                    <br/>
+                                                    --------------------
+                                                    <br/>
+                                                    DIRECTION GENERALE
+                                                    <br/>
+                                                    -------------------------
+                                                    <br/>
+                                                    DIRECTION DES RESSOURCES
+                                                    <br/>
+                                                    HUMAINES
+                                                    <br/>
+                                                    -------------------------
+                                                    <br/>
+                                                </div>
+                                            </td>
+                                            <td style="width: 10%;border-style: none;"/>
+                                            <td style="width: 40%; text-align: center; border-style: none; font-size: 14px;font-family:DejaVu Serif;">
+                                                <strong>REPUBLIQUE DE CÔTE D’IVOIRE</strong>
+                                                <br/>
+                                                <strong>Union-Discipline-Travail</strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <center>
+                            <table style="border-collapse:collapse;bordercolor=#111111; align:center;">
+                                <tr>
+                                    <td style="border:none; width:20%;"/>
+                                    <td style="border:3px solid black; width:60%; align:center; text-align:center;
+                                                padding-top: 20px;font-family:DejaVu Serif;">
+                                        <h3 style="font-family:DejaVu Serif;">
+                                            <b>PLANNING CONGÉS ANNUEL
+                                                <span t-out="datetime.datetime.now().strftime('%Y')"
+                                                      style="font-family:DejaVu Serif;"/>
+                                            </b>
+                                        </h3>
+                                    </td>
+                                    <td style="border:none; width:20%;"/>
+                                </tr>
+                            </table>
+                        </center>
+                        <br/>
+                        <br/>
+                        <t t-set="num" t-value="1"/>
+                        <table class="table" style="text-align:center;padding-top:10%;font-size:14px;">
+                            <tr>
+                                <td colspan="10" style="border:none;"/>
+                                <td colspan="12" style="font-family:DejaVu Serif;font-size:14px;">PERIODES DE CONGES
+                                    <span t-out="datetime.datetime.now().strftime('%Y')"
+                                          style="font-family:DejaVu Serif;"/>
+                                </td>
+                                <td colspan="1" style="border:none;"/>
+                            </tr>
+                            <tr>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">N°</td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    MTLE
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    NOMS &amp; PRENOMS
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    SEXE
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    FONCTION
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    DÉPARTEMENT
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    DIRECTION
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    TOTAL Antérieur
+                                    <t t-foreach="last_date" t-as="i">
+                                        (<t t-out="i['last_date']" style="font-family:DejaVu Serif;font-size:13px;"/>)
+                                    </t>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    CONGÉS PREV.
+                                    <span t-out="datetime.datetime.now().strftime('%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    TOTAL
+                                    <span t-out="datetime.datetime.now().strftime('%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    janv.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    févr.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    mars
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    avr.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    mai
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    juin
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    juil.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    août
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    sept.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    oct.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    nov.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    déc.
+                                    <span t-out="datetime.datetime.now().strftime('-%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+
+                                <td style="font-family:DejaVu Serif;font-size:13px;">
+                                    STOCKS CONGES au 31 Déc.
+                                    <span t-out="datetime.datetime.now().strftime('%Y')"
+                                          style="font-family:DejaVu Serif;font-size:13px;"/>
+                                </td>
+                            </tr>
+
+                            <t t-foreach="res" t-as="o">
+                                <t t-set="total" t-value="0"/>
+                                <t t-set="stock_cong" t-value="0"/>
+                                <tr>
+                                    <td style="font-size:13px;">
+                                        <span t-out="num"/>
+                                        <t t-set="num" t-value="num+1"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['identification_id']"
+                                           style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['name']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['gender']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['job_id']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['department_id']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['direction_id']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <t t-out="o['stock_holiday']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <span t-out="o['number_days_estimed_holidays']"
+                                              style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td style="font-size:13px;">
+                                        <span t-out="o['total']" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Jan-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Feb-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Mar-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Apr-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('May-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Jun-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Jul-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Aug-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Sep-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Oct-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Nov-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-foreach="conges" t-as="i">
+                                            <t t-if="i['date_from'] == datetime.datetime.now().strftime('Dec-%Y') and i['id'] == o['identification_id']">
+                                                <span t-out="i['intention_to_holiday']"
+                                                      style="font-family:DejaVu Serif;font-size:13px;"/>
+                                                <t t-set="total" t-value="total+i['intention_to_holiday']"/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td>
+                                        <t t-set="stock_cong" t-value="o['total']-(total)"/>
+                                        <span t-out="stock_cong" style="font-family:DejaVu Serif;font-size:13px;"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </table>
+                        <div class="row">
+                            <div class="col-8">
+                            </div>
+                            <div class="col-4">
+                                <h6 style="font-family:DejaVu Serif;text-align:left;">Date: le
+                                    <span t-out="date" style="font-family:DejaVu Serif;text-transform: capitalize;"/>.
+                                </h6>
+                            </div>
+                        </div>
+                        <!--<div class="row" style="font-family:DejaVu Serif;font-size:14px;margin-top:10px;border:solid yellow 1px;">
+                            <div class="col-4" style="font-family:DejaVu Serif;">
+                                <h5>
+                                    <strong>Le Directeur des Ressources Humaines</strong>
+                                </h5>
+                            </div>
+                            <div class="col-4"/>
+                            <div class="col-4" style="font-family:DejaVu Serif;text-align:left;">
+                                <h5>
+                                    <strong>Le Directeur Général</strong>
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:150px;font-family:DejaVu Serif;font-size:14px;">
+                            <div class="col-4" style="font-family:DejaVu Serif;">
+                                <t t-foreach="manager" t-as="p">
+                                    <h5 style="margin-left:55px;text-align:left;">
+                                        <strong>
+                                            <span t-out="p['manager']"
+                                                  style="font-family:DejaVu Serif;border-bottom: 1px solid black;"/>
+                                        </strong>
+                                    </h5>
+                                </t>
+                            </div>
+                            <div class="col-4"/>
+                            <div class="col-4" style="font-family:DejaVu Serif;">
+                                <t t-foreach="manager" t-as="p">
+                                    <h5 style="text-align:left;">
+                                        <strong>
+                                            <span t-out="p['dg']"
+                                                  style="font-family:DejaVu Serif;border-bottom: 1px solid black;"/>
+                                        </strong>
+                                    </h5>
+                                </t>
+                            </div>
+                        </div>-->
+                    </div>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

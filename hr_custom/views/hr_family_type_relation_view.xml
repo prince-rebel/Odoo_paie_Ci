@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        > <!--Gestion de la famille -->
+        <record id="hr_family_type_relation_form_view" model="ir.ui.view">
+            <field name="name">employee_type_relation.form</field>
+            <field name="model">employee_type_relation</field>
+            <field name="arch" type="xml">
+                <form string="form. Famille childs">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="code"/>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_family_type_relation_tree_view" model="ir.ui.view">
+            <field name="name">employee_type_relation.tree</field>
+            <field name="model">employee_type_relation</field>
+            <field name="arch" type="xml">
+                <list string="List. Famille child">
+                    <field name="name"/>
+                    <field name="code"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_family_type_relation_act_window" model="ir.actions.act_window">
+            <field name="name">Type Relations</field>
+            <field name="res_model">employee_type_relation</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer des types de relations en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

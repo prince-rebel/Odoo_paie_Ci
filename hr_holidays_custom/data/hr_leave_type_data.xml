@@ -1,0 +1,183 @@
+<odoo>
+    <data>
+        <record id="leave_type_marriage" model="hr.leave.type">
+            <field name="name">Mariage du travailleur</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">4</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+
+        <record id="leave_type_marriage_child" model="hr.leave.type">
+            <field name="name">Mariage d’un de ses enfants, d’un frère, d’une sœur</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">2</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_joint_death" model="hr.leave.type">
+            <field name="name">Décès du conjoint</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">5</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+         <record id="leave_type_brother_death" model="hr.leave.type">
+            <field name="name">Décès d’un frère, d’une sœur</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">2</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_cong_pay" model="hr.leave.type">
+            <field name="name">Congés payés</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">yes</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">2</field>
+            <field name="code">CONG</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">yes</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+
+        <record id="leave_type_cong_ant" model="hr.leave.type">
+            <field name="name">Congé anticipé</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">yes</field>
+            <field name="code">C_AN</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">yes</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_child_baptism" model="hr.leave.type">
+            <field name="name">Baptême d’un enfant</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">1</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_moving" model="hr.leave.type">
+            <field name="name">Déménagement</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">1</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_maternity" model="hr.leave.type">
+            <field name="name">Congé de maternité</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">98</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_parent_death" model="hr.leave.type">
+            <field name="name">Décès d’un enfant, du père, de la mère du travailleur</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">5</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_in_laws_death" model="hr.leave.type">
+            <field name="name">Décès d’un beau père ou d’une belle mère</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">2</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+
+        <record id="leave_type_child_born" model="hr.leave.type">
+            <field name="name">Naissance d’un enfant</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">2</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_first_communion" model="hr.leave.type">
+            <field name="name">1ère Communion</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">True</field>
+            <field name="max_days">1</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_first_communion" model="hr.leave.type">
+            <field name="name">Arrêts maladie</field>
+            <field name="leave_validation_type">no_validation</field>
+            <field name="requires_allocation">no</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+
+        <record id="leave_type_family" model="hr.leave.type">
+            <field name="name">Affaires familiales</field>
+            <field name="leave_validation_type">both</field>
+            <field name="requires_allocation">no</field>
+            <field name="legal_absences">False</field>
+            <field name="time_type">leave</field>
+            <field name="is_calendar">True</field>
+            <field name="employee_requests">no</field>
+            <field name="allocation_validation_type">officer</field>
+        </record>
+    </data>
+</odoo>

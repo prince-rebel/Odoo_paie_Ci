@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="salary_variation_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.salary_variation.form</field>
+            <field name="model">hr_payroll_custom.salary_variation</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Récapitulatif des salaires">
+                    <group string="Période encours" col="4">
+                        <field name="date_from" string="Début" required="1"/>
+                        <field name="date_to" string="Fin" required="1"/>
+                        <field name="company_id" required="1"/>
+                        <field name="rule_ids" string="Rubrique(s)" widget="many2many_tags"/>
+                    </group>
+                    <group string="Période précédente" col="4">
+                        <field name="old_date_from" string="Début" readonly="1" required="1"/>
+                        <field name="old_date_to" string="Fin" readonly="1" required="1"/>
+                    </group>
+                    <footer>
+                        <button string="Exporter la variation des salaires" name="export_to_excel" type="object"
+                                class="btn-primary"
+                                context="{'xls_export':1}" icon="fa-download"/>
+                        <button string="Exporter la réconciliation des salaires" name="export_recap_to_excel"
+                                type="object" class="btn-primary"
+                                context="{'xls_export':1}" icon="fa-download"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="salary_variation_act_window" model="ir.actions.act_window">
+            <field name="name">Etat de variation des salaires</field>
+            <field name="res_model">hr_payroll_custom.salary_variation</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        En Odoo 19, hr.contract est remplacé par hr.version.
+        Il n'existe pas de vue formulaire standalone pour hr.version.
+        Les champs du dossier salarial sont affichés dans l'onglet "Payroll"
+        du formulaire hr.employee via des champs related pointant vers version_id.
+    -->
+    <data>
+        <record id="hr_employee_form_inherit_payroll_custom" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.hr_employee_form.version</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="priority" eval="10"/>
+            <field name="arch" type="xml">
+                <!-- Afficher convention/secteur/sursalaire dans le groupe contrat de l'onglet Payroll -->
+                <!-- Insertion après structure_type_id qui est un champ direct de group[@name='contract'] -->
+                <field name="structure_type_id" position="after">
+                    <field name="convention_id"/>
+                    <field name="activity_area_id"/>
+                    <field name="extra_pay"/>
+                </field>
+                <!-- Primes fixes dans l'onglet Payroll, après le groupe contrat -->
+                <xpath expr="//group[@name='contract']" position="after">
+                    <group string="Primes fixes" colspan="2"
+                           groups="hr_payroll.group_hr_payroll_user">
+                        <field name="fixed_premiums_ids" nolabel="1" colspan="2"
+                               context="{'default_version_id': version_id}">
+                            <list editable="top">
+                                <field name="input_type_id"/>
+                                <field name="amount"/>
+                            </list>
+                        </field>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

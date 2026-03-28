@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="fdfp_monthly_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.fdfp_monthly.form</field>
+            <field name="model">hr_payroll_custom.fdfp_monthly</field>
+            <field name="arch" type="xml">
+                <form string="Déclaration FDFP">
+                    <header>
+                        <button string="Calculer" name="compute" type="object" class="btn-primary"/>
+                        <!--                    <button string="Exporter en Excel" name="export_xls" type="object" class="btn-primary"-->
+                        <!--                        context="{'xls_export':1}" icon="fa-download"/>-->
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                        </group>
+                        <group col="4">
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+                            <field name="company_id" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Lignes">
+                                <field name="line_ids">
+                                    <list>
+                                        <field name="rule_id"/>
+                                        <field name="gross_salary"/>
+                                        <field name="rate"/>
+                                        <field name="monthly_amount"/>
+                                    </list>
+                                </field>
+                                <group class="oe_subtotal_footer oe_right">
+                                    <field name="salaries_number" required="1"/>
+                                    <field name="amount_total_contributed" required="1"/>
+                                </group>
+                            </page>
+                            <page string="Effectif par catégorie">
+                                <field name="headcount_by_category_ids">
+                                    <list>
+                                        <field name="employee_category_id"/>
+                                        <field name="effective"/>
+                                    </list>
+                                    <form>
+                                        <group>
+                                            <field name="employee_category_id"/>
+                                            <field name="effective"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="fdfp_monthly_tree_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.fdfp_monthly.tree</field>
+            <field name="model">hr_payroll_custom.fdfp_monthly</field>
+            <field name="arch" type="xml">
+                <list string="Déclaration FDFP">
+                    <field name="name"/>
+<!--                    <field name="type_employe"/>-->
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="salaries_number"/>
+                    <field name="amount_total_contributed"/>
+                    <field name="company_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="fdfp_monthly_act_window" model="ir.actions.act_window">
+            <field name="name">Déclaration FDFP</field>
+            <field name="res_model">hr_payroll_custom.fdfp_monthly</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+    </data>
+</odoo>

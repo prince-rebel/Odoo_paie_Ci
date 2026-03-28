@@ -1,0 +1,1045 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- [1] BASIC - Basic Salary -->
+        <record id="salary_rule_basic" model="hr.salary.rule">
+            <field name="name">Basic Salary</field>
+            <field name="code">BASIC</field>
+            <field name="sequence">1</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+# Available variables:
+#----------------------
+# payslip: hr.payslip object
+# employee: hr.employee object
+# contract: hr.contract object
+# rules: dict containing the rules code (previously computed)
+# categories: dict containing the computed salary rule categories (sum of amount of all rules belonging to that category).
+# worked_days: dict containing the computed worked days
+# inputs: dict containing the computed inputs.
+
+# Note: returned value have to be set in the variable 'result'
+
+result = payslip.paid_amount
+            ]]></field>
+        </record>
+
+        <!-- [2] WORK100 - Jours travaillés -->
+        <record id="salary_rule_work100" model="hr.salary.rule">
+            <field name="name">Jours travaillés</field>
+            <field name="code">WORK100</field>
+            <field name="sequence">2</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_jpay"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = worked_days['WORK100'].number_of_days if 'WORK100' in worked_days else False]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = (payslip.date_to - payslip.date_from).days + 1
+            ]]></field>
+        </record>
+
+        <!-- [98] TX - Taux -->
+        <record id="salary_rule_tx" model="hr.salary.rule">
+            <field name="name">Taux</field>
+            <field name="code">TX</field>
+            <field name="sequence">98</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="taux"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = 1.00 * WORK100 / 30
+            ]]></field>
+        </record>
+
+        <!-- [100] BASE - Salaire de base -->
+        <record id="salary_rule_base" model="hr.salary.rule">
+            <field name="name">Salaire de base</field>
+            <field name="code">BASE</field>
+            <field name="sequence">100</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">version.wage</field>
+            <field name="amount_percentage">100.0</field>
+            <field name="quantity">TX</field>
+        </record>
+
+        <!-- [101] SURSA - Sursalaire -->
+        <record id="salary_rule_sursa" model="hr.salary.rule">
+            <field name="name">Sursalaire</field>
+            <field name="code">SURSA</field>
+            <field name="sequence">101</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_sursa"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">version.extra_pay</field>
+            <field name="amount_percentage">100.0</field>
+            <field name="quantity">TX</field>
+        </record>
+
+        <!-- [102] PANC - Primes d'anciennété -->
+        <record id="salary_rule_panc" model="hr.salary.rule">
+            <field name="name"><![CDATA[Primes d'anciennété]]></field>
+            <field name="code">PANC</field>
+            <field name="sequence">102</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_prim"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+hiring_date = employee.hiring_date
+if not hiring_date:
+    result = 0
+else:
+    payslip_date = payslip.date_from
+    years = payslip_date.year - hiring_date.year
+    if (payslip_date.month, payslip_date.day) < (hiring_date.month, hiring_date.day):
+        years -= 1
+    anciennete = years
+    salaire_categoriel = version.wage
+    if anciennete < 2:
+        taux = 0
+    else:
+        taux = 2 + int(anciennete - 2)
+        if taux > 25:
+            taux = 25
+    result = salaire_categoriel * (taux / 100)
+            ]]></field>
+        </record>
+
+        <!-- [110] REND - Prime de rendement -->
+        <record id="salary_rule_rend" model="hr.salary.rule">
+            <field name="name">Prime de rendement</field>
+            <field name="code">REND</field>
+            <field name="sequence">110</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_prim"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('REND')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+inputs['REND'].amount
+            ]]></field>
+        </record>
+
+        <!-- [111] CONG - CONGÉS PAYÉS -->
+        <record id="salary_rule_cong" model="hr.salary.rule">
+            <field name="name">CONGÉS PAYÉS</field>
+            <field name="code">CONG</field>
+            <field name="sequence">111</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_prim"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('CONG')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['CONG'].amount
+            ]]></field>
+        </record>
+
+        <!-- [112] GRATIF - Gratification -->
+        <record id="salary_rule_gratif" model="hr.salary.rule">
+            <field name="name">Gratification</field>
+            <field name="code">GRATIF</field>
+            <field name="sequence">112</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_prim"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('GRATIF')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['GRATIF'].amount
+            ]]></field>
+        </record>
+
+        <!-- [116] BASEH - Base horaire -->
+        <record id="salary_rule_baseh" model="hr.salary.rule">
+            <field name="name">Base horaire</field>
+            <field name="code">BASEH</field>
+            <field name="sequence">116</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_o_total"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = bool(rules.get('BASE')) or bool(rules.get('SURSA'))]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+temp = 0
+base_info = rules.get('BASE')
+if base_info:
+    temp += base_info.get('total', 0)
+sursa_info = rules.get('SURSA')
+if sursa_info:
+    temp += sursa_info.get('total', 0)
+result = temp / 173.33
+            ]]></field>
+        </record>
+
+        <!-- [117] HS15 - HEURE SUPPL. 15% -->
+        <record id="salary_rule_hs15" model="hr.salary.rule">
+            <field name="name">HEURE SUPPL. 15%</field>
+            <field name="code">HS15</field>
+            <field name="sequence">117</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_hsupp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = worked_days.get('HS15') or 0]]></field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BASEH</field>
+            <field name="amount_percentage">115.0</field>
+            <field name="quantity"><![CDATA[worked_days.get('HS15').number_of_hours or 0]]></field>
+        </record>
+
+        <!-- [118] HS50 - HEURE SUPPL. 50% -->
+        <record id="salary_rule_hs50" model="hr.salary.rule">
+            <field name="name">HEURE SUPPL. 50%</field>
+            <field name="code">HS50</field>
+            <field name="sequence">118</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_hsupp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = worked_days.get('HS50') or 0]]></field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BASEH</field>
+            <field name="amount_percentage">150.0</field>
+            <field name="quantity"><![CDATA[worked_days.get('HS50').number_of_hours]]></field>
+        </record>
+
+        <!-- [119] HS75 - HEURE SUPPL. 75% -->
+        <record id="salary_rule_hs75" model="hr.salary.rule">
+            <field name="name">HEURE SUPPL. 75%</field>
+            <field name="code">HS75</field>
+            <field name="sequence">119</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_hsupp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = worked_days.get('HS75') or 0]]></field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BASEH</field>
+            <field name="amount_percentage">175.0</field>
+            <field name="quantity"><![CDATA[worked_days['HS75'].number_of_hours]]></field>
+        </record>
+
+        <!-- [120] HS100 - HEURE SUPPL. 100% -->
+        <record id="salary_rule_hs100" model="hr.salary.rule">
+            <field name="name">HEURE SUPPL. 100%</field>
+            <field name="code">HS100</field>
+            <field name="sequence">120</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_hsupp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = worked_days.get('HS100') or 0]]></field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BASEH</field>
+            <field name="amount_percentage">200.0</field>
+            <field name="quantity"><![CDATA[worked_days['HS100'].number_of_hours or 0]]></field>
+        </record>
+
+        <!-- [199] REIMBURSEMENT - Rembousement -->
+        <record id="salary_rule_reimbursement" model="hr.salary.rule">
+            <field name="name">Rembousement</field>
+            <field name="code">REIMBURSEMENT</field>
+            <field name="sequence">199</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_aloc"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = (inputs.get("REIMBURSEMENT") or 0)]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = (inputs.get("REIMBURSEMENT") or 0).amount
+                result_name = (inputs.get("REIMBURSEMENT") or 0).name
+            ]]></field>
+        </record>
+
+        <!-- [300] BRUT - Salaire Brut -->
+        <record id="salary_rule_brut" model="hr.salary.rule">
+            <field name="name">Salaire Brut</field>
+            <field name="code">BRUT</field>
+            <field name="sequence">300</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_brut"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+temp = 0
+                
+                # Accéder de manière sécurisée aux valeurs dans 'inputs' et 'rules'
+                
+                # Utilisation de 'get' et 'getattr' pour éviter les erreurs de type
+if rules['BASE'] :
+    temp += round(BASE)
+if rules['SURSA'] :
+    temp += round(SURSA)
+#if rules['PANC'] :
+    #temp += round(PANC)
+#if inputs['GRATIF']:
+    #temp += round(GRATIF)
+#if inputs['CONG']:
+    #temp += round(CONG)
+#if rules['HS15'] :
+    #temp += round(HS15)
+#if rules['HS50'] :
+    #temp += round(HS50)
+#if rules['HS75'] :
+    #temp += round(HS75)
+#if rules['HS100'] :
+    #temp += round(HS100)
+
+#if rules['PREP'] :
+    #temp += round(PREP)
+if rules['PANC'] :
+    temp += round(PANC)
+
+result = temp
+            ]]></field>
+        </record>
+
+        <!-- [304] BASE_BRUT_AN - Base brut annuel -->
+        <record id="salary_rule_base_brut_an" model="hr.salary.rule">
+            <field name="name">Base brut annuel</field>
+            <field name="code">BASE_BRUT_AN</field>
+            <field name="sequence">304</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_brut"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = payslip.mois_travailles * round(BRUT)
+            ]]></field>
+        </record>
+
+        <!-- [400] ITS - Impôt sur traitement de salaires -->
+        <record id="salary_rule_its" model="hr.salary.rule">
+            <field name="name">Impôt sur traitement de salaires</field>
+            <field name="code">ITS</field>
+            <field name="sequence">400</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="impot_employ"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+if BRUT < 75000:
+    result1 = 0
+elif BRUT <= 240000:
+    result1 = (BRUT - 75000) * 0.16
+elif BRUT <= 800000:
+    result1 = (BRUT - 240000) * 0.21 + 26400
+elif BRUT <= 2400000:
+    result1 = (BRUT - 800000) * 0.24 + 144000
+elif BRUT <= 8000000:
+    result1 = (BRUT - 2400000) * 0.28 + 527999
+else:
+    result1 = (BRUT - 8000000) * 0.32 + 2095999
+parts = employee.part_igr
+
+if parts == 1:
+    reduction = 0
+elif parts == 1.5:
+    reduction = 5500
+elif parts == 2:
+    reduction = 11000
+elif parts == 2.5:
+    reduction = 16500
+elif parts == 3:
+    reduction = 22000
+elif parts == 3.5:
+    reduction = 27500
+elif parts == 4:
+    reduction = 33000
+elif parts == 4.5:
+    reduction = 38500
+else:
+    reduction = 44000   # maximum (5 parts)
+
+result = max(0, result1 - reduction)
+            ]]></field>
+        </record>
+
+        <!-- [409] CNPS - Retraite Générale (C.N.P.S) -->
+        <record id="salary_rule_cnps" model="hr.salary.rule">
+            <field name="name">Retraite Générale (C.N.P.S)</field>
+            <field name="code">CNPS</field>
+            <field name="sequence">409</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="coti_employ"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">min(BRUT,3375000)</field>
+            <field name="amount_percentage">6.3</field>
+        </record>
+
+        <!-- [702] ITS_P - ITS Patronale (1,2% du brut imposable) — doit être après BRUT_TOTAL (seq 600) -->
+        <record id="salary_rule_its_p" model="hr.salary.rule">
+            <field name="name">ITS Patronale (1,2%)</field>
+            <field name="code">ITS_P</field>
+            <field name="sequence">702</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_imp_emp"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BRUT_TOTAL</field>
+            <field name="amount_percentage">1.2</field>
+            <field name="quantity">1.0</field>
+            <field name="appears_on_payslip" eval="False"/>
+        </record>
+
+        <!-- [410] CNPS - Retraite Générale (C.N.P.S) -->
+        <record id="salary_rule_cnps_old" model="hr.salary.rule">
+            <field name="name">Retraite Générale (C.N.P.S)</field>
+            <field name="code">CNPS</field>
+            <field name="sequence">410</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="coti_employ"/>
+            <field name="active" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">min(BRUT,3375000)</field>
+            <field name="amount_percentage">6.3</field>
+        </record>
+
+        <!-- [411] RET - Total Retenues -->
+        <record id="salary_rule_ret" model="hr.salary.rule">
+            <field name="name">Total Retenues</field>
+            <field name="code">RET</field>
+            <field name="sequence">411</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_salc"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result =round(categories['COT_SAL']) + round(categories['IMP_SAL'] )
+            ]]></field>
+        </record>
+
+        <!-- [411] TEST - TEST -->
+        <record id="salary_rule_test" model="hr.salary.rule">
+            <field name="name">TEST</field>
+            <field name="code">TEST</field>
+            <field name="sequence">411</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="hr_payroll.COMP"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+            <field name="amount_fix">0.0</field>
+        </record>
+
+        <!-- [412] TCS_A_CNPS - Total Charges Salariales Annuelles CNPS -->
+        <record id="salary_rule_tcs_a_cnps" model="hr.salary.rule">
+            <field name="name">Total Charges Salariales Annuelles CNPS</field>
+            <field name="code">TCS_A_CNPS</field>
+            <field name="sequence">412</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_salc"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = payslip.mois_travailles *RET
+            ]]></field>
+        </record>
+
+        <!-- [419] CMU - Prélèvement CMU -->
+        <record id="salary_rule_cmu" model="hr.salary.rule">
+            <field name="name">Prélèvement CMU</field>
+            <field name="code">CMU</field>
+            <field name="sequence">419</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_ret_emp"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+if inputs.get('CMU') and inputs.get('CMU').amount != 0:
+    result = inputs['CMU'].amount
+elif employee.cmu_contributor == 'supported_fifty':
+    result = 500
+else:
+    result = 0
+            ]]></field>
+        </record>
+
+        <!-- [419] PATR - CNPS Patronales -->
+        <record id="salary_rule_patr" model="hr.salary.rule">
+            <field name="name">CNPS Patronales</field>
+            <field name="code">PATR</field>
+            <field name="sequence">419</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_cpatr"/>
+            <field name="active" eval="False"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">max(75000, min(BRUT, 3375000))</field>
+            <field name="amount_percentage">7.7</field>
+        </record>
+
+        <!-- [421] ACT - Accidents du Travail -->
+        <record id="salary_rule_act_old" model="hr.salary.rule">
+            <field name="name">Accidents du Travail</field>
+            <field name="code">ACT</field>
+            <field name="sequence">421</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="other_coti_employ"/>
+            <field name="active" eval="False"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">min(BRUT,75000)</field>
+            <field name="amount_percentage">3.0</field>
+        </record>
+
+        <!-- [421] ACT - Accidents du Travail -->
+        <record id="salary_rule_act" model="hr.salary.rule">
+            <field name="name">Accidents du Travail</field>
+            <field name="code">ACT</field>
+            <field name="sequence">421</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="other_coti_employ"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">75000</field>
+            <field name="amount_percentage">3.0</field>
+        </record>
+
+        <!-- [422] PF - Prestations familiales -->
+        <record id="salary_rule_pf" model="hr.salary.rule">
+            <field name="name">Prestations familiales</field>
+            <field name="code">PF</field>
+            <field name="sequence">422</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="other_coti_employ"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">min(BRUT,75000)</field>
+            <field name="amount_percentage">5.75</field>
+        </record>
+
+        <!-- [423] TAXEAP - Taxe d'apprentissage -->
+        <record id="salary_rule_taxeap" model="hr.salary.rule">
+            <field name="name"><![CDATA[Taxe d'apprentissage]]></field>
+            <field name="code">TAXEAP</field>
+            <field name="sequence">423</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_imp_emp"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BRUT</field>
+            <field name="amount_percentage">0.4</field>
+        </record>
+
+        <!-- [424] TAXEFP - Taxe Formation Prof. Continue -->
+        <record id="salary_rule_taxefp" model="hr.salary.rule">
+            <field name="name">Taxe Formation Prof. Continue</field>
+            <field name="code">TAXEFP</field>
+            <field name="sequence">424</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_imp_emp"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">BRUT</field>
+            <field name="amount_percentage">1.2</field>
+        </record>
+
+        <!-- [425] RET_SAL - Retenue salaire -->
+        <record id="salary_rule_ret_sal" model="hr.salary.rule">
+            <field name="name">Retenue salaire</field>
+            <field name="code">RET_SAL</field>
+            <field name="sequence">425</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_arete"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result =  inputs.get('RET_SAL')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result =inputs.get('RET_SAL').amount
+                result_name =inputs.get('RET_SAL').name
+            ]]></field>
+        </record>
+
+        <!-- [425] Maladie - Assurance Maladie -->
+        <record id="salary_rule_maladie" model="hr.salary.rule">
+            <field name="name">Assurance Maladie</field>
+            <field name="code">Maladie</field>
+            <field name="sequence">425</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_ret_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = 'ASM' in inputs]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['ASM'].amount * TX if 'ASM' in inputs else 0
+            ]]></field>
+        </record>
+
+        <!-- [425] AVS - Avance sur salaire -->
+        <record id="salary_rule_avs" model="hr.salary.rule">
+            <field name="name">Avance sur salaire</field>
+            <field name="code">AVS</field>
+            <field name="sequence">425</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_ret_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = 'AVS' in inputs]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['AVS'].amount * TX if 'AVS' in inputs else 0
+            ]]></field>
+        </record>
+
+        <!-- [425] DEJAP - DÉJÀ PERCU -->
+        <record id="salary_rule_dejap" model="hr.salary.rule">
+            <field name="name">DÉJÀ PERCU</field>
+            <field name="code">DEJAP</field>
+            <field name="sequence">425</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_ret_emp"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['DEJAP'] if 'DEJAP' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['DEJAP'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [427] EMP - Emprunts à deduire -->
+        <record id="salary_rule_emp" model="hr.salary.rule">
+            <field name="name">Emprunts à deduire</field>
+            <field name="code">EMP</field>
+            <field name="sequence">427</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_arete"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('EMP')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs.get('EMP').amount
+                result_name =  inputs.get('EMP').name
+            ]]></field>
+        </record>
+
+        <!-- [428] R_DIVRS - Retenue diverse -->
+        <record id="salary_rule_r_divrs" model="hr.salary.rule">
+            <field name="name">Retenue diverse</field>
+            <field name="code">R_DIVRS</field>
+            <field name="sequence">428</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_arete"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('R_DIVRS')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+rds = inputs.get('R_DIVRS')
+result = rds.amount if rds else 0
+result_name = rds.name if rds else ''
+            ]]></field>
+        </record>
+
+        <!-- [429] AVS - Avance sur salaire -->
+        <record id="salary_rule_avs_old" model="hr.salary.rule">
+            <field name="name">Avance sur salaire</field>
+            <field name="code">AVS</field>
+            <field name="sequence">429</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_arete"/>
+            <field name="active" eval="False"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('AVS')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs.get('AVS').amount
+                result_name = inputs.get('AVS').name
+            ]]></field>
+        </record>
+
+        <!-- [501] TRSP - Prime de transport -->
+        <record id="salary_rule_trsp" model="hr.salary.rule">
+            <field name="name">Prime de transport</field>
+            <field name="code">TRSP</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['TRSP'] if 'TRSP' in inputs else 25000]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+TRA = 25000
+trsp = inputs.get('TRSP')
+
+if trsp:
+    TRA = trsp.amount * TX
+
+result = TRA
+            ]]></field>
+        </record>
+
+        <!-- [502] TRSP_IMP - Transport imposable (excédent au plafond légal) -->
+        <record id="salary_rule_trsp_imp" model="hr.salary.rule">
+            <field name="name">Transport imposable (excédent)</field>
+            <field name="code">TRSP_IMP</field>
+            <field name="sequence">502</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_brut"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = 'TRSP_IMP' in inputs]]></field>
+            <field name="amount_select">code</field>
+            <field name="quantity">1.0</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['TRSP_IMP'].amount * TX if 'TRSP_IMP' in inputs else 0
+            ]]></field>
+        </record>
+
+        <!-- [501] RES_NI - PRIME DE RESPONSABILITE NON IMPOSSABLE -->
+        <record id="salary_rule_res_ni" model="hr.salary.rule">
+            <field name="name">PRIME DE RESPONSABILITE NON IMPOSSABLE</field>
+            <field name="code">RES_NI</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['RES'] if 'RES' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['RES'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [501] CM - COMMISSION -->
+        <record id="salary_rule_cm" model="hr.salary.rule">
+            <field name="name">COMMISSION</field>
+            <field name="code">CM</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['CM'] if 'CM' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['CM'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [501] RS - RAPPEL SALAIRE -->
+        <record id="salary_rule_rs" model="hr.salary.rule">
+            <field name="name">RAPPEL SALAIRE</field>
+            <field name="code">RS</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['RS'] if 'RS' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['RS'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [501] PDS - PRIME DE SALISSURE -->
+        <record id="salary_rule_pds" model="hr.salary.rule">
+            <field name="name">PRIME DE SALISSURE</field>
+            <field name="code">PDS</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['PDS'] if 'PDS' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['PDS'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [501] PDP - PRIME DE PANIER -->
+        <record id="salary_rule_pdp" model="hr.salary.rule">
+            <field name="name">PRIME DE PANIER</field>
+            <field name="code">PDP</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['PDP'] if 'PDP' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+pdp= inputs.get('PDP')
+
+if pdp:
+    result = pdp.amount * TX
+
+result = 0
+            ]]></field>
+        </record>
+
+        <!-- [501] LOG - LOGEMENT -->
+        <record id="salary_rule_log" model="hr.salary.rule">
+            <field name="name">LOGEMENT</field>
+            <field name="code">LOG</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['LOG'] if 'LOG' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['LOG'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [501] PCAISSE - PRIME DE CAISSE -->
+        <record id="salary_rule_pcaisse" model="hr.salary.rule">
+            <field name="name">PRIME DE CAISSE</field>
+            <field name="code">PCAISSE</field>
+            <field name="sequence">501</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs['PCAISSE'] if 'PCAISSE' in inputs else 0]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['PCAISSE'].amount * TX
+            ]]></field>
+        </record>
+
+        <!-- [502] PREP - Prime de représentation -->
+        <record id="salary_rule_prep" model="hr.salary.rule">
+            <field name="name">Prime de représentation</field>
+            <field name="code">PREP</field>
+            <field name="sequence">502</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result =inputs.get('REP')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs.get('REP').amount
+            ]]></field>
+        </record>
+
+        <!-- [510] IND_REPR - Indemnité de representation non imposable -->
+        <record id="salary_rule_ind_repr" model="hr.salary.rule">
+            <field name="name">Indemnité de representation non imposable</field>
+            <field name="code">IND_REPR</field>
+            <field name="sequence">510</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = inputs.get('IND_REPR')]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs.get('IND_REPR').amount
+            ]]></field>
+        </record>
+
+        <!-- [600] BRUT_TOTAL - Salaire Brut Total -->
+        <record id="salary_rule_brut_total" model="hr.salary.rule">
+            <field name="name">Salaire Brut Total</field>
+            <field name="code">BRUT_TOTAL</field>
+            <field name="sequence">600</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_brut"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = round(BRUT) + categories.get("INDMNI ") or 0
+            ]]></field>
+        </record>
+
+        <!-- [601] NET_IMP - Net Imposable -->
+        <record id="salary_rule_net_imp" model="hr.salary.rule">
+            <field name="name">Net Imposable</field>
+            <field name="code">NET_IMP</field>
+            <field name="sequence">601</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_c_imp"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = round(BRUT) - round(RET) + round( categories.get("INDMNI ") or 0)
+            ]]></field>
+        </record>
+
+        <!-- [699] NET_PAIE - Net de paie -->
+        <record id="salary_rule_net_paie" model="hr.salary.rule">
+            <field name="name">Net de paie</field>
+            <field name="code">NET_PAIE</field>
+            <field name="sequence">699</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_net"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = round(BRUT_TOTAL) - categories['IMP_SAL'] - result_rules['Maladie']['total']
+            ]]></field>
+        </record>
+
+        <!-- [707] RET_DIV - Total Retenues Diverses -->
+        <record id="salary_rule_ret_div" model="hr.salary.rule">
+            <field name="name">Total Retenues Diverses</field>
+            <field name="code">RET_DIV</field>
+            <field name="sequence">707</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_salc"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = categories['RET_EMP'] or 0
+            ]]></field>
+        </record>
+
+        <!-- [708] TCS_M - Total Charges Salariales Mensuelles -->
+        <record id="salary_rule_tcs_m" model="hr.salary.rule">
+            <field name="name">Total Charges Salariales Mensuelles</field>
+            <field name="code">TCS_M</field>
+            <field name="sequence">708</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_salc"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = RET + (categories.get('ARETE', 0) or 0) + (categories.get('RANN', 0) or 0) + (categories.get('RET_EMP', 0) or 0)
+            ]]></field>
+        </record>
+
+        <!-- [800] NET - Salaire net -->
+        <record id="salary_rule_net" model="hr.salary.rule">
+            <field name="name">Salaire net</field>
+            <field name="code">NET</field>
+            <field name="sequence">800</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_net"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+divers = inputs['DIVERS'].amount if 'DIVERS' in inputs else 0
+sypesca = inputs['SYPESCA'].amount if 'SYPESCA' in inputs else 0
+avs = inputs['AVS'].amount if 'AVS' in inputs else 0
+result = round(NET_PAIE) - categories['COT_SAL'] + categories['INDMNI'] + divers - sypesca - avs - result_rules['CMU']['total'] - (categories['ARETE'] or 0) - (categories['RANN'] or 0)
+            ]]></field>
+        </record>
+
+        <!-- [1002] CMU_P - Prélèvement CMU part patronale -->
+        <record id="salary_rule_cmu_p" model="hr.salary.rule">
+            <field name="name">Prélèvement CMU part patronale</field>
+            <field name="code">CMU_P</field>
+            <field name="sequence">1002</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="other_coti_employ"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+if 'CMU' in inputs and inputs['CMU'].amount != 0:
+    result = inputs['CMU'].amount
+elif employee.cmu_contributor == 'supported_fifty':
+    result = employee.part_cmu * 500
+elif employee.cmu_contributor == 'fully_supported':
+    result = employee.part_cmu * 1000
+else:
+    result = 0
+            ]]></field>
+        </record>
+
+        <!-- [1003] CNPS_P - CNPS Patronales -->
+        <record id="salary_rule_cnps_p" model="hr.salary.rule">
+            <field name="name">CNPS Patronales</field>
+            <field name="code">CNPS_P</field>
+            <field name="sequence">1003</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_cpatr"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">percentage</field>
+            <field name="amount_percentage_base">min(BRUT,3375000)</field>
+            <field name="amount_percentage">7.7</field>
+        </record>
+
+        <!-- [1008] TTL_COT_PART - Total Cotisations Patronales -->
+        <record id="salary_rule_ttl_cot_part" model="hr.salary.rule">
+            <field name="name">Total Cotisations Patronales</field>
+            <field name="code">TTL_COT_PART</field>
+            <field name="sequence">1008</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_autres"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = categories.get("ATR_COT_PAT ") or 0 + categories.get("TAX_EMP ") or 0
+            ]]></field>
+        </record>
+
+        <!-- [1009] TTL_IMP_PART - Total impôt Patronales -->
+        <record id="salary_rule_ttl_imp_part" model="hr.salary.rule">
+            <field name="name">Total impôt Patronales</field>
+            <field name="code">TTL_IMP_PART</field>
+            <field name="sequence">1009</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_autres"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = categories.get("COT_PAT ") + categories.get("IMP_EMP ") + CNPS_P
+            ]]></field>
+        </record>
+
+        <!-- [1010] TCP_M - Total charges patronales mensuelles -->
+        <record id="salary_rule_tcp_m" model="hr.salary.rule">
+            <field name="name">Total charges patronales mensuelles</field>
+            <field name="code">TCP_M</field>
+            <field name="sequence">1010</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="charg_patr_total"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = TTL_COT_PART + TTL_IMP_PART
+            ]]></field>
+        </record>
+
+        <!-- [1011] TCP_A - Total charges patronales annuelles -->
+        <record id="salary_rule_tcp_a" model="hr.salary.rule">
+            <field name="name">Total charges patronales annuelles</field>
+            <field name="code">TCP_A</field>
+            <field name="sequence">1011</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="charg_patr_total"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = payslip.mois_travailles * TCP_M
+            ]]></field>
+        </record>
+
+        <!-- [1013] TCP_A_CNPS - Total charges patronales annuelles CNPS -->
+        <record id="salary_rule_tcp_a_cnps" model="hr.salary.rule">
+            <field name="name">Total charges patronales annuelles CNPS</field>
+            <field name="code">TCP_A_CNPS</field>
+            <field name="sequence">1013</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="charg_patr_total"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = payslip.mois_travailles * CNPS_P
+            ]]></field>
+        </record>
+
+        <!-- [1014] T_GAIN - Total gains -->
+        <record id="salary_rule_t_gain" model="hr.salary.rule">
+            <field name="name">Total gains</field>
+            <field name="code">T_GAIN</field>
+            <field name="sequence">1014</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="gain"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = round(BRUT) + categories.get("INDMNI", 0)
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>

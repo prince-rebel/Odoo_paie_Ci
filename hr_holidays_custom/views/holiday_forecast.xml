@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="holiday_forecast_tree_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.holiday_forecast.tree</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <list string="Prévisions Congés Annuels">
+                    <field name="name" string="Nom"/>
+                    <field name="first_name"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="direction_id"/>
+                    <field name="department_id"/>
+                    <field name="service_id"/>
+                    <field name="date_return_last_holidays"/>
+                    <field name="estimed_date_leave"/>
+                    <field name="estimated_date_return_leave"/>
+                    <field name="number_days_estimed_holidays"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="holiday_forecast_gantt_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.holiday_forecast.gantt</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <gantt
+                       date_start="estimed_date_leave"
+                       date_stop="estimated_date_return_leave"
+                       consolidation="number_days_estimed_holidays"
+                       consolidation_max='{"id": 100}'
+                       string="Jours"
+                />
+            </field>
+        </record>
+
+        <!-- <record id="holiday_forecast_calendar_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.holiday_forecast.calendar</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <calendar string="Prévisions Congés Annuels" date_start="estimed_date_leave" date_stop="estimated_date_return_leave" mode="month" quick_add="false" color="name">
+                    <field name="name"/>
+                </calendar>
+            </field>
+            </record> -->
+
+
+        <record id="holiday_forecast_search_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.holiday_forecast.search</field>
+            <field name="model">hr.employee</field>
+            <field name="arch" type="xml">
+                <search string="Prévisions Congés Annuels"><!-- Employees -->
+                    <field name="name" string="Employees"
+                           filter_domain="['|',('work_email','ilike',self),('name','ilike',self)]"/>
+                    <field name="direction_id"/>
+                    <field name="department_id"/>
+                    <field name="service_id"/>
+                    <field name="job_id"/>
+                    <separator/>
+                    <group>
+                        <filter name="direction_id" string="Direction" domain="[]"
+                                context="{'group_by':'direction_id'}"/>
+                        <filter name="department_id" string="Departément" domain="[]"
+                                context="{'group_by':'department_id'}"/>
+                        <filter name="service_id" string="Service" domain="[]" context="{'group_by':'service_id'}"/>
+                        <filter name="group_job" string="Job" domain="[]" context="{'group_by':'job_id'}"/>
+                        <filter name="group_company" string="Company" domain="[]" context="{'group_by':'company_id'}"
+                                groups="base.group_multi_company"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="holiday_forecast_act_window" model="ir.actions.act_window">
+            <field name="name">Prévisions Congés Annuels</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">list,gantt</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="holiday_forecast_search_view"/>
+        </record>
+
+        <record id="action_holiday_forecast_tree_view" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">list</field>
+            <field name="view_id" ref="holiday_forecast_tree_view"/>
+            <field name="act_window_id" ref="holiday_forecast_act_window"/>
+        </record>
+
+        <record id="action_holiday_forecast_gantt_view" model="ir.actions.act_window.view">
+            <field eval="2" name="sequence"/>
+            <field name="view_mode">gantt</field>
+            <field name="view_id" ref="holiday_forecast_gantt_view"/>
+            <field name="act_window_id" ref="holiday_forecast_act_window"/>
+        </record>
+
+        <!-- <record id="action_holiday_forecast_calendar_view" model="ir.actions.act_window.view">
+            <field eval="3" name="sequence"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="holiday_forecast_calendar_view"/>
+            <field name="act_window_id" ref="holiday_forecast_act_window"/>
+        </record> -->
+
+    </data>
+</odoo>

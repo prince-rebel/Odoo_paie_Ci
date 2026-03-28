@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- gestion des primes sur les contrats -->
+        <record model="ir.ui.view" id="fixed_premiums_tree_view">
+            <field name="name">hr_payroll_custom.fixed_premiums.tree</field>
+            <field name="model">hr_payroll_custom.fixed_premiums</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Primes" create="1">
+                    <field name="input_type_id"/>
+                    <field name="version_id"/>
+                    <field name="amount"/>
+                </list>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_hr_payroll_fixed_premiums_tree_view">
+            <field name="name">Primes sur contrat</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr_payroll_custom.fixed_premiums</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" ref="fixed_premiums_tree_view"/>
+        </record>
+    </data>
+</odoo>

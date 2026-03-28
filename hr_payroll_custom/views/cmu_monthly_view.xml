@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="cmu_monthly_form_view" model="ir.ui.view" >
+            <field name="name">hr_payroll_custom.cmu_monthly.form</field>
+            <field name="model">hr_payroll_custom.cmu_monthly</field>
+            <field name="arch" type="xml">
+                <form string="Formulaire CMU mensuelle">
+                    <header>
+                        <button name="compute_cmu_monthly" string="Générer le rapport" type="object"/>
+                        <!--<button name="export_xls" string="Imprimer le rapport" type="object"/>-->
+                    </header>
+                    <sheet>
+                        <field name="name"/>
+                        <group col="4">
+                            <field name="date_from" required="1"/>
+                            <field name="date_to" required="1"/>
+                            <field name="company_id" required="1"/>
+                        </group>
+                        <group col="4">
+                            <field name="total_workforce" readonly="1"/>
+                            <field name="amount" readonly="1"/>
+                        </group>
+                        <notebook>
+                            <page string="lignes">
+                                <field name="line_ids">
+                                    <list>
+                                        <field name="identification_cnps"/>
+                                        <field name="identification_cmu"/>
+                                        <field name="type"/>
+                                        <field name="name"/>
+                                        <field name="first_name"/>
+                                        <field name="birthday"/>
+                                        <field name="num_cmu_beneficiary"/>
+                                        <field name="name_beneficiary"/>
+                                        <field name="first_name_beneficiary"/>
+                                        <field name="birthday_beneficiary"/>
+                                        <field name="gender"/>
+                                    </list>
+                                    <form>
+                                        <group col="4" string="Informations de l'assuré">
+                                            <field name="identification_cnps" string="N° CNPS assuré" readonly="1"/>
+                                            <field name="identification_cmu" string="N° CMU assuré" readonly="1"/>
+                                            <field name="name" string="Nom assuré" readonly="1"/>
+                                            <field name="first_name" string="Prénoms assuré" readonly="1"/>
+                                            <field name="birthday" readonly="1"/>
+                                        </group>
+                                        <group col="4" string="Informations du bénéficiaire">
+                                            <field name="identification_cnps" string="N° CNPS assuré" readonly="1"/>
+                                            <field name="num_cmu_beneficiary" string="N° CMU bénéficiaire" readonly="1"/>
+                                            <field name="name_beneficiary" string="Nom bénéficiaire" readonly="1"/>
+                                            <field name="first_name_beneficiary" string="Prénoms bénéficiaire" readonly="1"/>
+                                            <field name="birthday_beneficiary" string="Anniversaire bénéficiaire" readonly="1"/>
+                                            <field name="gender" readonly="1"/>
+                                            <field name="type" readonly="1"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="cmu_monthly_tree_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.cmu_monthly.tree</field>
+            <field name="model">hr_payroll_custom.cmu_monthly</field>
+            <field name="arch" type="xml">
+                <list string="Liste CMU mensuelle">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="company_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="cmu_monthly_act_window" model="ir.actions.act_window">
+            <field name="name">CMU Mensuel</field>
+            <field name="res_model">hr_payroll_custom.cmu_monthly</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+
+
+    </data>
+</odoo>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Reprise de service -->
+        <record id="presumption_of_service_form_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.resumption_of_service.form</field>
+            <field name="model">hr_holidays_custom.resumption_of_service</field>
+            <field name="arch" type="xml">
+                <form string="form. Reprise de service">
+                    <header>
+                        <button name="action_to_draft" string="Mettre en brouillon"
+                                type="object" groups="hr_holidays.group_hr_holidays_responsible"
+                                invisible="state != 'done'"/>
+                        <button name="action_to_cancel" string="Annuler"
+                                type="object" groups="hr_holidays.group_hr_holidays_responsible"
+                                invisible="state not in ('draft', 'done')"/>
+                        <button name="action_validate" string="Valider"
+                                type="object" class="oe_highlight"
+                                groups="hr_holidays.group_hr_holidays_responsible"
+                                invisible="state != 'draft'"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group col="4">
+                            <field name="employee_id" required="1"
+                                readonly="state == 'done' or state == 'cancel'"/>
+                            <field name="holidays_id" required="1"
+                                readonly="state == 'done' or state == 'cancel'"/>
+                            <field name="resumption_date" required="1"
+                                readonly="state == 'done' or state == 'cancel'"/>
+                            <field name="resumption_hour" required="1"
+                                readonly="state == 'done' or state == 'cancel'"/>
+                            <field name="number_of_holidays" required="1" readonly="1"/>
+                            <field name="direction_id" readonly="1"/>
+                            <field name="department_id" readonly="1"/>
+                            <field name="service_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="resumption_of_service_tree_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.resumption_of_service.tree</field>
+            <field name="model">hr_holidays_custom.resumption_of_service</field>
+            <field name="arch" type="xml">
+                <list string="List. Reprise de service">
+                    <field name="employee_id"/>
+                    <field name="holidays_id"/>
+                    <field name="resumption_date"/>
+                    <field name="number_of_holidays"/>
+                    <field name="direction_id"/>
+                    <field name="department_id"/>
+                    <field name="service_id"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="resumption_of_service_search_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.resumption_of_service.search</field>
+            <field name="model">hr_holidays_custom.resumption_of_service</field>
+            <field name="arch" type="xml">
+                <search string="Search. Mission professionnelle">
+                    <field name="employee_id"/>
+                    <group>
+                        <filter string="Employé" name="employee_id" domain="[]"
+                                context="{'group_by':'employee_id'}"/>
+                        <filter string="Date de reprise" name="resumption_date" domain="[]"
+                                context="{'group_by':'resumption_date'}"/>
+                        <filter string="Direction" name="direction_id" domain="[]"
+                                context="{'group_by':'direction_id'}"/>
+                        <filter string="Département" name="department_id" domain="[]"
+                                context="{'group_by':'department_id'}"/>
+                        <filter string="Service" name="service_id" domain="[]"
+                                context="{'group_by':'service_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="resumption_of_service_act_window" model="ir.actions.act_window">
+            <field name="name">Reprise de service</field>
+            <field name="res_model">hr_holidays_custom.resumption_of_service</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="resumption_of_service_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer la première reprise de service en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

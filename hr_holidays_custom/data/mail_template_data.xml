@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="email_template_real_planning" model="mail.template">
+            <field name="name">Template planning réel de congé {{object.employee_id.identification_id or''}}</field>
+            <field name="email_from">{{object.employee_id.company_id.email or ''}}</field>
+            <field name="email_to">{{object.employee_id.work_email or ''}}</field>
+            <field name="subject">Planning réel de congé annuel {{object.employee_id.identification_id or''}}</field>
+            <field name="model_id" ref="hr_holidays_custom.model_hr_holidays_custom_planning_holidays"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <p>Bonjour M/Mme<t t-out="object.employee_id.name"/>,
+                </p>
+                <p>Votre planning réel de congés vient d'être
+                    <t t-if="object.state == 'done'">
+                        validé.
+                    </t>
+                    <t t-elif="object.state == 'draft'">
+                        rejeté.
+                    </t>
+                    <t t-else="">
+                        annulé.
+                    </t>
+                </p>
+                <p>Vous pouvez vous connecter à la plateforme des congés pour avoir plus d'informations.</p>
+                <p>Cordialement!</p>
+            </field>
+        </record>
+
+        <record id="email_template_validate_real_planning" model="mail.template">
+            <field name="name">Planning réel de congé {{object.employee_id.identification_id or''}}</field>
+            <field name="email_from">{{object.employee_id.company_id.email or''}}</field>
+            <field name="email_to">{{object.employee_id.company_id.hr_manager_id.work_email or ''}};
+                {{object.employee_id.company_id.hr_assistant_id.work_email or ''}}
+            </field>
+            <field name="subject">Validation planning réel de Mr/Mme/Mlle {{object.employee_id.name}}</field>
+            <field name="model_id" ref="hr_holidays_custom.model_hr_holidays_custom_planning_holidays"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="body_html" type="html">
+                <p>Bonjour M/Mme ,</p>
+                <p>La proposition de planning de congés de M./ Mme/ Mlle
+                    <b>
+                        <t t-out="object.employee_id.name"/>
+                        <t t-out="object.employee_id.first_name"/>
+                    </b>
+                    Matricule:
+                    <b>
+                        <t t-out="object.employee_id.identification_id"/>
+                    </b>
+                    est à votre niveau de validation. Vous pouvez vous connecter à la plateforme pour l'analyser et
+                    apporter votre appréciation.
+                </p>
+                <p>Cordialement!</p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

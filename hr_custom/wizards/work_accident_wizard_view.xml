@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="work_accident_wizard_form" model="ir.ui.view">
+            <field name="name">hr_custom.work_accident_wizard.form</field>
+            <field name="model">hr_custom.work_accident_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <footer>
+                        <button name="print_management_accident_pdf" string="Imprimer en pdf" type="object" class="btn-primary"/>
+                        <button name="print_management_accident_xls" string="Imprimer en xls" type="object" class="btn-primary"/>
+                        <button string="Annuler" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="work_accident_wizard_act_window" model="ir.actions.act_window">
+            <field name="name">Rapport des accidents de travail</field>
+            <field name="res_model">hr_custom.work_accident_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

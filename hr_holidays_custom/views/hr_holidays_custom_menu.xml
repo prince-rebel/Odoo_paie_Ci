@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <menuitem
+                id="holiday_forecast_menu"
+                name="Prévisions Congés"
+                parent="hr_holidays.menu_hr_holidays_root"
+                action="hr_holidays_custom.holiday_forecast_act_window"
+                sequence="4"
+                groups="hr_holidays.group_hr_holidays_responsible" />
+
+        
+        <menuitem
+                id="resumption_of_service_menu"
+                name="Attestation de reprise de service"
+                parent="hr_holidays.menu_hr_holidays_management"
+                action="hr_holidays_custom.resumption_of_service_act_window"
+                sequence="4"
+                groups="hr_holidays.group_hr_holidays_responsible"/>
+
+
+        <!-- <menuitem
+                id="resumption_of_service_menu"
+                name="Attestation de reprise de service"
+                parent="hr_holidays.menu_hr_holidays_approvals"
+                action="hr_holidays_custom.resumption_of_service_act_window"
+              /> -->
+
+
+
+        <menuitem
+                id="holidays_planning_menu"
+                name="Planning de congés"
+                parent="hr_holidays.menu_hr_holidays_root"
+                action="hr_holidays_custom.planning_holidays_act_window"
+                sequence="4"
+                groups="hr_holidays.group_hr_holidays_responsible"/>
+
+
+
+        <menuitem
+                id="my_holidays_planning_menu"
+                name="Mes projections de congés"
+                parent="hr_holidays.menu_hr_holidays_my_leaves"
+                action="hr_holidays_custom.my_planning_holidays_act_window"
+                groups="hr.group_hr_user"/>
+
+
+        <menuitem
+                id="detailed_report_holiday_menu"
+                name="Rapport détaillé des congés"
+                parent="hr_holidays.menu_hr_holidays_report"
+                action="hr_holidays_custom.detailed_report_holiday_act_windows"
+                groups="hr_holidays.group_hr_holidays_responsible"/>
+
+        <menuitem
+                id="planning_report_holidays_menu"
+                name="Planning congés annuel"
+                parent="hr_holidays.menu_hr_holidays_report"
+                action="hr_holidays_custom.planning_report_holidays_act_window"/>
+
+
+
+    </data>
+</odoo>

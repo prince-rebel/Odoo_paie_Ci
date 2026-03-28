@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="its_monthly_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.its_monthly.form</field>
+            <field name="model">hr_payroll_custom.its_monthly</field>
+            <field name="arch" type="xml">
+                <form string="ITS form">
+                    <header>
+                        <button string="Calculer" name="compute_its_monthly" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group col="4">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="company_id"/>
+                        </group>
+                        <group col="4" string="A - IMPOTS RETENUS AUX SALARIES">
+                            <!-- ITS unifié depuis réforme 2024 (fusion ITS + CN + IGR) -->
+                            <field name="total_its_employee" readonly="1"/>
+                            <field name="total_retenu_employee" readonly="1"/>
+                        </group>
+
+                        <group string="B - IMPOT A LA CHARGE DE L’EMPLOYEUR">
+                            <group>
+                                <field name="total_number_local"/>
+                                <field name="total_brut_imposable_local"/>
+                                <field name="total_mt_a_payer_local"/>
+                            </group>
+                            <group>
+                                <field name="total_number_expat"/>
+                                <field name="total_brut_imposable_expat"/>
+                                <field name="total_mt_a_payer_expat"/>
+                            </group>
+                            <group>
+                                <field name="total_number"/>
+                                <field name="total_mt_a_payer"/>
+                            </group>
+                        </group>
+                        <group col="4">
+                            <field name="amount_total"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="its_monthly_tree_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.its_monthly.tree</field>
+            <field name="model">hr_payroll_custom.its_monthly</field>
+            <field name="arch" type="xml">
+                <list string="ITS tree">
+                    <field name="name"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                    <field name="company_id"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="its_monthly_act_window" model="ir.actions.act_window">
+            <field name="name">Rapports ITS</field>
+            <field name="res_model">hr_payroll_custom.its_monthly</field>
+            <field name="view_mode">list,form</field>
+        </record>
+    </data>
+</odoo>

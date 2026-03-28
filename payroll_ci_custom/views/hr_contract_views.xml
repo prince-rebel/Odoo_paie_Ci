@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        En Odoo 19, hr.contract est remplacé par hr.version.
+        Il n'y a pas de vue standalone hr.version — les champs s'affichent
+        dans l'onglet Payroll du formulaire hr.employee via des champs related.
+    -->
+
+    <!-- Formulaire employé : ajout onglet Calcul Inversé -->
+    <record id="hr_employee_form_calcul_inverse" model="ir.ui.view">
+        <field name="name">hr.employee.form.calcul.inverse</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="priority" eval="12"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_calculer_sursalaire"
+                        string="🎯 Calculer Sursalaire"
+                        type="object"
+                        class="oe_highlight"
+                        invisible="not version_id or net_souhaite == 0"
+                        force_save="1"/>
+                <button name="action_simuler_paie"
+                        string="📊 Simuler Paie"
+                        type="object"
+                        class="btn-info"
+                        invisible="not (version_id and wage > 0)"/>
+                <button name="action_reinitialiser_calcul"
+                        string="🔄 Réinitialiser"
+                        type="object"
+                        invisible="not version_id or net_souhaite == 0"
+                        force_save="1"/>
+            </xpath>
+
+            <xpath expr="//notebook" position="inside">
+                <page string="🎯 Calcul Inversé" name="calcul_inverse_ci">
+
+                    <div class="alert alert-info" role="alert">
+                        <h4><i class="fa fa-info-circle"/> Mode d'emploi</h4>
+                        <ol>
+                            <li>Saisissez le <strong>net souhaité</strong> par l'employé</li>
+                            <li>Vérifiez le <strong>salaire de base (wage)</strong></li>
+                            <li>Configurez les <strong>primes fixes</strong> dans l'onglet Payroll (transport, assurance, CMU)</li>
+                            <li>Cliquez sur <strong>"Calculer Sursalaire"</strong></li>
+                            <li>Le système génère automatiquement le <strong>sursalaire (extra_pay)</strong></li>
+                        </ol>
+                        <p class="text-muted">
+                            <small>
+                                Le calcul prend en compte : Salaire de base, Sursalaire, Prime d'ancienneté, ITS, CNPS (6.3%),
+                                Prime de transport (non imposable), Assurance maladie, CMU
+                            </small>
+                        </p>
+                    </div>
+
+                    <group string="🎯 Paramètres du Calcul Inversé">
+                        <group>
+                            <field name="net_souhaite"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"/>
+                            <field name="wage"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="0"/>
+                            <field name="extra_pay"
+                                   string="Sursalaire Calculé"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"
+                                   class="oe_bold"/>
+                        </group>
+                        <group>
+                            <field name="brut_imposable_calcule"
+                                   string="Brut Imposable"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"/>
+                            <field name="its_calcule"
+                                   string="ITS"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"/>
+                            <field name="cnps_calcule"
+                                   string="CNPS (6,3%)"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"/>
+                            <field name="cmu_calcule"
+                                   string="CMU"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"/>
+                            <field name="net_a_payer_calcule"
+                                   string="Net à Payer"
+                                   widget="monetary"
+                                   options="{'currency_field': 'currency_id'}"
+                                   readonly="1"
+                                   class="oe_bold"
+                                   style="font-size: 16px; color: #00A09D;"/>
+                        </group>
+                    </group>
+
+                    <separator string="ℹ️ Informations Importantes"/>
+                    <group>
+                        <group>
+                            <p class="text-muted">
+                                <strong>Formule du Brut Imposable :</strong><br/>
+                                BRUT = BASE (wage) + SURSA (extra_pay) + PANC (prime ancienneté)
+                            </p>
+                            <p class="text-muted">
+                                <strong>Prime d'Ancienneté :</strong><br/>
+                                - 0% si ancienneté &lt; 2 ans<br/>
+                                - 2% + (ancienneté - 2) si ≥ 2 ans<br/>
+                                - Maximum 25%
+                            </p>
+                        </group>
+                        <group>
+                            <p class="text-muted">
+                                <strong>Retenues Salariales :</strong><br/>
+                                - ITS : barème progressif 2025 (fusion IS+CN+IGR)<br/>
+                                - CNPS : 6,3% (plafond 3.375.000 FCFA)<br/>
+                                - CMU : selon configuration<br/>
+                                - Assurance : selon configuration
+                            </p>
+                        </group>
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Liste employés : ajout colonnes calcul salarial -->
+    <record id="hr_employee_list_calcul_inverse" model="ir.ui.view">
+        <field name="name">hr.employee.list.calcul.inverse</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.hr_employee_list_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='job_id']" position="after">
+                <field name="extra_pay"
+                       string="Sursalaire"
+                       optional="show"
+                       sum="Total Sursalaire"/>
+                <field name="net_souhaite"
+                       string="Net Souhaité"
+                       optional="hide"/>
+                <field name="net_a_payer_calcule"
+                       string="Net Calculé"
+                       optional="show"
+                       widget="monetary"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

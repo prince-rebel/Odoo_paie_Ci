@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        > <!--Gestion de la famille -->
+        <record id="hr_family_contact_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.emergency_contacts.form</field>
+            <field name="model">hr_custom.emergency_contacts</field>
+            <field name="arch" type="xml">
+                <form string="form. Famille contacts urgence">
+                    <sheet>
+                        <group col="4">
+                            <field name="name" required="1"/>
+                            <field name="gender" required="1"/>
+                            <field name="first_contact"/>
+                            <field name="second_contact"/>
+                            <field name="email"/>
+                            <field name="state"/>
+                        </group>
+                        <group>
+                            <field name="observations"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="hr_family_contacts_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.emergency_contacts.tree</field>
+            <field name="model">hr_custom.emergency_contacts</field>
+            <field name="arch" type="xml">
+                <list string="Parents/Contact d'urgence">
+                    <field name="name" required="1"/>
+                    <field name="gender"/>
+                    <field name="first_contact"/>
+                    <field name="second_contact"/>
+                    <field name="email"/>
+                    <field name="state"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="hr_family_contact_act_window" model="ir.actions.act_window">
+            <field name="name">Famille Contacts</field>
+            <field name="res_model">hr_custom.emergency_contacts</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{"search_default_employee_id": [active_id], "default_employee_id": active_id}}</field>
+            <field name="view_id" eval="False"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer les contacts en cliquant sur le bouton créer situé en haut
+                    à gauche.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

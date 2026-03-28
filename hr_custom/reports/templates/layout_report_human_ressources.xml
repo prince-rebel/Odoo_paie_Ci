@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hr_custom.hr_layout">
+            <t t-call="hr_custom.report_template_header"/>
+            <div class="article">
+                <t t-raw="0"/>
+            </div>
+            <t t-call="hr_custom.report_template_footer"/>
+        </template>
+    </data>
+</odoo>

@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_detailed_report_holiday_pdf">
+            <t t-call="web.html_container">
+                <t t-call="hr_custom.doc_report_employee_layout">
+                    <div class="page" style="text-align: center; padding:30px 0px 10px 0px;">
+                        <t t-foreach="res" t-as="o">
+                            <div class="info_header" style="margin-left: 2px;">
+                                <div class="row" style="margin-left: 2px;">
+                                    <table style="width: 100%; border-style: none;">
+                                        <tr>
+                                            <td style="width: 50%; border-style: none; font-size: 16px; text-align:left;">
+                                                <div style="text-align:left;margin-left:2px;font-family:DejaVu Serif;">
+                                                    <strong style="color: #FF9633;">« Partout, proche de vous »</strong>
+                                                    <br/>
+                                                    --------------------
+                                                    <br/>
+                                                    DIRECTION GENERALE
+                                                    <br/>
+                                                    -------------------------
+                                                    <br/>
+                                                    DIRECTION DES RESSOURCES
+                                                    <br/>
+                                                    HUMAINES
+                                                    <br/>
+                                                    -------------------------
+                                                    <br/>
+                                                </div>
+                                            </td>
+                                            <td style="width: 10%;border-style: none;"/>
+                                            <td style="width: 40%; text-align: center; border-style: none; font-size: 14px;font-family:DejaVu Serif;">
+                                                <strong>REPUBLIQUE DE CÔTE D’IVOIRE</strong>
+                                                <br/>
+                                                <strong>Union-Discipline-Travail</strong>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <table style="border-collapse:collapse;bordercolor=#111111; align:center;">
+                                    <tr>
+                                        <td style="border:none; width:20%;"/>
+                                        <td style="border:3px solid black; width:60%; align:center; text-align:center;padding-top: 20px;padding-bottom: 10px;">
+                                            <h3 style="font-family:DejaVu Serif;">
+                                                <b>RAPPORT DES CONGÉS
+                                                    <br/>
+                                                    DU
+                                                    <span t-out="o['date_from']" style="font-family:DejaVu Serif;"/>
+                                                    AU
+                                                    <span t-out="o['date_to']" style="font-family:DejaVu Serif;"/>
+                                                </b>
+                                            </h3>
+                                        </td>
+                                        <td style="border:none; width:20%;"/>
+                                    </tr>
+                                </table>
+                            </center>
+                            <br/>
+                            <t t-set="num" t-value="1"/>
+                            <table class="table" style="text-align:center;">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <td style="font-family:DejaVu Serif;">
+                                            N°
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            MTLE
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            NOM ET PRENOMS
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            SEXE
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            FONCTION
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            SERVICE
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            DÉPARTEMENT
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            DIRECTION
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            TYPE CONGÉ
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            DATE DE DÉBUT
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            DATE DE FIN
+                                        </td>
+                                        <td style="font-family:DejaVu Serif;">
+                                            DURÉE (en Jours)
+                                        </td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="holidays" t-as="o">
+                                        <tr>
+                                            <td>
+                                                <span t-out="num"/>
+                                                <t t-set="num" t-value="num+1"/>
+                                            </td>
+
+                                            <td>
+                                                <t t-out="o['identification_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <t t-out="o['name']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <t t-out="o['gender']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <t t-out="o['job_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+
+                                            <td>
+                                                <span t-out="o['service_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['department_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['direction_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['holiday_status_id']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['date_start']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['date_return']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                            <td>
+                                                <span t-out="o['duree']" style="font-family:DejaVu Serif;"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                            <div style="padding-top:25px;text-justify: auto;margin-left:850px;">
+                                <div>
+                                    <h6 style="font-family:DejaVu Serif;">Fait à Abidjan, le
+                                        <span t-out="date"
+                                              style="font-family:DejaVu Serif;text-transform: capitalize;"/>.
+                                    </h6>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

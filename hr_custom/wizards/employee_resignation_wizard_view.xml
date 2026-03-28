@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="employee_resignation_wizard_form_wiev" model="ir.ui.view">
+            <field name="name">hr_custom.employee_resignation_wizard.form</field>
+            <field name="model">hr_custom.employee_resignation_wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <group>
+                        <field name="departure_reason_ids" widget="many2many_tags" options="{'no_create':True}"/>
+                    </group>
+                    <footer>
+                        <button name="print_employee_resignation_pdf" string="Imprimer en pdf" type="object" class="btn-primary"/>
+                        <button name="print_employee_resignation_xls" string="Imprimer en xls" type="object" class="btn-primary"/>
+                        <button string="Annuler" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="employee_resignation_wizard_act_window" model="ir.actions.act_window">
+            <field name="name">Rapport des départs</field>
+            <field name="res_model">hr_custom.employee_resignation_wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

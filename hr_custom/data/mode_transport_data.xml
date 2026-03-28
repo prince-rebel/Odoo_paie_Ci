@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="mode_routier" model="hr_custom.mode_of_transport">
+            <field name="name">Transport routier</field>
+        </record>
+
+        <record id="mode_ferroviaire" model="hr_custom.mode_of_transport">
+            <field name="name">Transport ferroviaire</field>
+        </record>
+
+        <record id="mode_terrestre" model="hr_custom.mode_of_transport">
+            <field name="name">Transport terrestre</field>
+        </record>
+
+        <record id="mode_maritime" model="hr_custom.mode_of_transport">
+            <field name="name">Transport maritime </field>
+        </record>
+
+        <record id="mode_aérien" model="hr_custom.mode_of_transport">
+            <field name="name">Transport aérien</field>
+        </record>
+
+        <record id="mode_spatial" model="hr_custom.mode_of_transport">
+            <field name="name">Transport spatial</field>
+        </record>
+
+        <record id="mode_fluides" model="hr_custom.mode_of_transport">
+            <field name="name">Transport des matières fluides</field>
+        </record>
+
+        <record id="mode_other" model="hr_custom.mode_of_transport">
+            <field name="name">Autres</field>
+        </record>
+
+
+
+    </data>
+</odoo>

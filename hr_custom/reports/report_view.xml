@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="action_work_certificate" model="ir.actions.report">
+            <field name="name">Attestation de travail</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_custom.report_work_certificate</field>
+            <field name="report_file">hr_custom.report_work_certificate</field>
+            <field name="print_report_name">'Attestation de travail - %s' % (object.identification_id)</field>
+            <field name="binding_model_id" ref="model_hr_employee"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <record id="action_employee_resignation" model="ir.actions.report">
+            <field name="name">Liste des départs des employés(xlsx)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_custom.report_employee_resignation</field>
+            <field name="report_file">hr_custom.report_employee_resignation</field>
+            <field name="print_report_name">'Liste des départs des employés'</field>
+        </record>
+
+        <record id="action_employee_resignation_pdf" model="ir.actions.report">
+            <field name="name">Liste des départs des employés(pdf)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_custom.report_employee_resignation_pdf</field>
+            <field name="report_file">hr_custom.report_employee_resignation_pdf</field>
+            <field name="print_report_name">'Liste des départs des employés'</field>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="action_work_accident_wizard_xls" model="ir.actions.report">
+            <field name="name">Liste des accidents de travail(xlsx)</field>
+            <field name="model">hr_custom.work_accident</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_custom.report_work_accident_xls</field>
+            <field name="report_file">hr_custom.report_work_accident_xls</field>
+            <field name="print_report_name">'Liste des accidents de travail'</field>
+        </record>
+
+        <record id="action_work_accident_wizard_pdf" model="ir.actions.report">
+            <field name="name">Liste des accidents de travail(pdf)</field>
+            <field name="model">hr_custom.work_accident</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_custom.report_work_accident_pdf</field>
+            <field name="report_file">hr_custom.report_work_accident_pdf</field>
+            <field name="print_report_name">'Liste des accidents de travail'</field>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="action_recruits_per_period_xls" model="ir.actions.report">
+            <field name="name">Liste des nouvellels recrues(xlsx)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_custom.report_recruits_per_period_wizard</field>
+            <field name="report_file">hr_custom.report_recruits_per_period_wizard</field>
+            <field name="print_report_name">'Liste des nouvellels recrues'</field>
+        </record>
+
+        <record id="action_recruits_per_period_pdf" model="ir.actions.report">
+            <field name="name">Liste des nouvellels recrues(pdf)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_custom.report_recruits_per_period_wizard_pdf</field>
+            <field name="report_file">hr_custom.report_recruits_per_period_wizard_pdf</field>
+            <field name="print_report_name">'Liste des nouvellels recrues'</field>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="action_report_employee_list_pdf" model="ir.actions.report">
+            <field name="name">Liste du personnel(pdf)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_custom.report_employee_list_pdf</field>
+            <field name="report_file">hr_custom.report_employee_list_pdf</field>
+            <field name="print_report_name">'Liste du personnel'</field>
+            <field name="paperformat_id" ref="hr_custom.paper_format_landscape"/>
+        </record>
+
+        <record id="action_report_employee_list_xls" model="ir.actions.report">
+            <field name="name">Liste du personnel(xlsx)</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_custom.report_employee_list_xls</field>
+            <field name="report_file">hr_custom.report_employee_list_xls</field>
+            <field name="print_report_name">'Liste du personnel'</field>
+        </record>
+
+    </data>
+</odoo>

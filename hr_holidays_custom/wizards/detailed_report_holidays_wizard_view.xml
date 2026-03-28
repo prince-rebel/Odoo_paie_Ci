@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="detailed_report_holiday_form_view" model="ir.ui.view">
+            <field name="name">hr_holidays_custom.detailed_report_holiday.form</field>
+            <field name="model">hr_holidays_custom.detailed_report_holiday</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="date_from" required="1"/>
+                        <field name="date_to" required="1"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="direction_ids" widget="many2many_tags" options="{'no_create':True}"/>
+                            <field name="department_ids" widget="many2many_tags" options="{'no_create':True}"/>
+                            <field name="service_ids" widget="many2many_tags" options="{'no_create':True}"/>
+                        </group>
+                        <group>
+                            <field name="gender" style="width:20%"/>
+                            <field name="holiday_type_ids" widget="many2many_tags" style="width:85%"
+                                   options="{'no_create':True}"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="print_report_holiday_pdf" string="Imprimer en pdf" type="object"
+                                class="btn-primary"/>
+                        <button name="print_report_holiday_xls" string="Imprimer en xls" type="object"
+                                class="btn-primary"/>
+                        <button string="Annuler" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="detailed_report_holiday_act_windows" model="ir.actions.act_window">
+            <field name="name">Rapport détaillé des congés</field>
+            <field name="res_model">hr_holidays_custom.detailed_report_holiday</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>

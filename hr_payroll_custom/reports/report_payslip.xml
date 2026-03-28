@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="hr_payroll_custom.employee_infos">
+            <table id="table header_part2" class="act_as_table">
+            <tr style="border: solid gray 1px; background-color: #f0f0f0;">
+                    <td colspan="5">
+                        <table width="100%" style="border: none;">
+                            <tr>
+                                <!-- Logo à gauche -->
+                                <td style="width: 25%; vertical-align: top;">
+                                    <img t-if="o.company_id.logo"
+                                        t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
+                                        style="max-height: 80px; max-width: 100px;" />
+                                </td>
+                                <!-- Infos société à droite -->
+                                <td style="width: 75%; text-align: left; vertical-align: top;">
+                                    <strong><span t-out="o.company_id.name"/></strong><br/>
+                                    <span t-out="o.company_id.phone or ''"/><br/>
+                                    <span t-out="o.company_id.email or ''"/><br/>
+                                    CNPS EMPLOYEUR    <span t-out="o.company_id.employer_identification_cnps or ''"/><br/>
+                                  
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <t t-foreach="o.get_personnal_info()" t-as="dp">
+                    <tr style="border: solid gray 1px;">
+                        <td id="colpart1">Matricule</td>
+                        <td id="colpart2" style="border-right:solid gray 1px;">
+                            <span t-out="dp['identification_id']"/>
+                        </td>
+                        <td id="colpart4" colspan="3" style="border-right: solid gray 1px;background-color: #e6eceb;">
+                            <center>NOM ET PRENOMS</center>
+                        </td>
+                    </tr>
+                    <tr style="border-top: solid gray 1px;border-left: solid gray 1px;">
+                        <td id="colpart1" style="border-bottom: solid gray 1px;">Catégorie</td>
+                        <td id="colpart2" style="border-bottom: solid gray 1px;border-right: solid gray 1px;">
+                            <span t-out="dp['categorie_salariale']"/>
+                        </td>
+                        <td id="colpart6" colspan="3" style="border-right: solid gray 1px;">
+                            <center>
+                                <strong>
+                                    <span t-out="dp['employee_name']"/>
+                                </strong>
+                            </center>
+                        </td>
+                    </tr>
+                    <tr style="border-left: solid gray 1px;border-bottom: solid gray 1px;">
+                        <td id="colpart1">Part IGR</td>
+                        <td id="colpart2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['igr_part']"/>
+                        </td>
+                        <td id="colpart3" align="center" colspan="3" style="border-right: solid gray 1px;">
+                            <span t-out="dp['zip']"/>
+                        </td>
+                    </tr>
+                    <tr style="border-left: solid gray 1px;border-bottom: solid gray 1px;">
+                        <td id="colpart1">Nombre de mois</td>
+                        <td id="colpart2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['mois_travailles']"/>
+                        </td>
+                       
+                    </tr>
+                    <tr style="border: solid gray 1px;">
+                        <td id="colpart1">Nationalité</td>
+                        <td id="colpart2" style="border-right:solid gray 1px;">
+                            <span t-out="dp['nationality']"/>
+                        </td>
+                        <td id="colpart1">Date de naissance</td>
+                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['birthday']"/>
+                        </td>
+                    </tr>
+                    <tr style="border: solid gray 1px;">
+                        <td id="colpart1">Situation matrimoniale</td>
+                        <td id="colpart2" style="border-right:solid gray 1px;">
+                            <span t-out="dp['marital_status']"/>
+                        </td>
+                        <td id="colpart1">Date d'embauche</td>
+                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['hiring_date']"/>
+                        </td>
+                    </tr>
+                    <tr style="border: solid gray 1px;">
+                        <td id="colpart1">Ancienneté</td>
+                        <td id="colpart2" style="border-right:solid gray 1px;">
+                            <t t-if="dp['slip_seniority_year'] > 0">
+                                <span t-out="dp['slip_seniority_year']"/>
+                                ans
+                            </t>
+                            <span t-out="dp['slip_seniority_month']"/>
+                            mois
+                        </td>
+                        <td id="colpart1">Département</td>
+                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['department']"/>
+                        </td>
+                    </tr>
+                    <tr style="border: solid gray 1px;">
+                        <td id="colpart1">
+                            <span t-out="dp['employee_type']"/>
+                        </td>
+                        <td id="colpart2" style="border-right:solid gray 1px;">
+                            <span t-out="dp['matricule']"/>
+                        </td>
+                        <td id="colpart1">Emploi occupé</td>
+                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
+                            <span t-out="dp['job']"/>
+                        </td>
+                    </tr>
+                </t>
+            </table>
+        </template>
+
+        <template id="hr_payroll_custom.payslip_body">
+            <t t-set="number_line" t-value="0"/>
+            <table id="table">
+                <thead>
+                    <tr>
+                        <th class="header_cell" rowspan="2">Code</th>
+                        <th class="header_cell" rowspan="2">Designation</th>
+                        <th class="header_cell" rowspan="2">Nombre</th>
+                        <th class="header_cell" rowspan="2">Base</th>
+                        <th colspan="3" style="border-right: solid gray 1px;">
+                            <center>
+                                Employé
+                            </center>
+                        </th>
+                        <th colspan="2">
+                            <center>
+                                Employeur
+                            </center>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>Taux</th>
+                        <th>Gain</th>
+                        <th style="border-right: solid gray 1px;">Retenue</th>
+                        <th>Taux</th>
+                        <th>Retenue</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="o.get_gross_data()" t-as="p">
+                        <td id="colpart3" align="right">
+                            <span t-out="p['sequence']"/>
+                        </td>
+                        <td id="colpart3">
+                            <span t-out="p['name']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="p['quantity']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="p['amount']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="p['total']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                    </tr>
+                    <tr id="sous_total" t-foreach="o.get_gross()" t-as="l">
+                        <t t-set="number_line" t-value="number_line+1"/>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3">TOTAL BRUT IMPOSABLE</td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="center"/>
+                        <td id="colpart3" align="center"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="l['total']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                    </tr>
+                    <tr t-foreach="o.get_tax_data()" t-as="j">
+                        <td id="colpart3" align="right">
+                            <span t-out="j['sequence']"/>
+                        </td>
+                        <td id="colpart3">
+                            <span t-out="j['name']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['amount']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['rate_employee']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['total_employee']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['rate_employer']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['total_employer']"/>
+                        </td>
+                    </tr>
+                    <tr id="sous_total">
+                        <t t-foreach="o.get_total_tax()" t-as="tt">
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3">TOTAL RETENUES IMPOTS</td>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="center"/>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right">
+                                <span t-out="tt['total_employee']"/>
+                            </td>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right">
+                                <span t-out="tt['total_employer']"/>
+                            </td>
+                        </t>
+                    </tr>
+
+                    <tr t-foreach="o.get_various_deductions()" t-as="j">
+                        <td id="colpart3" align="right">
+                            <span t-out="j['sequence']"/>
+                        </td>
+                        <td id="colpart3">
+                            <span t-out="j['name']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['amount']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['rate_employee']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['total_employee']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['rate_employer']"/>
+                        </td>
+                        <td id="colpart3" align="right">
+                            <span t-out="j['total_employer']"/>
+
+                        </td>
+                    </tr>
+
+                    <tr id="sous_total">
+                        <t t-foreach="o.get_total_various_deduction()" t-as="tvd">
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3">TOTAL RETENUES DIVERSES</td>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="center"/>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right">
+                                <span t-out="tvd['total_employee']"/>
+                            </td>
+                            <td id="colpart3" align="right"/>
+                            <td id="colpart3" align="right">
+                                <span t-out="tvd['total_employer']"/>
+                            </td>
+                        </t>
+                    </tr>
+                    <tr t-foreach="o.get_tax_free_allowance()" t-as="m">
+                        <td id="colpart3" align="right">
+                            <span t-out="m['sequence']"/>
+                        </td>
+                        <td id="colpart3">
+                            <span t-out="m['name']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="m['amount']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="m['total']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                    </tr>
+
+                    <tr t-foreach="o.get_tax_free_withholding()" t-as="n">
+                        <td id="colpart3" align="right">
+                            <span t-out="n['sequence']"/>
+                        </td>
+                        <td id="colpart3">
+                            <span t-out="n['name']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="n['amount']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right">
+                            <span t-out="n['total']"/>
+                        </td>
+                        <td id="colpart3" align="right"/>
+                        <td id="colpart3" align="right"/>
+                    </tr>
+                    <tr id="last_page">
+                        <td id="colpart3" style="color:white;">nothing</td>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                        <td id="colpart3"/>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="col-xs-4 pull-right">
+                <table>
+                    <thead>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th id="summary_part_head">GAINS</th>
+                            <td id="summary_part_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('T_GAIN'))).replace(',', ' ')"/>
+                            </td>
+
+                            <th id="summary_part_head">RETENUES
+                            </th>
+                            <td id="summary_part_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('TCS_M'))).replace(',', ' ')"/>
+                            </td>
+
+                            <th id="summary_part_head">NET A PAYER</th>
+                            <td id="summary_part_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('NET'))).replace(',', ' ')"/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+
+        <template id="hr_payroll_custom.paysil_sum">
+            <div id="container">
+                <div>
+                    <table>
+                        <tr>
+                            <th id="colpart9_head">Cumul</th>
+                            <th id="colpart9_head">Salaire Brut Imposable</th>
+                            <th id="colpart9_head">Charges salariales
+                                <t t-if="o.employee_id.type == 'p'">CGRAE</t>
+                                <t t-if="o.employee_id.type != 'p'">CNPS</t>
+                            </th>
+                            <th id="colpart9_head">Charges patronales
+                                <t t-if="o.employee_id.type == 'p'">CGRAE</t>
+                                <t t-if="o.employee_id.type != 'p'">CNPS</t>
+                            </th>
+                            <th id="colpart9_head">Jours Travaillés</th>
+                            <th id="colpart9_head">Congés Acquis</th>
+                            <th id="colpart9_head">Congés pris</th>
+                            <th id="colpart9_head">Congés restants</th>
+                            <th id="colpart9_head">Avantages en nature</th>
+                        </tr>
+                        <tr>
+                            <th id="colpart9_head">Mois</th>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('BRUT'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('RET'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('TTL_IMP_PART'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('TJRPAY'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.acquired_leave_month"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.taked_leave_month"/>
+                            </td>
+                            <td id="colpart9_body" rowspan="2">
+                                <span t-field="o.available_leave"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_natural_advantage())).replace(',', ' ')"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th id="colpart9_head">Année</th>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('BASE_BRUT_AN'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('TCS_A_CNPS'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('TCP_A_CNPS'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_amount_rubrique('TWDAYS'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.acquired_leave"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.taked_leave"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_somme_natural_advantage())).replace(',', ' ')"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="hr_payroll_custom.salary_tax">
+            <div id="container">
+                <div>
+                    <table>
+                        <tr>
+                            <th id="colpart9_head">Cumul</th>
+                            <th id="colpart9_head">ITS</th>
+                            <th id="colpart9_head">CN</th>
+                            <th id="colpart9_head">IGR</th>
+                            <th id="colpart9_head">
+                                <t t-if="o.employee_id.type == 'p'">CGRAE</t>
+                                <t t-if="o.employee_id.type != 'p'">CNPS</t>
+                            </th>
+                            <th id="colpart9_head">Jours depuis dernier congé</th>
+                            <th id="colpart9_head">Brut congé</th>
+                            <th id="colpart9_head">CMU</th>
+                            <th id="colpart9_head">CRRAE Emp.</th>
+                            <th id="colpart9_head">CRRAE FAAM Emp.</th>
+                        </tr>
+                        <tr>
+                            <th id="colpart9_head">Année</th>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('ISA'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('CNAN'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('IGRA'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <t t-if="o.employee_id.type == 'p'">
+                                    <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('CGRAE_E_A'))).replace(',', ' ')"/>
+                                </t>
+                                <t t-if="o.employee_id.type != 'p'">
+                                    <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('CNPS_E_A'))).replace(',', ' ')"/>
+                                </t>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.days_since_last_leave"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-field="o.gross_salary_leave"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('CMU_A'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('T_CRRAE_E'))).replace(',', ' ')"/>
+                            </td>
+                            <td id="colpart9_body">
+                                <span t-out="'{0:,.0f}'.format(int(o.get_sum_rubrique('T_C_FAAM_E'))).replace(',', ' ')"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </template>
+
+        <template id="hr_payroll_custom.account">
+            <div id="container">
+                <div>
+                    <table>
+                        <tr id="account_head" style="display:inline-block;">
+                            <t t-if="o.employee_id.primary_bank_account_id">
+                                <th id="colpart9">
+                                    <span t-field="o.employee_id.primary_bank_account_id.bank_id.name"/>
+                                    <span t-field="o.employee_id.primary_bank_account_id.box_office_code"/>
+                                    <span t-field="o.employee_id.primary_bank_account_id.acc_number"/>
+                                    <span t-field="o.employee_id.primary_bank_account_id.rib"/>
+                                </th>
+                            </t>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+        </template>
+
+        <template id="hr_payroll.report_payslip">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_payroll_custom.payslip_layout">
+                        <div class="page">
+                            <style type="text/css">
+                                table {
+                                border-collapse: collapse;
+                                font-size: 12px;
+                                width: 100%;
+                                }
+                                thead > tr {
+                                border: solid gray 1px;
+                                background-color: #e6eceb;
+                                }
+                                #sous_total {
+                                background-color: #D3E0EE;
+                                }
+                                #colpart3 {
+                                border-left: solid gray 1px;
+                                border-right: solid gray 1px;
+                                }
+                                .header_cell {
+                                border: solid gray 1px;
+                                }
+                                #last_page {
+                                border-bottom: solid gray 1px;
+                                border-right: solid gray 1px;
+                                border-left: solid gray 1px;
+                                }
+                                #summary_part_head {
+                                border: solid gray 1px;
+                                font-size: 14px;
+                                vertical-align: middle;
+                                background-color: #e6eceb;
+                                font-weight: normal;
+                                }
+                                #summary_part_body {
+                                border: solid gray 1px;
+                                font-size: 16px;
+                                vertical-align: middle;
+                                font-weight: bold;
+                                }
+                                #colpart9_head {
+                                border: solid gray 1px;
+                                background-color: #e6eceb;
+                                vertical-align: middle;
+                                text-align: center;
+                                }
+                                #colpart9_body {
+                                border: solid gray 1px;
+                                vertical-align: middle;
+                                text-align: center;
+                                }
+                            </style>
+                            <t t-call="hr_payroll_custom.employee_infos"/>
+                            <br/>
+                            <t t-call="hr_payroll_custom.payslip_body"/>
+                            <br/>
+                            <t t-call="hr_payroll_custom.account"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

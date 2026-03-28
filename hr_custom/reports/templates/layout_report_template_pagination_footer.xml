@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="report_template_pagination_footer">
+            <div class="footer">
+                <div class="text-center">
+                    <t t-if="not o" t-set="o" t-value="docs"/>
+                    <t t-if="not company">
+                        <!-- Multicompany -->
+                        <t t-if="company_id">
+                            <t t-set="company" t-value="company_id"/>
+                        </t>
+                        <t t-elif="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id.sudo()"/>
+                        </t>
+                        <t t-else="else">
+                            <t t-set="company" t-value="res_company"/>
+                        </t>
+                    </t>
+                    <div class="pagination" style="margin-left: auto;margin-right: auto;width: 6em">
+                        <span class="page"/>/
+                        <span class="topage"/>
+                    </div>
+                    <div style="font-size: 9px; border-top: 1px solid #FF9633; margin-bottom: 10px;">
+                        <strong>
+                            NEURONES TECHNOLOGIES
+                            <br/>
+                            Siège social : Angré, 8ème Tranche, Abidjan
+
+                            <br/>
+                            www.neuronestech.com
+                            <br/>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+    </data>
+</odoo>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- vue des visites medicales -->
+        <record id="medical_visit_tree_view" model="ir.ui.view">
+            <field name="name">hr_custom.medical_visit.tree</field>
+            <field name="model">hr_custom.medical_visit</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="name" required="1"/>
+                    <field name="predicted_date" required="1"/>
+                    <field name="effective_date"/>
+                    <field name="place_of_visit"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="medical_visit_form_view" model="ir.ui.view">
+            <field name="name">hr_custom.medical_visit.form</field>
+            <field name="model">hr_custom.medical_visit</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="predicted_date" required="1"/>
+                            <field name="effective_date"/>
+                            <field name="place_of_visit"/>
+                            <field name="remark"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="medical_visit_search_view" model="ir.ui.view">
+            <field name="name">hr_custom.medical_visit.search</field>
+            <field name="model">hr_custom.medical_visit</field>
+            <field name="arch" type="xml">
+                <search string="Search. Visites medicales">
+                    <field name="name"/>
+                    <group>
+                        <filter string="Visite medicale" name="name" domain="[]"
+                                context="{'group_by':'name'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="medical_visit_act_window" model="ir.actions.act_window">
+            <field name="name">Visites médicales</field>
+            <field name="res_model">hr_custom.medical_visit</field>
+            <field name="view_mode">list,form</field>
+            <field name="view_id" eval="False"/>
+            <field name="search_view_id" ref="medical_visit_search_view"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Vous pouvez créer la premiere visite médicale pour les visites médicales en cliquant
+                    sur le bouton créer situé en haut à gauche.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>

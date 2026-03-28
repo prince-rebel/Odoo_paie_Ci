@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="moyen_auto" model="hr_custom.means_of_transport">
+            <field name="name">Automobiles</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_routier"/>
+        </record>
+
+        <record id="moyen_bic" model="hr_custom.means_of_transport">
+            <field name="name">Bicyclettes</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_routier"/>
+        </record>
+
+        <record id="moyen_cam" model="hr_custom.means_of_transport">
+            <field name="name">Camions</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_routier"/>
+        </record>
+
+        <record id="moyen_rick" model="hr_custom.means_of_transport">
+            <field name="name">Rickshaws</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_routier"/>
+        </record>
+
+        <record id="moyen_trains" model="hr_custom.means_of_transport">
+            <field name="name">Trains</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_ferroviaire"/>
+        </record>
+
+         <record id="moyen_bete" model="hr_custom.means_of_transport">
+            <field name="name">Bête de somme</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_terrestre"/>
+        </record>
+
+        <record id="moyen_chariot" model="hr_custom.means_of_transport">
+            <field name="name">Chariot</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_terrestre"/>
+        </record>
+
+        <record id="moyen_coche" model="hr_custom.means_of_transport">
+            <field name="name">Coches</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_terrestre"/>
+        </record>
+
+        <record id="moyen_mont" model="hr_custom.means_of_transport">
+            <field name="name">Montures</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_terrestre"/>
+        </record>
+
+
+         <record id="moyen_bateau" model="hr_custom.means_of_transport">
+            <field name="name">Bateau fluvial</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_maritime"/>
+        </record>
+
+         <record id="moyen_navire" model="hr_custom.means_of_transport">
+            <field name="name">Navire</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_maritime"/>
+        </record>
+
+        <record id="moyen_avion" model="hr_custom.means_of_transport">
+            <field name="name">Avions</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_aérien"/>
+        </record>
+
+        <record id="moyen_helico" model="hr_custom.means_of_transport">
+            <field name="name">Hélicoptères</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_aérien"/>
+        </record>
+
+        <record id="moyen_spatial" model="hr_custom.means_of_transport">
+            <field name="name">Véhicule spatial</field>
+            <field name="mode_transport_id" ref="hr_custom.mode_spatial"/>
+        </record>
+    </data>
+</odoo>
