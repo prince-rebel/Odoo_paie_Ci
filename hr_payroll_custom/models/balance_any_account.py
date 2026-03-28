@@ -97,7 +97,7 @@ class PayrollBalanceAnyAccount(models.Model):
     @api.depends('employee_id')
     def get_employee_info(self):
         if self.employee_id:
-            hiring_date = self.employee_id.hiring_date
+            hiring_date = self.employee_id.hiring_date or (self.employee_id.version_id.date_start if self.employee_id.version_id else False)
             self.hiring_date = hiring_date
             self.date_return_last_holidays = self.employee_id.date_return_last_holidays
 
@@ -170,7 +170,7 @@ class PayrollBalanceAnyAccount(models.Model):
             if rec.employee_id:
                 gross_salary_leave = 0
                 gross_account_balance = 0
-                if rec.deposit_date > rec.end_date:
+                if rec.deposit_date and rec.deposit_date > rec.end_date:
                     raise ValidationError(_("La date de départ effective doit être supérieur à la date de dépôt de la "
                                     "lettre de démission. Merci de faire les corrections nécessaires."))
 
@@ -280,7 +280,7 @@ class PayrollBalanceAnyAccount(models.Model):
                                 val_indemnity = {
                                     'balance_any_account_id': rec.id,
                                     'name': 'Ancienneté de 5 à 10 ans',
-                                    'amount': ceil(self.average_gross * 0.35 * (seniority / 360))
+                                    'amount': ceil(rec.average_gross * 0.35 * (seniority / 360))
                                 }
                                 res_indemnity.append(val_indemnity)
                             if 3600 < rec.seniority:
@@ -526,7 +526,7 @@ class PayrollBalanceAnyAccount(models.Model):
 
                     # calcul des indemnités de congés
                     rec.gross_salary_leave += gross_salary_leave
-                    average_holiday_salary = rec.gross_salary_leave / days_presence
+                    average_holiday_salary = rec.gross_salary_leave / days_presence if days_presence else 0
                     vals_recap = {
                         'balance_any_account_id': rec.id,
                         'rule_id': rec.get_id_by_code('CONG'),
@@ -576,9 +576,9 @@ class PayrollBalanceAnyAccount(models.Model):
                     elif brut_mensuel <= 2400000:
                         its_mensuel = (brut_mensuel - 800000) * 0.24 + 144000
                     elif brut_mensuel <= 8000000:
-                        its_mensuel = (brut_mensuel - 2400000) * 0.28 + 527999
+                        its_mensuel = (brut_mensuel - 2400000) * 0.28 + 528000
                     else:
-                        its_mensuel = (brut_mensuel - 8000000) * 0.32 + 2095999
+                        its_mensuel = (brut_mensuel - 8000000) * 0.32 + 2096000
 
                     parts = rec.employee_id.part_igr or 1
                     if parts <= 1:
