@@ -296,11 +296,9 @@ class Statement301(models.Model):
 
     @api.depends('total_payroll', 'exercise_contribution', 'payments_already_made', 'commitment_on_plan')
     def compute_payment_to_be_made(self):
-        payment_to_be_made = self.exercise_contribution - (self.payments_already_made + self.commitment_on_plan)
-        if payment_to_be_made > 0:
-            self.payment_to_be_made = payment_to_be_made
-        else:
-            self.payment_to_be_made = 0
+        for rec in self:
+            payment_to_be_made = rec.exercise_contribution - (rec.payments_already_made + rec.commitment_on_plan)
+            rec.payment_to_be_made = max(0, payment_to_be_made)
 
 
 class Statement301Line(models.Model):
@@ -326,51 +324,52 @@ class Statement301Line(models.Model):
 
     @api.depends('natural_advantage_other', 'cash_advantage')
     def compute_total_gross(self):
-        total_gross = self.amount_brut_total + self.natural_advantage_software + self.natural_advantage_other + \
-                      self.cash_advantage
-        self.total_gross = total_gross
+        for rec in self:
+            total_gross = rec.amount_brut_total + rec.natural_advantage_software + rec.natural_advantage_other + \
+                          rec.cash_advantage
+            rec.total_gross = total_gross
 
-        # ITS unifié (réforme fiscale 2024 — fusion IS + CN + IGR)
-        # Calcul sur le brut mensuel moyen (total annuel / 12 mois)
-        brut_mensuel = total_gross / 12 if total_gross else 0
+            # ITS unifié (réforme fiscale 2024 — fusion IS + CN + IGR)
+            # Calcul sur le brut mensuel moyen (total annuel / 12 mois)
+            brut_mensuel = total_gross / 12 if total_gross else 0
 
-        if brut_mensuel < 75000:
-            its_mensuel = 0
-        elif brut_mensuel <= 240000:
-            its_mensuel = (brut_mensuel - 75000) * 0.16
-        elif brut_mensuel <= 800000:
-            its_mensuel = (brut_mensuel - 240000) * 0.21 + 26400
-        elif brut_mensuel <= 2400000:
-            its_mensuel = (brut_mensuel - 800000) * 0.24 + 144000
-        elif brut_mensuel <= 8000000:
-            its_mensuel = (brut_mensuel - 2400000) * 0.28 + 527999
-        else:
-            its_mensuel = (brut_mensuel - 8000000) * 0.32 + 2095999
+            if brut_mensuel < 75000:
+                its_mensuel = 0
+            elif brut_mensuel <= 240000:
+                its_mensuel = (brut_mensuel - 75000) * 0.16
+            elif brut_mensuel <= 800000:
+                its_mensuel = (brut_mensuel - 240000) * 0.21 + 26400
+            elif brut_mensuel <= 2400000:
+                its_mensuel = (brut_mensuel - 800000) * 0.24 + 144000
+            elif brut_mensuel <= 8000000:
+                its_mensuel = (brut_mensuel - 2400000) * 0.28 + 528000
+            else:
+                its_mensuel = (brut_mensuel - 8000000) * 0.32 + 2096000
 
-        parts = self.employee_id.part_igr or 1
-        if parts <= 1:
-            reduction = 0
-        elif parts <= 1.5:
-            reduction = 5500
-        elif parts <= 2:
-            reduction = 11000
-        elif parts <= 2.5:
-            reduction = 16500
-        elif parts <= 3:
-            reduction = 22000
-        elif parts <= 3.5:
-            reduction = 27500
-        elif parts <= 4:
-            reduction = 33000
-        elif parts <= 4.5:
-            reduction = 38500
-        else:
-            reduction = 44000
+            parts = rec.employee_id.part_igr or 1
+            if parts <= 1:
+                reduction = 0
+            elif parts <= 1.5:
+                reduction = 5500
+            elif parts <= 2:
+                reduction = 11000
+            elif parts <= 2.5:
+                reduction = 16500
+            elif parts <= 3:
+                reduction = 22000
+            elif parts <= 3.5:
+                reduction = 27500
+            elif parts <= 4:
+                reduction = 33000
+            elif parts <= 4.5:
+                reduction = 38500
+            else:
+                reduction = 44000
 
-        self.amount_is = round(max(0, its_mensuel - reduction) * 12)
-        # CN et IGR supprimés — fusionnés dans ITS
-        self.amount_cn = 0
-        self.amount_igr = 0
+            rec.amount_is = round(max(0, its_mensuel - reduction) * 12)
+            # CN et IGR supprimés — fusionnés dans ITS
+            rec.amount_cn = 0
+            rec.amount_igr = 0
 
 
 class Statement301Versement(models.Model):
