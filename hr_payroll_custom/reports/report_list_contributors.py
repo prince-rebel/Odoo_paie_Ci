@@ -68,7 +68,7 @@ class ListContributors(models.AbstractModel):
             sheet.write(row, 0, line.employee_id.identification_cnps if line.employee_id.identification_cnps else '',
                         content_format)
             sheet.write(row, 1, line.employee_id.name, content_format)
-            sheet.write(row, 2, line.employee_id.first_name, content_format)
+            sheet.write(row, 2, line.employee_id.first_name or '', content_format)
             sheet.write(row, 3, str(line.employee_id.birthday.year) if line.employee_id.birthday else '',
                         content_format)
             sheet.write(row, 4,

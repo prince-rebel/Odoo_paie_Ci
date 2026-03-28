@@ -81,7 +81,7 @@ class ReportListCntributorsDisa(models.AbstractModel):
             col = 0
             sheet.write(row, col, line.employee_id.identification_id, content_format)
             sheet.write(row, col + 1, line.employee_id.name, content_format)
-            sheet.write(row, col + 2, line.employee_id.first_name, content_format)
+            sheet.write(row, col + 2, line.employee_id.first_name or '', content_format)
             sheet.write(row, col + 3, line.num_cnps, content_format)
             sheet.write(row, col + 4, line.birthday, content_format)
             sheet.write(row, col + 5, line.hiring_date, content_format)

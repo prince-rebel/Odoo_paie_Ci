@@ -115,7 +115,7 @@ class SalaryVariationEmployee(models.AbstractModel):
             col = 0
             sheet.write(row, col, number, string_format)
             sheet.write(row, col + 1, elt['identification_id'], string_format)
-            sheet.write(row, col + 2, elt['name'] + ' ' + elt['first_name'], string_format)
+            sheet.write(row, col + 2, (elt['name'] or '') + ' ' + (elt['first_name'] or ''), string_format)
             col += 3
             for line in elt['data']:
                 sheet.write(row, col, line['last_month'], content_format)
