@@ -15,6 +15,7 @@
         'data/hr_payroll_structure_data.xml',
         'data/hr_salary_rule_category_data.xml',
         'data/hr_salary_rule_data.xml',
+        'data/hr_payslip_input_type_data.xml',
 
         'wizards/payroll_variables_wizard_view.xml',
         'wizards/benefits_in_kind_301_view.xml',

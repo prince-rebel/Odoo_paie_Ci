@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <record id="input_type_trsp" model="hr.payslip.input.type">
+            <field name="name">Transport</field>
+            <field name="code">TRSP</field>
+        </record>
+
+        <record id="input_type_trsp_imp" model="hr.payslip.input.type">
+            <field name="name">Transport imposable</field>
+            <field name="code">TRSP_IMP</field>
+        </record>
+
+        <record id="input_type_asm" model="hr.payslip.input.type">
+            <field name="name">Assurance maladie</field>
+            <field name="code">ASM</field>
+        </record>
+
+        <record id="input_type_cmu" model="hr.payslip.input.type">
+            <field name="name">Mutuelle CMU</field>
+            <field name="code">CMU</field>
+        </record>
+
+        <record id="input_type_avs" model="hr.payslip.input.type">
+            <field name="name">Avance sur salaire</field>
+            <field name="code">AVS</field>
+        </record>
+
+        <record id="input_type_divers" model="hr.payslip.input.type">
+            <field name="name">Divers remboursements</field>
+            <field name="code">DIVERS</field>
+        </record>
+
+        <record id="input_type_sypesca" model="hr.payslip.input.type">
+            <field name="name">Retenue SYPESCA</field>
+            <field name="code">SYPESCA</field>
+        </record>
+
+        <record id="input_type_base" model="hr.payslip.input.type">
+            <field name="name">Base salariale input</field>
+            <field name="code">BASE</field>
+        </record>
+
+        <record id="input_type_sursa" model="hr.payslip.input.type">
+            <field name="name">Sursalaire input</field>
+            <field name="code">SURSA</field>
+        </record>
+
+    </data>
+</odoo>
