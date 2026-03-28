@@ -103,68 +103,43 @@ class HrPayslip(models.Model):
     @api.depends('employee_id', 'version_id', 'struct_id', 'date_from', 'date_to')
     def _compute_input_line_ids(self):
         for slip in self:
-            record = super(HrPayslip, self)._compute_input_line_ids()
-            if slip.version_id and slip.version_id.fixed_premiums_ids and slip.employee_id and slip.struct_id:
-                res = slip.input_line_ids.browse([])
-                payroll_input = []
-                for line in slip.input_line_ids:
-                    res += line
-                slip.input_line_ids = False
-                bonus_legal = slip.employee_id.company_id.bonus_transport
-                for fixed_premium in slip.version_id.fixed_premiums_ids:
+            super(HrPayslip, slip)._compute_input_line_ids()
+            if not (slip.version_id and slip.version_id.fixed_premiums_ids):
+                slip.input_line_ids = slip.input_line_ids.browse([])
+                continue
 
-                    if fixed_premium.input_type_id.code == 'TRSP' and fixed_premium.amount > bonus_legal:
-                        vals = {
-                            'name': fixed_premium.input_type_id.name,
-                            'amount': bonus_legal,
-                            'input_type_id': fixed_premium.input_type_id.id
-                        }
-                        payroll_input.append(vals)
+            # Partir d'un recordset vide — uniquement les primes fixes de la fiche employé
+            res = slip.input_line_ids.browse([])
+            payroll_input = []
+            bonus_legal = slip.employee_id.company_id.bonus_transport
 
-                        input_type_rec = self.env['hr.payslip.input.type'].search([('code', '=', 'TRSP_IMP')], limit=1)
-                        if not input_type_rec:
-                            raise ValidationError(
-                                _("Vous devez définir la prime de transport imposable avec le code 'TRSP_IMP' dans "
-                                  "les autres entrées. Merci de contacter un administratreur si vous n'avez pas la "
-                                  "possibilité de le faire."))
-                        vals = {
-                            'name': input_type_rec.name,
-                            'amount': fixed_premium.amount - bonus_legal,
-                            'input_type_id': input_type_rec.id
-                        }
-                        payroll_input.append(vals)
-                        continue
-
-                    vals = {
+            for fixed_premium in slip.version_id.fixed_premiums_ids:
+                if fixed_premium.input_type_id.code == 'TRSP' and fixed_premium.amount > bonus_legal:
+                    payroll_input.append({
+                        'name': fixed_premium.input_type_id.name,
+                        'amount': bonus_legal,
+                        'input_type_id': fixed_premium.input_type_id.id
+                    })
+                    input_type_rec = self.env['hr.payslip.input.type'].search([('code', '=', 'TRSP_IMP')], limit=1)
+                    if not input_type_rec:
+                        raise ValidationError(
+                            _("Vous devez définir la prime de transport imposable avec le code 'TRSP_IMP' dans "
+                              "les autres entrées. Merci de contacter un administrateur."))
+                    payroll_input.append({
+                        'name': input_type_rec.name,
+                        'amount': fixed_premium.amount - bonus_legal,
+                        'input_type_id': input_type_rec.id
+                    })
+                else:
+                    payroll_input.append({
                         'name': fixed_premium.input_type_id.name,
                         'amount': fixed_premium.amount,
                         'input_type_id': fixed_premium.input_type_id.id
-                    }
+                    })
 
-                    payroll_input.append(vals)
-
-                # Récupérer les salaires categories et le sursalaire
-                input_contract = ['BASE', 'SURSA']
-                for rubric in input_contract:
-                    input_type_rec = self.env['hr.payslip.input.type'].search([('code', '=', rubric)], limit=1)
-                    if not input_type_rec:
-                        raise ValidationError(
-                            _(f"Les Types d'entrée salaire de base ou sursalaire ne sont pas définis. Merci de faire "
-                              f"le nécessaire ou de contacter un administrateur"))
-                    vals_category_salary = {
-                        'name': input_type_rec.name,
-                        'amount': slip.version_id.wage if rubric == 'BASE' else slip.version_id.extra_pay,
-                        'input_type_id': input_type_rec.id
-                    }
-                    payroll_input.append(vals_category_salary)
-
-                for dico in payroll_input:
-                    res += res.new(dico)
-                slip.input_line_ids = res
-            else:
-                slip.input_line_ids = False
-
-            return record
+            for dico in payroll_input:
+                res += res.new(dico)
+            slip.input_line_ids = res
 
     def getDatabyCode(self, code, line_ids, field_name):
         amount = 0
