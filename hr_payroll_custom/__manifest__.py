@@ -66,7 +66,6 @@
         'reports/report_view.xml',
 
     ],
-    'demo': [],
     'installable': True,
     'application': True,
     'auto_install': False

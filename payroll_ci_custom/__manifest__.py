@@ -55,7 +55,6 @@ Barème ITS 2025 :
         'views/hr_contract_views.xml',
         'security/ir.model.access.csv',
     ],
-    'demo': [],
     'installable': True,
     'application': False,
     'auto_install': False,
