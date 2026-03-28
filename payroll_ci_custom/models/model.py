@@ -9,15 +9,6 @@ _logger = logging.getLogger(__name__)
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    cmu_contributor = fields.Selection([
-        ('full_contribution', 'Cotisation complète (100%)'),
-        ('supported_fifty', 'Prise en charge 50%'),
-        ('fully_supported', 'Prise en charge totale par l\'employeur'),
-        ('do_not_contribute', 'Ne cotise pas'),
-    ], string='Contribution CMU',
-       default='full_contribution',
-       help="Détermine qui prend en charge la CMU")
-
     part_cmu = fields.Integer(
         "Nombre de part CMU",
         compute="_get_nb_part_cmu",
@@ -130,9 +121,9 @@ class HrVersion(models.Model):
         elif brut_imposable <= 2400000:
             its_brut = (brut_imposable - 800000) * 0.24 + 144000
         elif brut_imposable <= 8000000:
-            its_brut = (brut_imposable - 2400000) * 0.28 + 527999
+            its_brut = (brut_imposable - 2400000) * 0.28 + 528000
         else:
-            its_brut = (brut_imposable - 8000000) * 0.32 + 2095999
+            its_brut = (brut_imposable - 8000000) * 0.32 + 2096000
         
         # Réduction selon parts
         reductions = {
@@ -153,7 +144,7 @@ class HrVersion(models.Model):
             return 0
         cmu_contributor = getattr(employee, 'cmu_contributor', 'full_contribution')
         if cmu_contributor == 'supported_fifty':
-            return employee.part_cmu * 500
+            return 500
         return 0
     
     def _get_primes_fixes(self, worked_days=30):
@@ -304,7 +295,7 @@ class HrVersion(models.Model):
             # Vérification convergence
             if abs(ecart) <= tolerance:
                 _logger.info(f"✓ Convergence atteinte à iter {iteration + 1}, écart={ecart:.2f}")
-                return round(sursalaire_test, 0)
+                return int(round(sursalaire_test))
             
             # Ajustement bornes
             if ecart < 0:  # Net trop petit → augmenter sursalaire
@@ -322,7 +313,7 @@ class HrVersion(models.Model):
             f"Meilleur sursalaire: {best_sursalaire:.2f}, écart: {best_ecart:.2f}"
         )
         
-        return round(best_sursalaire, 0)
+        return int(round(best_sursalaire))
     
     @api.depends('wage', 'extra_pay', 'employee_id', 'employee_id.seniority_employee',
                  'employee_id.part_igr', 'employee_id.part_cmu',

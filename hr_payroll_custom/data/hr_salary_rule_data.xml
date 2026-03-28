@@ -335,9 +335,9 @@ elif BRUT <= 800000:
 elif BRUT <= 2400000:
     result1 = (BRUT - 800000) * 0.24 + 144000
 elif BRUT <= 8000000:
-    result1 = (BRUT - 2400000) * 0.28 + 527999
+    result1 = (BRUT - 2400000) * 0.28 + 528000
 else:
-    result1 = (BRUT - 8000000) * 0.32 + 2095999
+    result1 = (BRUT - 8000000) * 0.32 + 2096000
 parts = employee.part_igr
 
 if parts == 1:
