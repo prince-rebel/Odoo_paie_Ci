@@ -44,8 +44,8 @@ Barème ITS 2025 :
 * 2 400 001 à 8 000 000 : 28%
 * Au-delà de 8 000 000 : 32%
     """,
-    'author': 'Votre Entreprise',
-    'website': 'https://www.votresite.com',
+    'author': 'Traore Djakaridja',
+    'website': 'https://github.com/prince-rebel',
     'depends': [
         'hr',
         'hr_payroll',
