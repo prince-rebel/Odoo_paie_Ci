@@ -2,15 +2,12 @@
 <odoo>
     <data>
 
-        <record id="action_report_payslip" model="ir.actions.report">
+        <!-- Remplace l'action d'impression par défaut d'Odoo pour utiliser notre bulletin CI -->
+        <record id="hr_payroll.action_report_payslip" model="ir.actions.report">
             <field name="name">Bulletin</field>
-            <field name="model">hr.payslip</field>
-            <field name="report_type">qweb-pdf</field>
             <field name="report_name">hr_payroll_custom.report_payslip</field>
             <field name="report_file">hr_payroll_custom.report_payslip</field>
             <field name="print_report_name">"'Bulletin - %s' % (object.employee_id.name)"</field>
-            <field name="binding_model_id" ref="model_hr_payslip"/>
-            <field name="binding_type">report</field>
         </record>
 
         <record id="action_pay_book_xls" model="ir.actions.report">
