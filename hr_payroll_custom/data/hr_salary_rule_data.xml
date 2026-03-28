@@ -170,17 +170,10 @@ result = inputs['GRATIF'].amount
             <field name="category_id" ref="cat_o_total"/>
             <field name="appears_on_payslip" eval="False"/>
             <field name="condition_select">python</field>
-            <field name="condition_python"><![CDATA[result = bool(rules.get('BASE')) or bool(rules.get('SURSA'))]]></field>
+            <field name="condition_python"><![CDATA[result = bool(BASE) or bool(SURSA)]]></field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-temp = 0
-base_info = rules.get('BASE')
-if base_info:
-    temp += base_info.get('total', 0)
-sursa_info = rules.get('SURSA')
-if sursa_info:
-    temp += sursa_info.get('total', 0)
-result = temp / 173.33
+result = (BASE + SURSA) / 173.33
             ]]></field>
         </record>
 
@@ -270,17 +263,7 @@ result = (inputs.get("REIMBURSEMENT") or 0).amount
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-temp = 0
-base_info = rules.get('BASE')
-if base_info:
-    temp += round(base_info.get('total', 0))
-sursa_info = rules.get('SURSA')
-if sursa_info:
-    temp += round(sursa_info.get('total', 0))
-panc_info = rules.get('PANC')
-if panc_info:
-    temp += round(panc_info.get('total', 0))
-result = temp
+result = round(BASE) + round(SURSA) + round(PANC)
             ]]></field>
         </record>
 
