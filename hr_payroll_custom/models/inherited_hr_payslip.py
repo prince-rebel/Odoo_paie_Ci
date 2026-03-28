@@ -9,15 +9,15 @@ _logger = logging.getLogger(__name__)
 
 
 def get_marital_status_translate(marital):
-    if marital == 'Single':
+    if marital == 'single':
         return 'Célibataire'
-    elif marital == 'Married':
+    elif marital == 'married':
         return 'Marié(e)'
-    elif marital == 'Legal Cohabitant':
+    elif marital == 'cohabitant':
         return 'Cohabitant légal'
-    elif marital == 'Widower':
+    elif marital == 'widower':
         return 'Veuf(ve)'
-    elif marital == 'Divorced':
+    elif marital == 'divorced':
         return 'Divorcé(e)'
     else:
         return "Indéfini"
@@ -39,12 +39,12 @@ class HrPayslip(models.Model):
     @api.depends('version_id')
     def _get_anciennete(self):
         for slip in self:
-            if not slip.employee_id.hiring_date or not slip.date_to:
+            start_date = slip.employee_id.hiring_date or (slip.version_id.date_start if slip.version_id else None)
+            if not start_date or not slip.date_to:
                 slip.update({'slip_seniority_year': 0, 'slip_seniority_month': 0})
                 continue
             # En Odoo 19, date_to est un champ Date — pas besoin de from_string()
             end_date = slip.date_to
-            start_date = slip.employee_id.hiring_date
             tmp = relativedelta.relativedelta(end_date, start_date)
             slip.update({
                 'slip_seniority_year': tmp.years,
@@ -211,16 +211,10 @@ class HrPayslip(models.Model):
                 matricule = rec.employee_id.identification_cnps
 
             if rec.state in ('validated', 'paid'):
-                sel = rec._fields['marital_status'].selection
-                sel_list = sel(rec) if callable(sel) else sel
-                marital_status = dict(sel_list).get(rec.marital_status)
-                marital_status = get_marital_status_translate(marital_status)
+                marital_status = get_marital_status_translate(rec.marital_status)
                 igr_part = rec.igr_part
             else:
-                sel = rec.employee_id._fields['marital'].selection
-                sel_list = sel(rec.employee_id) if callable(sel) else sel
-                marital_status = dict(sel_list).get(rec.employee_id.marital)
-                marital_status = get_marital_status_translate(marital_status)
+                marital_status = get_marital_status_translate(rec.employee_id.marital)
                 igr_part = rec.employee_id.part_igr
 
             vals_dp = {
@@ -232,7 +226,7 @@ class HrPayslip(models.Model):
                 'nationality': rec.employee_id.country_id.nationality if rec.employee_id.country_id else '',
                 'birthday': rec.employee_id.birthday.strftime("%d/%m/%Y") if rec.employee_id.birthday else '',
                 'marital_status': marital_status,
-                'hiring_date': rec.employee_id.hiring_date.strftime("%d/%m/%Y") if rec.employee_id.hiring_date else '',
+                'hiring_date': (lambda d: d.strftime("%d/%m/%Y") if d else '')(rec.employee_id.hiring_date or (rec.version_id.date_start if rec.version_id else None)),
                 'slip_seniority_year': rec.slip_seniority_year if rec.slip_seniority_year != 0 else 0,
                 'slip_seniority_month': rec.slip_seniority_month if rec.slip_seniority_month != 0 else 0,
                 'department': rec.employee_id.department_id.name,
