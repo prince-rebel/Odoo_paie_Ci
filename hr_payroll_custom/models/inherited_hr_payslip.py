@@ -226,7 +226,7 @@ class HrPayslip(models.Model):
             vals_dp = {
                 'identification_id': rec.employee_id.identification_id,
                 'categorie_salariale': rec.version_id.salary_category_id.name if rec.version_id else '',
-                'employee_name': rec.employee_id.name + ' ' + rec.employee_id.first_name,
+                'employee_name': (rec.employee_id.name or '') + ' ' + (rec.employee_id.first_name or ''),
                 'igr_part': igr_part,
                 'zip': rec.employee_id.address_id.zip,
                 'nationality': rec.employee_id.country_id.nationality if rec.employee_id.country_id else '',
@@ -574,7 +574,7 @@ class HrPayslip(models.Model):
             if not date_payment_last_holiday:
                 raise ValidationError(
                     _(f"Vous devez définir la date d'embauche de l'employé {rec.employee_id.identification_id} / "
-                      f"{rec.employee_id.name} {rec.employee_id.first_name}"))
+                      f"{rec.employee_id.name or ''} {rec.employee_id.first_name or ''}"))
             if date_payment_last_holiday <= system_implementation_date:
                 days_since_last_leave = rec.employee_id.days_worked_since_last_leave
                 days_since_last_leave += rec.cumulBYCode(rec.employee_id.id, 'WORK100', system_implementation_date,
