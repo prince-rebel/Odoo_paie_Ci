@@ -39,7 +39,7 @@ result = payslip.paid_amount
             <field name="condition_python"><![CDATA[result = worked_days['WORK100'].number_of_days if 'WORK100' in worked_days else False]]></field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-result = (payslip.date_to - payslip.date_from).days + 1
+result = min((payslip.date_to - payslip.date_from).days + 1, 30)
             ]]></field>
         </record>
 
