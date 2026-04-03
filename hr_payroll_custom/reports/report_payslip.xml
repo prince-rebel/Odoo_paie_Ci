@@ -3,6 +3,15 @@
     <data>
         <template id="hr_payroll_custom.employee_infos">
             <table id="table header_part2" class="act_as_table">
+                <tr style="background-color: #e6eceb;">
+                    <td colspan="2" style="font-size: 20px; font-weight: bold; font-style: italic; text-align: center; border: 1px solid gray;">
+                        BULLETIN DE PAIE
+                    </td>
+                    <td colspan="3" style="text-align: center; border: 1px solid gray;">
+                        <strong>Période de paie</strong><br/>
+                        Du : <span t-field="o.date_from"/> &#160; Au : <span t-field="o.date_to"/>
+                    </td>
+                </tr>
             <tr style="border: solid gray 1px; background-color: #f0f0f0;">
                     <td colspan="5">
                         <table width="100%" style="border: none;">
