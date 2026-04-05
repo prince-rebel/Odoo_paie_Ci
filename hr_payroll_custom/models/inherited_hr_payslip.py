@@ -194,7 +194,7 @@ class HrPayslip(models.Model):
 
             vals_dp = {
                 'identification_id': rec.employee_id.identification_id,
-                'categorie_salariale': rec.version_id.salary_category_id.name if rec.version_id else '',
+                'categorie_salariale': (rec.version_id.salary_category_id.name or rec.employee_id.salary_category_id.name or ''),
                 'employee_name': (rec.employee_id.name or '') + ' ' + (rec.employee_id.first_name or ''),
                 'igr_part': igr_part,
                 'zip': rec.employee_id.address_id.zip,
