@@ -2,126 +2,86 @@
 <odoo>
     <data>
         <template id="hr_payroll_custom.employee_infos">
-            <table id="table header_part2" class="act_as_table">
-                <tr style="background-color: #e6eceb;">
-                    <td colspan="2" style="font-size: 20px; font-weight: bold; font-style: italic; text-align: center; border: 1px solid gray;">
-                        BULLETIN DE PAIE
-                    </td>
-                    <td colspan="3" style="text-align: center; border: 1px solid gray;">
-                        <strong>Période de paie</strong><br/>
-                        Du : <span t-field="o.date_from"/> &#160; Au : <span t-field="o.date_to"/>
-                    </td>
-                </tr>
-            <tr style="border: solid gray 1px; background-color: #f0f0f0;">
-                    <td colspan="5">
-                        <table width="100%" style="border: none;">
-                            <tr>
-                                <!-- Logo à gauche -->
-                                <td style="width: 25%; vertical-align: top;">
-                                    <img t-if="o.company_id.logo"
-                                        t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
-                                        style="max-height: 80px; max-width: 100px;" />
-                                </td>
-                                <!-- Infos société à droite -->
-                                <td style="width: 75%; text-align: left; vertical-align: top;">
-                                    <strong><span t-out="o.company_id.name"/></strong><br/>
-                                    <span t-out="o.company_id.phone or ''"/><br/>
-                                    <span t-out="o.company_id.email or ''"/><br/>
-                                    CNPS EMPLOYEUR    <span t-out="o.company_id.employer_identification_cnps or ''"/><br/>
-                                  
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <t t-foreach="o.get_personnal_info()" t-as="dp">
-                    <tr style="border: solid gray 1px;">
-                        <td id="colpart1">Matricule</td>
-                        <td id="colpart2" style="border-right:solid gray 1px;">
-                            <span t-out="dp['identification_id']"/>
-                        </td>
-                        <td id="colpart4" colspan="3" style="border-right: solid gray 1px;background-color: #e6eceb;">
-                            <center>NOM ET PRENOMS</center>
-                        </td>
-                    </tr>
-                    <tr style="border-top: solid gray 1px;border-left: solid gray 1px;">
-                        <td id="colpart1" style="border-bottom: solid gray 1px;">Catégorie</td>
-                        <td id="colpart2" style="border-bottom: solid gray 1px;border-right: solid gray 1px;">
-                            <span t-out="dp['categorie_salariale']"/>
-                        </td>
-                        <td id="colpart6" colspan="3" style="border-right: solid gray 1px;">
-                            <center>
-                                <strong>
-                                    <span t-out="dp['employee_name']"/>
-                                </strong>
-                            </center>
-                        </td>
-                    </tr>
-                    <tr style="border-left: solid gray 1px;border-bottom: solid gray 1px;">
-                        <td id="colpart1">Part IGR</td>
-                        <td id="colpart2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['igr_part']"/>
-                        </td>
-                        <td id="colpart3" align="center" colspan="3" style="border-right: solid gray 1px;">
-                            <span t-out="dp['zip']"/>
-                        </td>
-                    </tr>
-                    <tr style="border-left: solid gray 1px;border-bottom: solid gray 1px;">
-                        <td id="colpart1">Nombre de mois</td>
-                        <td id="colpart2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['mois_travailles']"/>
-                        </td>
-                       
-                    </tr>
-                    <tr style="border: solid gray 1px;">
-                        <td id="colpart1">Nationalité</td>
-                        <td id="colpart2" style="border-right:solid gray 1px;">
-                            <span t-out="dp['nationality']"/>
-                        </td>
-                        <td id="colpart1">Date de naissance</td>
-                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['birthday']"/>
-                        </td>
-                    </tr>
-                    <tr style="border: solid gray 1px;">
-                        <td id="colpart1">Situation matrimoniale</td>
-                        <td id="colpart2" style="border-right:solid gray 1px;">
-                            <span t-out="dp['marital_status']"/>
-                        </td>
-                        <td id="colpart1">Date d'embauche</td>
-                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['hiring_date']"/>
-                        </td>
-                    </tr>
-                    <tr style="border: solid gray 1px;">
-                        <td id="colpart1">Ancienneté</td>
-                        <td id="colpart2" style="border-right:solid gray 1px;">
-                            <t t-if="dp['slip_seniority_year'] > 0">
-                                <span t-out="dp['slip_seniority_year']"/>
-                                ans
+            <t t-foreach="o.get_personnal_info()" t-as="dp">
+                <table style="width:100%; border-collapse:collapse; font-size:11px;">
+                    <!-- LIGNE 1 : Logo + infos société (rowspan 4) | Titre Bulletin + Nom + Adresse employé -->
+                    <tr>
+                        <td rowspan="4" style="width:28%; border:1px solid gray; vertical-align:top; padding:6px; text-align:center;">
+                            <t t-if="o.company_id.logo">
+                                <img t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
+                                     style="max-height:70px; max-width:110px; display:block; margin:0 auto 4px auto;"/>
                             </t>
-                            <span t-out="dp['slip_seniority_month']"/>
-                            mois
+                            <strong><span t-out="o.company_id.name"/></strong><br/>
+                            <span t-out="o.company_id.street or ''"/><br/>
+                            <span t-out="o.company_id.phone or ''"/>
                         </td>
-                        <td id="colpart1">Département</td>
-                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['department']"/>
-                        </td>
-                    </tr>
-                    <tr style="border: solid gray 1px;">
-                        <td id="colpart1">
-                            <span t-out="dp['employee_type']"/>
-                        </td>
-                        <td id="colpart2" style="border-right:solid gray 1px;">
-                            <span t-out="dp['matricule']"/>
-                        </td>
-                        <td id="colpart1">Emploi occupé</td>
-                        <td id="colpart2" colspan="2" style="border-right: solid gray 1px;">
-                            <span t-out="dp['job']"/>
+                        <td colspan="4" style="border:1px solid gray; padding:6px; vertical-align:top;">
+                            <div style="text-align:right; font-size:15px; font-weight:bold; letter-spacing:1px;">Bulletin de Paie</div>
+                            <div style="font-size:13px; font-weight:bold; margin-top:4px;">
+                                <span t-out="dp['employee_name']"/>
+                            </div>
+                            <div><span t-out="dp['zip']"/></div>
                         </td>
                     </tr>
-                </t>
-            </table>
+                    <!-- LIGNE 2 : Matricule | N° CNPS -->
+                    <tr>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            Matricule : <strong><span t-out="dp['identification_id']"/></strong>
+                        </td>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            <span t-out="dp['employee_type']"/> : <strong><span t-out="dp['matricule']"/></strong>
+                        </td>
+                    </tr>
+                    <!-- LIGNE 3 : Emploi | Catégorie -->
+                    <tr>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            Emploi : <strong><span t-out="dp['job']"/></strong>
+                        </td>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            Catégorie : <strong><span t-out="dp['categorie_salariale']"/></strong>
+                        </td>
+                    </tr>
+                    <!-- LIGNE 4 : Service | Contrat | Type -->
+                    <tr>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Service : <strong><span t-field="o.employee_id.service_id"/></strong>
+                        </td>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Contrat : <strong><span t-field="o.employee_id.nature_employe"/></strong>
+                        </td>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            Type : <strong><span t-field="o.version_id.contract_type_id"/></strong>
+                        </td>
+                    </tr>
+                    <!-- LIGNE 5 : Période de paie | Date d'embauche | Ancienneté -->
+                    <tr>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;">
+                            Période de Paie : du <strong><span t-field="o.date_from"/></strong> au <strong><span t-field="o.date_to"/></strong>
+                        </td>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Date d'embauche : <strong><span t-out="dp['hiring_date']"/></strong>
+                        </td>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Ancienneté : <strong>
+                                <t t-if="dp['slip_seniority_year'] > 0">
+                                    <span t-out="dp['slip_seniority_year']"/> ans
+                                </t>
+                                <span t-out="dp['slip_seniority_month']"/> mois
+                            </strong>
+                        </td>
+                    </tr>
+                    <!-- LIGNE 6 : Nombre de parts | Mode paiement -->
+                    <tr>
+                        <td colspan="2" style="border:1px solid gray; padding:3px;"></td>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Nombre de part : <strong><span t-out="dp['igr_part']"/></strong>
+                        </td>
+                        <td style="border:1px solid gray; padding:3px;">
+                            Mode Paiement : <strong><span t-field="o.employee_id.payment_method"/></strong>
+                        </td>
+                    </tr>
+                </table>
+            </t>
         </template>
 
         <template id="hr_payroll_custom.payslip_body">
