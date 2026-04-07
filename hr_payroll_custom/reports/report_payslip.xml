@@ -6,17 +6,17 @@
                 <table style="width:100%; border-collapse:collapse; font-size:11px;">
                     <!-- LIGNE 1 : Logo + infos société (rowspan 4) | Titre Bulletin + Nom + Adresse employé -->
                     <tr>
-                        <td rowspan="4" style="width:28%; border:1px solid gray; vertical-align:top; padding:6px; text-align:center;">
+                        <td rowspan="4" style="width:35%; border:1px solid gray; vertical-align:middle; padding:10px; text-align:center;">
                             <t t-if="o.company_id.logo">
                                 <img t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
-                                     style="max-height:70px; max-width:110px; display:block; margin:0 auto 4px auto;"/>
+                                     style="max-height:90px; max-width:150px; display:block; margin:0 auto 8px auto;"/>
                             </t>
-                            <strong><span t-out="o.company_id.name"/></strong><br/>
-                            <span t-out="o.company_id.street or ''"/><br/>
-                            <span t-out="o.company_id.phone or ''"/>
+                            <div style="font-size:13px;"><strong><span t-out="o.company_id.name"/></strong></div>
+                            <div style="font-size:11px; margin-top:3px;"><span t-out="o.company_id.street or ''"/></div>
+                            <div style="font-size:11px; margin-top:2px;"><span t-out="o.company_id.phone or ''"/></div>
                         </td>
                         <td colspan="4" style="border:1px solid gray; padding:6px; vertical-align:top;">
-                            <div style="text-align:right; font-size:15px; font-weight:bold; letter-spacing:1px;">Bulletin de Paie</div>
+                            <div style="text-align:right; font-size:20px; font-weight:bold; letter-spacing:2px; color:#1a5276;">Bulletin de Paie</div>
                             <div style="font-size:13px; font-weight:bold; margin-top:4px;">
                                 <span t-out="dp['employee_name']"/>
                             </div>
@@ -526,7 +526,6 @@
                                 }
                             </style>
                             <t t-call="hr_payroll_custom.employee_infos"/>
-                            <br/>
                             <t t-call="hr_payroll_custom.payslip_body"/>
                             <br/>
                             <t t-call="hr_payroll_custom.paysil_sum"/>
