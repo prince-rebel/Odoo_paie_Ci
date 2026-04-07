@@ -451,23 +451,22 @@
         </template>
 
         <template id="hr_payroll_custom.account">
-            <div id="container">
-                <div>
-                    <table>
-                        <tr id="account_head" style="display:inline-block;">
-                            <t t-if="o.employee_id.primary_bank_account_id">
+            <t t-if="o.employee_id.primary_bank_account_id">
+                <div id="container">
+                    <div>
+                        <table>
+                            <tr id="account_head" style="display:inline-block;">
                                 <th id="colpart9">
                                     <span t-field="o.employee_id.primary_bank_account_id.bank_id.name"/>
                                     <span t-field="o.employee_id.primary_bank_account_id.box_office_code"/>
                                     <span t-field="o.employee_id.primary_bank_account_id.acc_number"/>
                                     <span t-field="o.employee_id.primary_bank_account_id.rib"/>
                                 </th>
-                            </t>
-                        </tr>
-                    </table>
-
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </t>
         </template>
 
         <template id="hr_payroll_custom.report_payslip">
