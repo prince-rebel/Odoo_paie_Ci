@@ -96,7 +96,7 @@ result = min(1.00 * nb_jours / 30, 1.0)
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-hiring_date = employee.hiring_date
+hiring_date = employee.hiring_date or (version.date_start if version else None)
 if not hiring_date:
     result = 0
 else:
@@ -634,7 +634,7 @@ result = inputs.get('AVS').amount
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
 TRA = 25000
-trsp = inputs.get('TRSP')
+trsp = inputs.get('500')
 
 if trsp:
     TRA = trsp.amount * TX

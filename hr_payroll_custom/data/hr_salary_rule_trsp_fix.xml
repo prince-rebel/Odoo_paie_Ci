@@ -21,5 +21,29 @@ result = min(trsp_amount, bonus_legal) * TX
             ]]></field>
         </record>
 
+        <!-- Correction règle PANC : fallback sur version.date_start si employee.hiring_date absent -->
+        <record id="salary_rule_panc" model="hr.salary.rule">
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+hiring_date = employee.hiring_date or (version.date_start if version else None)
+if not hiring_date:
+    result = 0
+else:
+    payslip_date = payslip.date_from
+    years = payslip_date.year - hiring_date.year
+    if (payslip_date.month, payslip_date.day) < (hiring_date.month, hiring_date.day):
+        years -= 1
+    anciennete = years
+    salaire_categoriel = version.wage
+    if anciennete < 2:
+        taux = 0
+    else:
+        taux = 2 + int(anciennete - 2)
+        if taux > 25:
+            taux = 25
+    result = salaire_categoriel * (taux / 100)
+            ]]></field>
+        </record>
+
     </data>
 </odoo>
