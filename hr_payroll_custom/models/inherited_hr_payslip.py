@@ -103,35 +103,43 @@ class HrPayslip(models.Model):
     @api.depends('employee_id', 'version_id', 'struct_id', 'date_from', 'date_to')
     def _compute_input_line_ids(self):
         for slip in self:
+            # Récupère les inputs de base Odoo (congés, heures sup, etc.)
+            super(HrPayslip, slip)._compute_input_line_ids()
+
+            # Supprime le TRSP que super() ajoute (géré par la règle salariale)
+            res = slip.input_line_ids.filtered(
+                lambda l: l.input_type_id.code != 'TRSP'
+            )
+
             payroll_input = []
             bonus_legal = slip.employee_id.company_id.bonus_transport or 25000
 
             if slip.version_id and slip.version_id.fixed_premiums_ids:
-                for fixed_premium in slip.version_id.fixed_premiums_ids:
-                    # TRSP est géré directement par la règle salariale — ne pas injecter comme input
-                    if fixed_premium.input_type_id.code == 'TRSP':
-                        # Injecter TRSP_IMP uniquement si la prime dépasse le plafond légal
-                        if fixed_premium.amount > bonus_legal:
-                            input_type_rec = self.env['hr.payslip.input.type'].search(
+                for fp in slip.version_id.fixed_premiums_ids:
+                    if fp.input_type_id.code == 'TRSP':
+                        # Injecter TRSP_IMP uniquement si prime > plafond légal
+                        if fp.amount > bonus_legal:
+                            input_type_trsp_imp = self.env['hr.payslip.input.type'].search(
                                 [('code', '=', 'TRSP_IMP')], limit=1)
-                            if not input_type_rec:
+                            if not input_type_trsp_imp:
                                 raise ValidationError(
                                     _("Vous devez définir la prime de transport imposable avec le code "
                                       "'TRSP_IMP' dans les autres entrées. Merci de contacter un administrateur."))
                             payroll_input.append({
-                                'name': input_type_rec.name,
-                                'amount': fixed_premium.amount - bonus_legal,
-                                'input_type_id': input_type_rec.id
+                                'name': input_type_trsp_imp.name,
+                                'amount': fp.amount - bonus_legal,
+                                'input_type_id': input_type_trsp_imp.id
                             })
                     else:
                         payroll_input.append({
-                            'name': fixed_premium.input_type_id.name,
-                            'amount': fixed_premium.amount,
-                            'input_type_id': fixed_premium.input_type_id.id
+                            'name': fp.input_type_id.name,
+                            'amount': fp.amount,
+                            'input_type_id': fp.input_type_id.id
                         })
 
-            # (5, 0, 0) supprime tous les anciens, (0, 0, d) crée les nouveaux
-            slip.input_line_ids = [(5, 0, 0)] + [(0, 0, d) for d in payroll_input]
+            for dico in payroll_input:
+                res += res.new(dico)
+            slip.input_line_ids = res
 
     def _get_warnings_by_slip(self):
         warnings_by_slip = super()._get_warnings_by_slip()
