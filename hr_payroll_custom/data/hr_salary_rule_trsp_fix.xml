@@ -10,7 +10,7 @@
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
 trsp_amount = 0
-for fp in contract.fixed_premiums_ids:
+for fp in payslip.version_id.fixed_premiums_ids:
     if fp.input_type_id.code == 'TRSP':
         trsp_amount = fp.amount
         break
