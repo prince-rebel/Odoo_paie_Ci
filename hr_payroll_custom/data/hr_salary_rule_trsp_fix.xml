@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- noupdate="0" : force la mise à jour de la règle TRSP à chaque mise à jour du module -->
+    <data noupdate="0">
+
+        <!-- Correction règle Prime de transport : utilise le montant injecté via input_line_ids -->
+        <record id="salary_rule_trsp" model="hr.salary.rule">
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[result = 'TRSP' in inputs]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = inputs['TRSP'].amount * TX
+            ]]></field>
+        </record>
+
+    </data>
+</odoo>
