@@ -104,42 +104,71 @@ class HrPayslip(models.Model):
     def _compute_input_line_ids(self):
         for slip in self:
             super(HrPayslip, slip)._compute_input_line_ids()
-            if not (slip.version_id and slip.version_id.fixed_premiums_ids):
-                slip.input_line_ids = slip.input_line_ids.browse([])
-                continue
 
-            # Partir d'un recordset vide — uniquement les primes fixes de la fiche employé
             res = slip.input_line_ids.browse([])
             payroll_input = []
-            bonus_legal = slip.employee_id.company_id.bonus_transport
+            bonus_legal = slip.employee_id.company_id.bonus_transport or 25000
+            has_trsp = False
 
-            for fixed_premium in slip.version_id.fixed_premiums_ids:
-                if fixed_premium.input_type_id.code == 'TRSP' and fixed_premium.amount > bonus_legal:
+            if slip.version_id and slip.version_id.fixed_premiums_ids:
+                for fixed_premium in slip.version_id.fixed_premiums_ids:
+                    if fixed_premium.input_type_id.code == 'TRSP':
+                        has_trsp = True
+                        if fixed_premium.amount > bonus_legal:
+                            payroll_input.append({
+                                'name': fixed_premium.input_type_id.name,
+                                'amount': bonus_legal,
+                                'input_type_id': fixed_premium.input_type_id.id
+                            })
+                            input_type_rec = self.env['hr.payslip.input.type'].search(
+                                [('code', '=', 'TRSP_IMP')], limit=1)
+                            if not input_type_rec:
+                                raise ValidationError(
+                                    _("Vous devez définir la prime de transport imposable avec le code "
+                                      "'TRSP_IMP' dans les autres entrées. Merci de contacter un administrateur."))
+                            payroll_input.append({
+                                'name': input_type_rec.name,
+                                'amount': fixed_premium.amount - bonus_legal,
+                                'input_type_id': input_type_rec.id
+                            })
+                        else:
+                            payroll_input.append({
+                                'name': fixed_premium.input_type_id.name,
+                                'amount': fixed_premium.amount,
+                                'input_type_id': fixed_premium.input_type_id.id
+                            })
+                    else:
+                        payroll_input.append({
+                            'name': fixed_premium.input_type_id.name,
+                            'amount': fixed_premium.amount,
+                            'input_type_id': fixed_premium.input_type_id.id
+                        })
+
+            # Si aucun TRSP configuré dans les primes fixes, injecter le montant par défaut société
+            if not has_trsp:
+                input_type_trsp = self.env['hr.payslip.input.type'].search(
+                    [('code', '=', 'TRSP')], limit=1)
+                if input_type_trsp:
                     payroll_input.append({
-                        'name': fixed_premium.input_type_id.name,
+                        'name': input_type_trsp.name,
                         'amount': bonus_legal,
-                        'input_type_id': fixed_premium.input_type_id.id
-                    })
-                    input_type_rec = self.env['hr.payslip.input.type'].search([('code', '=', 'TRSP_IMP')], limit=1)
-                    if not input_type_rec:
-                        raise ValidationError(
-                            _("Vous devez définir la prime de transport imposable avec le code 'TRSP_IMP' dans "
-                              "les autres entrées. Merci de contacter un administrateur."))
-                    payroll_input.append({
-                        'name': input_type_rec.name,
-                        'amount': fixed_premium.amount - bonus_legal,
-                        'input_type_id': input_type_rec.id
-                    })
-                else:
-                    payroll_input.append({
-                        'name': fixed_premium.input_type_id.name,
-                        'amount': fixed_premium.amount,
-                        'input_type_id': fixed_premium.input_type_id.id
+                        'input_type_id': input_type_trsp.id
                     })
 
             for dico in payroll_input:
                 res += res.new(dico)
             slip.input_line_ids = res
+
+    def _get_warnings_by_slip(self):
+        warnings_by_slip = super()._get_warnings_by_slip()
+        # Supprimer l'avertissement compte bancaire pour les employés payés en espèces
+        for slip in self.filtered(lambda s: s.employee_id.payment_method == 'espece'):
+            if slip in warnings_by_slip:
+                warnings_by_slip[slip] = [
+                    w for w in warnings_by_slip[slip]
+                    if 'bank' not in w.get('message', '').lower()
+                ]
+        return warnings_by_slip
 
     def getDatabyCode(self, code, line_ids, field_name):
         amount = 0
