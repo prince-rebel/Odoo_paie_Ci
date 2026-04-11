@@ -105,18 +105,13 @@ class HrPayslip(models.Model):
         for slip in self:
             payroll_input = []
             bonus_legal = slip.employee_id.company_id.bonus_transport or 25000
-            has_trsp = False
 
             if slip.version_id and slip.version_id.fixed_premiums_ids:
                 for fixed_premium in slip.version_id.fixed_premiums_ids:
+                    # TRSP est géré directement par la règle salariale — ne pas injecter comme input
                     if fixed_premium.input_type_id.code == 'TRSP':
-                        has_trsp = True
+                        # Injecter TRSP_IMP uniquement si la prime dépasse le plafond légal
                         if fixed_premium.amount > bonus_legal:
-                            payroll_input.append({
-                                'name': fixed_premium.input_type_id.name,
-                                'amount': bonus_legal,
-                                'input_type_id': fixed_premium.input_type_id.id
-                            })
                             input_type_rec = self.env['hr.payslip.input.type'].search(
                                 [('code', '=', 'TRSP_IMP')], limit=1)
                             if not input_type_rec:
@@ -128,29 +123,12 @@ class HrPayslip(models.Model):
                                 'amount': fixed_premium.amount - bonus_legal,
                                 'input_type_id': input_type_rec.id
                             })
-                        else:
-                            payroll_input.append({
-                                'name': fixed_premium.input_type_id.name,
-                                'amount': fixed_premium.amount,
-                                'input_type_id': fixed_premium.input_type_id.id
-                            })
                     else:
                         payroll_input.append({
                             'name': fixed_premium.input_type_id.name,
                             'amount': fixed_premium.amount,
                             'input_type_id': fixed_premium.input_type_id.id
                         })
-
-            # Si aucun TRSP configuré dans les primes fixes, injecter le montant par défaut société
-            if not has_trsp:
-                input_type_trsp = self.env['hr.payslip.input.type'].search(
-                    [('code', '=', 'TRSP')], limit=1)
-                if input_type_trsp:
-                    payroll_input.append({
-                        'name': input_type_trsp.name,
-                        'amount': bonus_legal,
-                        'input_type_id': input_type_trsp.id
-                    })
 
             # (5, 0, 0) supprime tous les anciens, (0, 0, d) crée les nouveaux
             slip.input_line_ids = [(5, 0, 0)] + [(0, 0, d) for d in payroll_input]

@@ -3,13 +3,21 @@
     <!-- noupdate="0" : force la mise à jour de la règle TRSP à chaque mise à jour du module -->
     <data noupdate="0">
 
-        <!-- Correction règle Prime de transport : utilise le montant injecté via input_line_ids -->
+        <!-- Correction règle Prime de transport : calcule directement depuis les primes fixes du contrat -->
         <record id="salary_rule_trsp" model="hr.salary.rule">
             <field name="condition_select">python</field>
-            <field name="condition_python"><![CDATA[result = 'TRSP' in inputs]]></field>
+            <field name="condition_python"><![CDATA[result = True]]></field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-result = inputs['TRSP'].amount * TX
+trsp_amount = 0
+for fp in contract.fixed_premiums_ids:
+    if fp.input_type_id.code == 'TRSP':
+        trsp_amount = fp.amount
+        break
+bonus_legal = employee.company_id.bonus_transport or 30000
+if not trsp_amount:
+    trsp_amount = bonus_legal
+result = min(trsp_amount, bonus_legal) * TX
             ]]></field>
         </record>
 
