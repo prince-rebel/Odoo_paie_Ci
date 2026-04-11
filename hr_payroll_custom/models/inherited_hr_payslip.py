@@ -103,9 +103,6 @@ class HrPayslip(models.Model):
     @api.depends('employee_id', 'version_id', 'struct_id', 'date_from', 'date_to')
     def _compute_input_line_ids(self):
         for slip in self:
-            super(HrPayslip, slip)._compute_input_line_ids()
-
-            res = slip.input_line_ids.browse([])
             payroll_input = []
             bonus_legal = slip.employee_id.company_id.bonus_transport or 25000
             has_trsp = False
@@ -155,9 +152,8 @@ class HrPayslip(models.Model):
                         'input_type_id': input_type_trsp.id
                     })
 
-            for dico in payroll_input:
-                res += res.new(dico)
-            slip.input_line_ids = res
+            # (5, 0, 0) supprime tous les anciens, (0, 0, d) crée les nouveaux
+            slip.input_line_ids = [(5, 0, 0)] + [(0, 0, d) for d in payroll_input]
 
     def _get_warnings_by_slip(self):
         warnings_by_slip = super()._get_warnings_by_slip()
