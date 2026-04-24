@@ -1,0 +1,829 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data auto_sequence="1">
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3A – Tableau des mouvements des immobilisations brutes
+         Colonnes : Début exercice (N-1 cumul) | Fin exercice (N cumul)
+         Lignes : immo incorporelles, corporelles, financières
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3a" model="account.report">
+        <field name="name">Note 3A - Gross intangible and tangible asset movements</field>
+        <field name="name@fr">Note 3A - Immobilisations brutes (tableau des mouvements)</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="filter_journals" eval="True"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3a_col_start" model="account.report.column">
+                <field name="name">Opening balance (N-1)</field>
+                <field name="name@fr">Brut début exercice</field>
+                <field name="expression_label">balance_start</field>
+            </record>
+            <record id="l10n_ci_note_3a_col_end" model="account.report.column">
+                <field name="name">Closing balance (N)</field>
+                <field name="name@fr">Brut fin exercice</field>
+                <field name="expression_label">balance_end</field>
+            </record>
+        </field>
+        <field name="line_ids">
+
+            <!-- Immobilisations incorporelles -->
+            <record id="l10n_ci_note_3a_line_incorp" model="account.report.line">
+                <field name="name">Intangible assets</field>
+                <field name="name@fr">Immobilisations incorporelles</field>
+                <field name="code">CI_N3A_INCORP</field>
+                <field name="hierarchy_level" eval="1"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3a_line_incorp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">20 + 21</field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_incorp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">20 + 21</field>
+                    </record>
+                </field>
+                <field name="children_ids">
+                    <record id="l10n_ci_note_3a_line_dev" model="account.report.line">
+                        <field name="name">Development and prospecting costs (AE)</field>
+                        <field name="name@fr">Frais de développement et de prospection (AE)</field>
+                        <field name="code">CI_N3A_AE</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ae_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">2191 + 211 + 2181</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ae_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">2191 + 211 + 2181</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_brevets" model="account.report.line">
+                        <field name="name">Patents, licenses, software (AF)</field>
+                        <field name="name@fr">Brevets, licences, logiciels (AF)</field>
+                        <field name="code">CI_N3A_AF</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_af_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">2913 + 214 + 2193 + 212 + 213</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_af_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">2913 + 214 + 2193 + 212 + 213</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_fdc" model="account.report.line">
+                        <field name="name">Goodwill and leasehold rights (AG)</field>
+                        <field name="name@fr">Fonds commercial et droit au bail (AG)</field>
+                        <field name="code">CI_N3A_AG</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ag_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">215 + 216</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ag_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">215 + 216</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_autres_incorp" model="account.report.line">
+                        <field name="name">Other intangible assets (AH)</field>
+                        <field name="name@fr">Autres immobilisations incorporelles (AH)</field>
+                        <field name="code">CI_N3A_AH</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ah_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">2198 + 217 + 218\(2181)</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ah_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">2198 + 217 + 218\(2181)</field>
+                            </record>
+                        </field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Immobilisations corporelles -->
+            <record id="l10n_ci_note_3a_line_corp" model="account.report.line">
+                <field name="name">Tangible assets</field>
+                <field name="name@fr">Immobilisations corporelles</field>
+                <field name="code">CI_N3A_CORP</field>
+                <field name="hierarchy_level" eval="1"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3a_corp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">22 + 23 + 24 + 25</field>
+                    </record>
+                    <record id="l10n_ci_note_3a_corp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">22 + 23 + 24 + 25</field>
+                    </record>
+                </field>
+                <field name="children_ids">
+                    <record id="l10n_ci_note_3a_line_terrains" model="account.report.line">
+                        <field name="name">Land (AJ)</field>
+                        <field name="name@fr">Terrains (AJ)</field>
+                        <field name="code">CI_N3A_AJ</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_aj_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">22</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_aj_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">22</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_batiments" model="account.report.line">
+                        <field name="name">Buildings (AK)</field>
+                        <field name="name@fr">Bâtiments (AK)</field>
+                        <field name="code">CI_N3A_AK</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ak_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">2393 + 237 + 233 + 2391 + 231</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ak_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">2393 + 237 + 233 + 2391 + 231</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_amenagements" model="account.report.line">
+                        <field name="name">Fixtures and fittings (AL)</field>
+                        <field name="name@fr">Aménagements, agencements (AL)</field>
+                        <field name="code">CI_N3A_AL</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_al_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">2394 + 235 + 238 + 234 + 2395 + 2398 + 2392</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_al_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">2394 + 235 + 238 + 234 + 2395 + 2398 + 2392</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_materiel" model="account.report.line">
+                        <field name="name">Equipment, furniture and biological assets (AM)</field>
+                        <field name="name@fr">Matériel, mobilier et actifs biologiques (AM)</field>
+                        <field name="code">CI_N3A_AM</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_am_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">24\(245,2495)</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_am_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">24\(245,2495)</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_transport" model="account.report.line">
+                        <field name="name">Transport equipment (AN)</field>
+                        <field name="name@fr">Matériel de transport (AN)</field>
+                        <field name="code">CI_N3A_AN</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_an_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">245 + 2495</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_an_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">245 + 2495</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_avances" model="account.report.line">
+                        <field name="name">Advances on fixed assets (AP)</field>
+                        <field name="name@fr">Avances sur immobilisations (AP)</field>
+                        <field name="code">CI_N3A_AP</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ap_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">25</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ap_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">25</field>
+                            </record>
+                        </field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Immobilisations financières -->
+            <record id="l10n_ci_note_3a_line_fin" model="account.report.line">
+                <field name="name">Financial assets</field>
+                <field name="name@fr">Immobilisations financières</field>
+                <field name="code">CI_N3A_FIN</field>
+                <field name="hierarchy_level" eval="1"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3a_fin_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">26 + 27</field>
+                    </record>
+                    <record id="l10n_ci_note_3a_fin_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">26 + 27</field>
+                    </record>
+                </field>
+                <field name="children_ids">
+                    <record id="l10n_ci_note_3a_line_titres" model="account.report.line">
+                        <field name="name">Equity investments (AR)</field>
+                        <field name="name@fr">Titres de participation (AR)</field>
+                        <field name="code">CI_N3A_AR</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_ar_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">26</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_ar_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">26</field>
+                            </record>
+                        </field>
+                    </record>
+                    <record id="l10n_ci_note_3a_line_autres_fin" model="account.report.line">
+                        <field name="name">Other financial assets (AS)</field>
+                        <field name="name@fr">Autres immobilisations financières (AS)</field>
+                        <field name="code">CI_N3A_AS</field>
+                        <field name="groupby">account_id</field>
+                        <field name="foldable" eval="True"/>
+                        <field name="expression_ids">
+                            <record id="l10n_ci_note_3a_as_start" model="account.report.expression">
+                                <field name="label">balance_start</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">to_beginning_of_period</field>
+                                <field name="formula">27</field>
+                            </record>
+                            <record id="l10n_ci_note_3a_as_end" model="account.report.expression">
+                                <field name="label">balance_end</field>
+                                <field name="engine">account_codes</field>
+                                <field name="date_scope">from_beginning</field>
+                                <field name="formula">27</field>
+                            </record>
+                        </field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Total général -->
+            <record id="l10n_ci_note_3a_line_total" model="account.report.line">
+                <field name="name">TOTAL FIXED ASSETS</field>
+                <field name="name@fr">TOTAL ACTIF IMMOBILISÉ</field>
+                <field name="code">CI_N3A_TOTAL</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3a_total_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3A_INCORP.balance_start + CI_N3A_CORP.balance_start + CI_N3A_FIN.balance_start</field>
+                    </record>
+                    <record id="l10n_ci_note_3a_total_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3A_INCORP.balance_end + CI_N3A_CORP.balance_end + CI_N3A_FIN.balance_end</field>
+                    </record>
+                </field>
+            </record>
+
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3B – Biens pris en location-acquisition (crédit-bail)
+         Comptes 172 (dettes de location-acquisition)
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3b" model="account.report">
+        <field name="name">Note 3B - Finance lease assets</field>
+        <field name="name@fr">Note 3B - Biens pris en location-acquisition</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3b_col_start" model="account.report.column">
+                <field name="name">Opening (N-1)</field>
+                <field name="name@fr">Début exercice</field>
+                <field name="expression_label">balance_start</field>
+            </record>
+            <record id="l10n_ci_note_3b_col_end" model="account.report.column">
+                <field name="name">Closing (N)</field>
+                <field name="name@fr">Fin exercice</field>
+                <field name="expression_label">balance_end</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_3b_line_corp" model="account.report.line">
+                <field name="name">Tangible assets under finance lease</field>
+                <field name="name@fr">Immobilisations corporelles en location-acquisition</field>
+                <field name="code">CI_N3B_CORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3b_corp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">-172</field>
+                    </record>
+                    <record id="l10n_ci_note_3b_corp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">-172</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3C – Amortissements (tableau des mouvements)
+         Comptes 28x
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3c" model="account.report">
+        <field name="name">Note 3C - Accumulated depreciation movements</field>
+        <field name="name@fr">Note 3C - Amortissements (tableau des mouvements)</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3c_col_start" model="account.report.column">
+                <field name="name">Opening (N-1)</field>
+                <field name="name@fr">Début exercice</field>
+                <field name="expression_label">balance_start</field>
+            </record>
+            <record id="l10n_ci_note_3c_col_end" model="account.report.column">
+                <field name="name">Closing (N)</field>
+                <field name="name@fr">Fin exercice</field>
+                <field name="expression_label">balance_end</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_3c_line_incorp" model="account.report.line">
+                <field name="name">Amortization of intangible assets</field>
+                <field name="name@fr">Amortissements des immobilisations incorporelles</field>
+                <field name="code">CI_N3C_INCORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3c_incorp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">281</field>
+                    </record>
+                    <record id="l10n_ci_note_3c_incorp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">281</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_3c_line_corp" model="account.report.line">
+                <field name="name">Depreciation of tangible assets</field>
+                <field name="name@fr">Amortissements des immobilisations corporelles</field>
+                <field name="code">CI_N3C_CORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3c_corp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">282 + 283 + 284 + 285</field>
+                    </record>
+                    <record id="l10n_ci_note_3c_corp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">282 + 283 + 284 + 285</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_3c_line_total" model="account.report.line">
+                <field name="name">TOTAL DEPRECIATION</field>
+                <field name="name@fr">TOTAL AMORTISSEMENTS</field>
+                <field name="code">CI_N3C_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3c_total_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3C_INCORP.balance_start + CI_N3C_CORP.balance_start</field>
+                    </record>
+                    <record id="l10n_ci_note_3c_total_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3C_INCORP.balance_end + CI_N3C_CORP.balance_end</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3C BIS – Dépréciations des immobilisations
+         Comptes 29x
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3cbis" model="account.report">
+        <field name="name">Note 3C BIS - Impairment of fixed assets</field>
+        <field name="name@fr">Note 3C BIS - Dépréciations des immobilisations</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3cbis_col_start" model="account.report.column">
+                <field name="name">Opening (N-1)</field>
+                <field name="name@fr">Début exercice</field>
+                <field name="expression_label">balance_start</field>
+            </record>
+            <record id="l10n_ci_note_3cbis_col_end" model="account.report.column">
+                <field name="name">Closing (N)</field>
+                <field name="name@fr">Fin exercice</field>
+                <field name="expression_label">balance_end</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_3cbis_line_incorp" model="account.report.line">
+                <field name="name">Impairment of intangible assets</field>
+                <field name="name@fr">Dépréciations immobilisations incorporelles</field>
+                <field name="code">CI_N3CBIS_INCORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3cbis_incorp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">291</field>
+                    </record>
+                    <record id="l10n_ci_note_3cbis_incorp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">291</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_3cbis_line_corp" model="account.report.line">
+                <field name="name">Impairment of tangible assets</field>
+                <field name="name@fr">Dépréciations immobilisations corporelles</field>
+                <field name="code">CI_N3CBIS_CORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3cbis_corp_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">292 + 293 + 294 + 295</field>
+                    </record>
+                    <record id="l10n_ci_note_3cbis_corp_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">292 + 293 + 294 + 295</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_3cbis_line_fin" model="account.report.line">
+                <field name="name">Impairment of financial assets</field>
+                <field name="name@fr">Dépréciations immobilisations financières</field>
+                <field name="code">CI_N3CBIS_FIN</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3cbis_fin_start" model="account.report.expression">
+                        <field name="label">balance_start</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">296 + 297</field>
+                    </record>
+                    <record id="l10n_ci_note_3cbis_fin_end" model="account.report.expression">
+                        <field name="label">balance_end</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">296 + 297</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3D – Plus-values et moins-values de cession
+         Colonnes: Prix cession (82x) | Valeur comptable (81x) | Résultat
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3d" model="account.report">
+        <field name="name">Note 3D - Gains and losses on asset disposals</field>
+        <field name="name@fr">Note 3D - Plus-values et moins-values de cession d'immobilisations</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3d_col_price" model="account.report.column">
+                <field name="name">Proceeds</field>
+                <field name="name@fr">Prix de cession</field>
+                <field name="expression_label">proceeds</field>
+            </record>
+            <record id="l10n_ci_note_3d_col_bv" model="account.report.column">
+                <field name="name">Book value</field>
+                <field name="name@fr">Valeur comptable nette</field>
+                <field name="expression_label">book_value</field>
+            </record>
+            <record id="l10n_ci_note_3d_col_result" model="account.report.column">
+                <field name="name">Gain/Loss</field>
+                <field name="name@fr">Plus/Moins-value</field>
+                <field name="expression_label">balance</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_3d_line_incorp" model="account.report.line">
+                <field name="name">Intangible and tangible assets</field>
+                <field name="name@fr">Cessions immo incorporelles et corporelles</field>
+                <field name="code">CI_N3D_CORP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3d_corp_proc" model="account.report.expression">
+                        <field name="label">proceeds</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-82\(826)</field>
+                    </record>
+                    <record id="l10n_ci_note_3d_corp_bv" model="account.report.expression">
+                        <field name="label">book_value</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-81\(816)</field>
+                    </record>
+                    <record id="l10n_ci_note_3d_corp_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3D_CORP.proceeds + CI_N3D_CORP.book_value</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_3d_line_fin" model="account.report.line">
+                <field name="name">Financial assets</field>
+                <field name="name@fr">Cessions immo financières</field>
+                <field name="code">CI_N3D_FIN</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3d_fin_proc" model="account.report.expression">
+                        <field name="label">proceeds</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-826</field>
+                    </record>
+                    <record id="l10n_ci_note_3d_fin_bv" model="account.report.expression">
+                        <field name="label">book_value</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-816</field>
+                    </record>
+                    <record id="l10n_ci_note_3d_fin_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N3D_FIN.proceeds + CI_N3D_FIN.book_value</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 3E – Informations sur les réévaluations
+         Comptes 14x (écarts de réévaluation)
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_3e" model="account.report">
+        <field name="name">Note 3E - Revaluation information</field>
+        <field name="name@fr">Note 3E - Informations sur les réévaluations</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_3e_col_balance" model="account.report.column">
+                <field name="name">Balance</field>
+                <field name="name@fr">Montant</field>
+                <field name="expression_label">balance</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_3e_line_ecart" model="account.report.line">
+                <field name="name">Revaluation surplus (CE)</field>
+                <field name="name@fr">Écarts de réévaluation (CE)</field>
+                <field name="code">CI_N3E_ECART</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_3e_ecart_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">-106</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- ═══════════════════════════════════════════════════
+         NOTE 4 – Immobilisations financières et information sur les filiales
+         Comptes 26x, 27x avec détail des participations
+    ════════════════════════════════════════════════════════ -->
+    <record id="l10n_ci_note_4" model="account.report">
+        <field name="name">Note 4 - Financial assets and subsidiaries</field>
+        <field name="name@fr">Note 4 - Immobilisations financières et informations sur les filiales</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_4_col_gross" model="account.report.column">
+                <field name="name">Gross</field>
+                <field name="name@fr">Brut</field>
+                <field name="expression_label">gross</field>
+            </record>
+            <record id="l10n_ci_note_4_col_depr" model="account.report.column">
+                <field name="name">Depreciation</field>
+                <field name="name@fr">Dépréciation</field>
+                <field name="expression_label">depr</field>
+            </record>
+            <record id="l10n_ci_note_4_col_net" model="account.report.column">
+                <field name="name">Net</field>
+                <field name="name@fr">Net</field>
+                <field name="expression_label">balance</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_4_line_titres" model="account.report.line">
+                <field name="name">Equity investments (AR)</field>
+                <field name="name@fr">Titres de participation (AR)</field>
+                <field name="code">CI_N4_AR</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_4_ar_gross" model="account.report.expression">
+                        <field name="label">gross</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">26</field>
+                    </record>
+                    <record id="l10n_ci_note_4_ar_depr" model="account.report.expression">
+                        <field name="label">depr</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">296</field>
+                    </record>
+                    <record id="l10n_ci_note_4_ar_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">26 + 296</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_4_line_autres" model="account.report.line">
+                <field name="name">Other financial assets (AS)</field>
+                <field name="name@fr">Autres immobilisations financières (AS)</field>
+                <field name="code">CI_N4_AS</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_4_as_gross" model="account.report.expression">
+                        <field name="label">gross</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">27</field>
+                    </record>
+                    <record id="l10n_ci_note_4_as_depr" model="account.report.expression">
+                        <field name="label">depr</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">297</field>
+                    </record>
+                    <record id="l10n_ci_note_4_as_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">27 + 297</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_4_line_total" model="account.report.line">
+                <field name="name">TOTAL FINANCIAL ASSETS (AQ)</field>
+                <field name="name@fr">TOTAL IMMOBILISATIONS FINANCIÈRES (AQ)</field>
+                <field name="code">CI_N4_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_4_total_gross" model="account.report.expression">
+                        <field name="label">gross</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N4_AR.gross + CI_N4_AS.gross</field>
+                    </record>
+                    <record id="l10n_ci_note_4_total_depr" model="account.report.expression">
+                        <field name="label">depr</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N4_AR.depr + CI_N4_AS.depr</field>
+                    </record>
+                    <record id="l10n_ci_note_4_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N4_AR.balance + CI_N4_AS.balance</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+</data>
+</odoo>
