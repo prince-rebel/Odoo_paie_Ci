@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="l10n_ci_liasse_wizard_form" model="ir.ui.view">
+        <field name="name">l10n.ci.liasse.wizard.form</field>
+        <field name="model">l10n.ci.liasse.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Export Liasse Fiscale DGI — Côte d'Ivoire">
+                <group states="draft">
+                    <group string="Société et exercice">
+                        <field name="company_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group string="Type de liasse">
+                        <field name="liasse_type" widget="radio"/>
+                    </group>
+                </group>
+
+                <group states="done" string="Fichier généré">
+                    <field name="xml_file" filename="xml_filename" widget="binary"/>
+                    <field name="xml_filename" invisible="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_generate"
+                            string="Generate XML"
+                            type="object"
+                            class="btn-primary"
+                            states="draft"/>
+                    <button string="Close"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="l10n_ci_liasse_wizard_action" model="ir.actions.act_window">
+        <field name="name">Export Liasse Fiscale DGI CI</field>
+        <field name="res_model">l10n.ci.liasse.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="l10n_ci_liasse_menu_root"
+              name="Liasse Fiscale CI"
+              parent="account.menu_finance_reports"
+              sequence="99"/>
+
+    <menuitem id="l10n_ci_liasse_menu_export"
+              name="Export DGI e-impôts (XML)"
+              parent="l10n_ci_liasse_menu_root"
+              action="l10n_ci_liasse_wizard_action"
+              sequence="10"/>
+
+</odoo>

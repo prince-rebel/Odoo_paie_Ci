@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data auto_sequence="1">
+
+    <record id="l10n_ci_tft" model="account.report">
+        <field name="name">Cash Flow Statement (SYSCOHADA)</field>
+        <field name="name@fr">Tableau des Flux de Trésorerie (SYSCOHADA)</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">syscohada</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="filter_journals" eval="True"/>
+        <field name="filter_multi_company">selector</field>
+        <field name="custom_handler_model_id" ref="model_l10n_ci_tft_custom_handler"/>
+        <field name="column_ids">
+            <record id="l10n_ci_tft_col_note" model="account.report.column">
+                <field name="name">Ref</field>
+                <field name="name@fr">Réf</field>
+                <field name="expression_label">note</field>
+                <field name="optional" eval="True"/>
+            </record>
+            <record id="l10n_ci_tft_col_balance" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+        </field>
+        <field name="line_ids">
+
+            <!-- ═══════════════════════════════════════════════════
+                 ZA – TRÉSORERIE NETTE AU 1ER JANVIER
+                 Trésorerie Actif (N-1) – Trésorerie Passif (N-1)
+                 50+51+52+53+54+55+57+58 - 590-591-592 - 561-567
+                 Formule: actif trésorerie (signe +) + dépréciations (signe -) + passif trésorerie (signe -)
+                 En Odoo: 59x et 56x sont crédit-normal donc valeur négative → leur somme réduit le total
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_line_ZA" model="account.report.line">
+                <field name="name">ZA | Net cash at January 1st (Opening balance)</field>
+                <field name="name@fr">ZA | Trésorerie nette au 1er janvier (Trésorerie Actif N-1 – Trésorerie Passif N-1)</field>
+                <field name="code">CI_TFT_ZA</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZA_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZA</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZA_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">to_beginning_of_period</field>
+                        <field name="formula">50 + 51 + 52 + 53 + 54 + 55 + 57 + 58 + 590 + 591 + 592 + 561 + 562 + 563 + 564 + 565 + 566 + 567</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION A – ACTIVITÉS OPÉRATIONNELLES
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_section_ops" model="account.report.line">
+                <field name="name">Operating activities cash flows</field>
+                <field name="name@fr">Flux de trésorerie provenant des activités opérationnelles</field>
+                <field name="code">CI_TFT_SECTION_OPS</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+
+            <!-- FA – Capacité d'Autofinancement Globale (CAFG)
+                 CAFG = Résultat net (XI) + dotations amort/prov (RL, RN) + val. comptable cessions (RO)
+                        - reprises (TJ, TL, TM) - produits de cession (TN, TO)
+                 Convention CR: charges = négatif, produits = positif
+                 Donc: CAFG = XI - RL - RN - RO - TJ - TL - TM - TN - TO
+                 (les - sur les charges négatifs = addition, les - sur les produits positifs = soustraction)
+            -->
+            <record id="l10n_ci_tft_line_FA" model="account.report.line">
+                <field name="name">FA | Global Self-Financing Capacity (CAFG)</field>
+                <field name="name@fr">FA | Capacité d'Autofinancement Globale (CAFG)</field>
+                <field name="code">CI_TFT_FA</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FA_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">SYSCOHADA_XI.balance - SYSCOHADA_RL.balance - SYSCOHADA_RN.balance - SYSCOHADA_RO.balance - SYSCOHADA_TJ.balance - SYSCOHADA_TL.balance - SYSCOHADA_TM.balance - SYSCOHADA_TN.balance - SYSCOHADA_TO.balance</field>
+                        <field name="subformula">cross_report(l10n_syscohada_reports.account_financial_report_l10n_pcg_cdr)</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FB – Variation actif circulant HAO
+                 -481 : augmentation de l'actif HAO = sortie de trésorerie
+            -->
+            <record id="l10n_ci_tft_line_FB" model="account.report.line">
+                <field name="name">FB | - Change in HAO current assets (1)</field>
+                <field name="name@fr">FB | - Variation d'actif circulant HAO (1)</field>
+                <field name="code">CI_TFT_FB</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FB_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-481</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FC – Variation des stocks
+                 -3\(39) : augmentation de stocks = sortie de trésorerie
+                 39x exclus car provisions non décaissées (traitées dans CAFG via RL)
+            -->
+            <record id="l10n_ci_tft_line_FC" model="account.report.line">
+                <field name="name">FC | - Change in inventories</field>
+                <field name="name@fr">FC | - Variation des stocks</field>
+                <field name="code">CI_TFT_FC</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FC_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-3\(39)</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FD – Variation des créances (BH + BI + BJ)
+                 -409 : avances fournisseurs (BH)
+                 -41\(419) : créances clients (BI)
+                 -476, -4747, -4751, -4711 : autres créances (BJ)
+                 Augmentation = sortie de trésorerie → signe négatif
+            -->
+            <record id="l10n_ci_tft_line_FD" model="account.report.line">
+                <field name="name">FD | - Change in trade and other receivables</field>
+                <field name="name@fr">FD | - Variation des créances</field>
+                <field name="code">CI_TFT_FD</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FD_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-409 - 41\(419) - 476 - 4747 - 4751 - 4711</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FE – Variation du passif circulant (1)
+                 Comptes crédit-normal → valeur négative en Odoo quand ils augmentent
+                 -419 : avances clients (DI)
+                 -40\(409) : fournisseurs (DJ)
+                 -42, -43, -44 : dettes fiscales et sociales (DK)
+                 -45, -47\(476,477,478) : autres dettes (DM)
+                 -499, -599 : provisions court terme (DN)
+                 Augmentation du passif = entrée de trésorerie → signe positif → on nie les comptes crédit-normaux
+            -->
+            <record id="l10n_ci_tft_line_FE" model="account.report.line">
+                <field name="name">FE | + Change in operating current liabilities (1)</field>
+                <field name="name@fr">FE | + Variation du passif circulant (1)</field>
+                <field name="code">CI_TFT_FE</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FE_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-419 - 40\(409) - 42 - 43 - 44 - 45 - 47\(476,477,478) - 499 - 599</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZB – Total flux opérationnels (Somme FA à FE) -->
+            <record id="l10n_ci_tft_line_ZB" model="account.report.line">
+                <field name="name">ZB | NET CASH FROM OPERATING ACTIVITIES (Sum FA to FE)</field>
+                <field name="name@fr">ZB | Flux de trésorerie provenant des activités opérationnelles (Somme FA à FE)</field>
+                <field name="code">CI_TFT_ZB</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZB_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZB</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZB_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_FA.balance + CI_TFT_FB.balance + CI_TFT_FC.balance + CI_TFT_FD.balance + CI_TFT_FE.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION B – ACTIVITÉS D'INVESTISSEMENT
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_section_invest" model="account.report.line">
+                <field name="name">Investment activities cash flows</field>
+                <field name="name@fr">Flux de trésorerie provenant des activités d'investissement</field>
+                <field name="code">CI_TFT_SECTION_INVEST</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+
+            <!-- FF – Décaissements acquisitions immo incorporelles
+                 -20, -21 : mouvement net des immo incorporelles (acquisition = débit = sortie)
+                 NB: approximation par variation nette; en cas de cessions, FI capture les encaissements
+            -->
+            <record id="l10n_ci_tft_line_FF" model="account.report.line">
+                <field name="name">FF | - Cash paid for intangible assets</field>
+                <field name="name@fr">FF | - Décaissements liés aux acquisitions d'immobilisations incorporelles</field>
+                <field name="code">CI_TFT_FF</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FF_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-20 - 21</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FG – Décaissements acquisitions immo corporelles
+                 -22 : terrains, -23 : bâtiments, -24\(245,2495) : matériel (hors transport)
+            -->
+            <record id="l10n_ci_tft_line_FG" model="account.report.line">
+                <field name="name">FG | - Cash paid for tangible assets</field>
+                <field name="name@fr">FG | - Décaissements liés aux acquisitions d'immobilisations corporelles</field>
+                <field name="code">CI_TFT_FG</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FG_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-22 - 23 - 24\(245,2495) - 245 - 2495</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FH – Décaissements acquisitions immo financières
+                 -26 : titres de participation, -27 : autres immo financières
+            -->
+            <record id="l10n_ci_tft_line_FH" model="account.report.line">
+                <field name="name">FH | - Cash paid for financial assets</field>
+                <field name="name@fr">FH | - Décaissements liés aux acquisitions d'immobilisations financières</field>
+                <field name="code">CI_TFT_FH</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FH_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-26 - 27</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FI – Encaissements cessions immo incorporelles et corporelles
+                 -82 : comptes crédit-normal (82x = produits de cession) → -82 donne valeur positive
+                 Correspond au poste TN du CR
+            -->
+            <record id="l10n_ci_tft_line_FI" model="account.report.line">
+                <field name="name">FI | + Cash received from disposal of intangible and tangible assets</field>
+                <field name="name@fr">FI | + Encaissements liés aux cessions d'immobilisations incorporelles et corporelles</field>
+                <field name="code">CI_TFT_FI</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FI_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-82\(826)</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FJ – Encaissements cessions immo financières
+                 -826 : produits de cession d'immo financières (si compte distinct)
+            -->
+            <record id="l10n_ci_tft_line_FJ" model="account.report.line">
+                <field name="name">FJ | + Cash received from disposal of financial assets</field>
+                <field name="name@fr">FJ | + Encaissements liés aux cessions d'immobilisations financières</field>
+                <field name="code">CI_TFT_FJ</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FJ_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-826</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZC – Total flux d'investissement (Somme FF à FJ) -->
+            <record id="l10n_ci_tft_line_ZC" model="account.report.line">
+                <field name="name">ZC | NET CASH FROM INVESTING ACTIVITIES (Sum FF to FJ)</field>
+                <field name="name@fr">ZC | Flux de trésorerie provenant des activités d'investissement (Somme FF à FJ)</field>
+                <field name="code">CI_TFT_ZC</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZC_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZC</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZC_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_FF.balance + CI_TFT_FG.balance + CI_TFT_FH.balance + CI_TFT_FI.balance + CI_TFT_FJ.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION C & D – FINANCEMENT PAR CAPITAUX PROPRES
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_section_fin_propres" model="account.report.line">
+                <field name="name">Equity financing cash flows</field>
+                <field name="name@fr">Flux de trésorerie provenant du financement par les capitaux propres</field>
+                <field name="code">CI_TFT_SECTION_FIN_PROPRES</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+
+            <!-- FK – Augmentations de capital par apports nouveaux
+                 -101, -102, -103, -104 : comptes capital crédit-normal → -cpte donne valeur positive quand capital augmente
+            -->
+            <record id="l10n_ci_tft_line_FK" model="account.report.line">
+                <field name="name">FK | + Capital increases (new contributions)</field>
+                <field name="name@fr">FK | + Augmentations de capital par apports nouveaux</field>
+                <field name="code">CI_TFT_FK</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FK_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-101 - 102 - 103 - 104</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FL – Subventions d'investissement reçues
+                 -14 : comptes 14x crédit-normal (subventions investissement)
+            -->
+            <record id="l10n_ci_tft_line_FL" model="account.report.line">
+                <field name="name">FL | + Investment grants received</field>
+                <field name="name@fr">FL | + Subventions d'investissement reçues</field>
+                <field name="code">CI_TFT_FL</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FL_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-14</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FM – Prélèvements sur le capital
+                 Réductions de capital : mouvement débit des comptes 101-104 → signe positif en Odoo
+                 On veut valeur négative (sortie de trésorerie) : +101+102+103+104 (mouvements débit = positif)
+                 NB: partiellement compensé avec FK. Pour une vision nette utiliser FK uniquement.
+            -->
+            <record id="l10n_ci_tft_line_FM" model="account.report.line">
+                <field name="name">FM | - Capital withdrawals</field>
+                <field name="name@fr">FM | - Prélèvements sur le capital</field>
+                <field name="code">CI_TFT_FM</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FM_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">109</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FN – Dividendes versés
+                 -459 : comptes avances aux actionnaires crédit-normal → paiement = mouvement débit
+                 Ou utiliser directement compte de résultats distribués
+            -->
+            <record id="l10n_ci_tft_line_FN" model="account.report.line">
+                <field name="name">FN | - Dividends paid</field>
+                <field name="name@fr">FN | - Dividendes versés</field>
+                <field name="code">CI_TFT_FN</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FN_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-459</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZD – Total flux financement par capitaux propres (Somme FK à FN) -->
+            <record id="l10n_ci_tft_line_ZD" model="account.report.line">
+                <field name="name">ZD | NET CASH FROM EQUITY FINANCING (Sum FK to FN)</field>
+                <field name="name@fr">ZD | Flux de trésorerie provenant des capitaux propres (Somme FK à FN)</field>
+                <field name="code">CI_TFT_ZD</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZD_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZD</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZD_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_FK.balance + CI_TFT_FL.balance + CI_TFT_FM.balance + CI_TFT_FN.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ═══════════════════════════════════════════════════
+                 SECTION E – FINANCEMENT PAR CAPITAUX ÉTRANGERS
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_section_fin_etrangers" model="account.report.line">
+                <field name="name">External debt financing cash flows</field>
+                <field name="name@fr">Trésorerie provenant du financement par les capitaux étrangers</field>
+                <field name="code">CI_TFT_SECTION_FIN_EXT</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+
+            <!-- FO – Emprunts nouveaux (comptes 161, 162, 1661, 1662)
+                 Ces comptes sont crédit-normal → -cpte = positif quand nouvel emprunt contracté
+            -->
+            <record id="l10n_ci_tft_line_FO" model="account.report.line">
+                <field name="name">FO | + New borrowings (2)</field>
+                <field name="name@fr">FO | + Emprunts (2)</field>
+                <field name="code">CI_TFT_FO</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FO_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-161 - 162 - 1661 - 1662</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FP – Autres dettes financières diverses (comptes 16 hors 161,162,1661,1662 et comptes 18) -->
+            <record id="l10n_ci_tft_line_FP" model="account.report.line">
+                <field name="name">FP | + Other financial debts (3)</field>
+                <field name="name@fr">FP | + Autres dettes financières diverses (3)</field>
+                <field name="code">CI_TFT_FP</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FP_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">-16\(161,162,1661,1662) - 18</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- FQ – Remboursements emprunts et autres dettes financières
+                 Remboursement : mouvement débit des comptes 16x crédit-normal → positif en Odoo
+                 On veut valeur négative → 16x + 18x donne positif quand remboursé → signe négatif
+                 NB: en pratique FO+FP+FQ représentent le mouvement NET de la dette financière
+            -->
+            <record id="l10n_ci_tft_line_FQ" model="account.report.line">
+                <field name="name">FQ | - Repayments of borrowings and financial debts</field>
+                <field name="name@fr">FQ | - Remboursements des emprunts et autres dettes financières</field>
+                <field name="code">CI_TFT_FQ</field>
+                <field name="hierarchy_level" eval="2"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_FQ_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="formula">161 + 162 + 1661 + 1662 + 16\(161,162,1661,1662) + 18</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZE – Total flux capitaux étrangers (Somme FO à FQ) -->
+            <record id="l10n_ci_tft_line_ZE" model="account.report.line">
+                <field name="name">ZE | NET CASH FROM EXTERNAL DEBT FINANCING (Sum FO to FQ)</field>
+                <field name="name@fr">ZE | Flux de trésorerie provenant des capitaux étrangers (Somme FO à FQ)</field>
+                <field name="code">CI_TFT_ZE</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZE_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZE</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZE_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_FO.balance + CI_TFT_FP.balance + CI_TFT_FQ.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZF – Total flux financement (D + E) -->
+            <record id="l10n_ci_tft_line_ZF" model="account.report.line">
+                <field name="name">ZF | NET CASH FROM FINANCING ACTIVITIES (D + E)</field>
+                <field name="name@fr">ZF | Flux de trésorerie provenant des activités de financement (D + E)</field>
+                <field name="code">CI_TFT_ZF</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZF_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZF</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZF_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_ZD.balance + CI_TFT_ZE.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ═══════════════════════════════════════════════════
+                 ZG – VARIATION NETTE DE TRÉSORERIE (B + C + F)
+                 ZH – TRÉSORERIE NETTE AU 31 DÉCEMBRE (G + A)
+                 ZZ – CONTRÔLE
+            ════════════════════════════════════════════════════════ -->
+            <record id="l10n_ci_tft_line_ZG" model="account.report.line">
+                <field name="name">ZG | NET CHANGE IN CASH FOR THE PERIOD (B + C + F)</field>
+                <field name="name@fr">ZG | VARIATION DE LA TRÉSORERIE NETTE DE LA PÉRIODE (B + C + F)</field>
+                <field name="code">CI_TFT_ZG</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZG_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZG</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZG_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_ZB.balance + CI_TFT_ZC.balance + CI_TFT_ZF.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <record id="l10n_ci_tft_line_ZH" model="account.report.line">
+                <field name="name">ZH | NET CASH AT DECEMBER 31ST (G + A)</field>
+                <field name="name@fr">ZH | Trésorerie nette au 31 Décembre (G + A)</field>
+                <field name="code">CI_TFT_ZH</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZH_note" model="account.report.expression">
+                        <field name="label">note</field>
+                        <field name="auditable" eval="False"/>
+                        <field name="engine">custom</field>
+                        <field name="formula">_report_custom_engine_get_note</field>
+                        <field name="subformula">ZH</field>
+                    </record>
+                    <record id="l10n_ci_tft_line_ZH_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_TFT_ZA.balance + CI_TFT_ZG.balance</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- ZZ – Contrôle : Trésorerie Actif N – Trésorerie Passif N -->
+            <record id="l10n_ci_tft_line_ZZ" model="account.report.line">
+                <field name="name">ZZ | Check: Cash assets N – Cash liabilities N (should = ZH)</field>
+                <field name="name@fr">ZZ | Contrôle : Trésorerie actif N – Trésorerie passif N (= ZH)</field>
+                <field name="code">CI_TFT_ZZ</field>
+                <field name="hierarchy_level" eval="0"/>
+                <field name="hide_if_zero" eval="False"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_tft_line_ZZ_balance" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">from_beginning</field>
+                        <field name="formula">50 + 51 + 52 + 53 + 54 + 55 + 57 + 58 + 590 + 591 + 592 + 561 + 562 + 563 + 564 + 565 + 566 + 567</field>
+                    </record>
+                </field>
+            </record>
+
+        </field>
+    </record>
+
+</data>
+</odoo>

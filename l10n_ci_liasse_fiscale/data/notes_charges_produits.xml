@@ -1,0 +1,1669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data auto_sequence="1">
+
+    <!-- NOTE 21 – Chiffre d'affaires et autres produits (70x–74x, 781) -->
+    <record id="l10n_ci_note_21" model="account.report">
+        <field name="name">Note 21 - Revenue and other income</field>
+        <field name="name@fr">Note 21 - Chiffre d'affaires et autres produits</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_21_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_21_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_21_ta" model="account.report.line">
+                <field name="name">Sales of goods (TA)</field>
+                <field name="name@fr">Ventes de marchandises (TA)</field>
+                <field name="code">CI_N21_TA</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_ta_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">701</field>
+                    </record>
+                    <record id="l10n_ci_note_21_ta_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">701</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_tb" model="account.report.line">
+                <field name="name">Sales of manufactured goods (TB)</field>
+                <field name="name@fr">Ventes de produits fabriqués (TB)</field>
+                <field name="code">CI_N21_TB</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_tb_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">702 + 703 + 704</field>
+                    </record>
+                    <record id="l10n_ci_note_21_tb_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">702 + 703 + 704</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_tc" model="account.report.line">
+                <field name="name">Work and services billed (TC)</field>
+                <field name="name@fr">Travaux et services facturés (TC)</field>
+                <field name="code">CI_N21_TC</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_tc_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">705 + 706</field>
+                    </record>
+                    <record id="l10n_ci_note_21_tc_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">705 + 706</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_td" model="account.report.line">
+                <field name="name">Ancillary revenue (TD)</field>
+                <field name="name@fr">Produits accessoires (TD)</field>
+                <field name="code">CI_N21_TD</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_td_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">707 + 708</field>
+                    </record>
+                    <record id="l10n_ci_note_21_td_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">707 + 708</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_xb" model="account.report.line">
+                <field name="name">TOTAL REVENUE (XB)</field>
+                <field name="name@fr">TOTAL CHIFFRE D'AFFAIRES (XB)</field>
+                <field name="code">CI_N21_XB</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_xb_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N21_TA.balance + CI_N21_TB.balance + CI_N21_TC.balance + CI_N21_TD.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_21_xb_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N21_TA.balance_prev + CI_N21_TB.balance_prev + CI_N21_TC.balance_prev + CI_N21_TD.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_te" model="account.report.line">
+                <field name="name">Inventoried production (TE)</field>
+                <field name="name@fr">Production stockée ou déstockée (TE)</field>
+                <field name="code">CI_N21_TE</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_te_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">731 + 732 + 733 + 734 + 735 + 738</field>
+                    </record>
+                    <record id="l10n_ci_note_21_te_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">731 + 732 + 733 + 734 + 735 + 738</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_tf" model="account.report.line">
+                <field name="name">Own-account production (TF)</field>
+                <field name="name@fr">Production immobilisée (TF)</field>
+                <field name="code">CI_N21_TF</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_tf_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">721 + 722 + 724 + 728</field>
+                    </record>
+                    <record id="l10n_ci_note_21_tf_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">721 + 722 + 724 + 728</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_tg" model="account.report.line">
+                <field name="name">Operating subsidies (TG)</field>
+                <field name="name@fr">Subventions d'exploitation (TG)</field>
+                <field name="code">CI_N21_TG</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_tg_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">711 + 712 + 713 + 714 + 715 + 716 + 718</field>
+                    </record>
+                    <record id="l10n_ci_note_21_tg_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">711 + 712 + 713 + 714 + 715 + 716 + 718</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_th" model="account.report.line">
+                <field name="name">Other income (TH)</field>
+                <field name="name@fr">Autres produits d'exploitation (TH)</field>
+                <field name="code">CI_N21_TH</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_th_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">741 + 742 + 744 + 745 + 748</field>
+                    </record>
+                    <record id="l10n_ci_note_21_th_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">741 + 742 + 744 + 745 + 748</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_21_ti" model="account.report.line">
+                <field name="name">Operating expense transfers (TI)</field>
+                <field name="name@fr">Transferts de charges d'exploitation (TI)</field>
+                <field name="code">CI_N21_TI</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_21_ti_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">781</field>
+                    </record>
+                    <record id="l10n_ci_note_21_ti_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">781</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 22 – Achats (60x) -->
+    <record id="l10n_ci_note_22" model="account.report">
+        <field name="name">Note 22 - Purchases</field>
+        <field name="name@fr">Note 22 - Achats</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_22_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_22_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_22_ra" model="account.report.line">
+                <field name="name">Purchases of goods for resale (RA)</field>
+                <field name="name@fr">Achats de marchandises (RA)</field>
+                <field name="code">CI_N22_RA</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_ra_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-601 - 6019</field>
+                    </record>
+                    <record id="l10n_ci_note_22_ra_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-601 - 6019</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_rb" model="account.report.line">
+                <field name="name">Change in goods inventory (RB)</field>
+                <field name="name@fr">Variation de stocks de marchandises (RB)</field>
+                <field name="code">CI_N22_RB</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_rb_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6031</field>
+                    </record>
+                    <record id="l10n_ci_note_22_rb_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6031</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_rc" model="account.report.line">
+                <field name="name">Purchases of raw materials (RC)</field>
+                <field name="name@fr">Achats de matières premières (RC)</field>
+                <field name="code">CI_N22_RC</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_rc_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-602 - 608</field>
+                    </record>
+                    <record id="l10n_ci_note_22_rc_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-602 - 608</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_rd" model="account.report.line">
+                <field name="name">Change in raw materials inventory (RD)</field>
+                <field name="name@fr">Variation de stocks de matières premières (RD)</field>
+                <field name="code">CI_N22_RD</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_rd_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6032</field>
+                    </record>
+                    <record id="l10n_ci_note_22_rd_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6032</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_re" model="account.report.line">
+                <field name="name">Other purchases (RE)</field>
+                <field name="name@fr">Autres achats (RE)</field>
+                <field name="code">CI_N22_RE</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_re_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-604 - 605</field>
+                    </record>
+                    <record id="l10n_ci_note_22_re_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-604 - 605</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_rf" model="account.report.line">
+                <field name="name">Change in other supplies inventory (RF)</field>
+                <field name="name@fr">Variation de stocks des autres approvisionnements (RF)</field>
+                <field name="code">CI_N22_RF</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_rf_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6033</field>
+                    </record>
+                    <record id="l10n_ci_note_22_rf_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-6033</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_22_total" model="account.report.line">
+                <field name="name">TOTAL PURCHASES</field>
+                <field name="name@fr">TOTAL ACHATS</field>
+                <field name="code">CI_N22_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_22_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N22_RA.balance + CI_N22_RB.balance + CI_N22_RC.balance + CI_N22_RD.balance + CI_N22_RE.balance + CI_N22_RF.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_22_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N22_RA.balance_prev + CI_N22_RB.balance_prev + CI_N22_RC.balance_prev + CI_N22_RD.balance_prev + CI_N22_RE.balance_prev + CI_N22_RF.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 23 – Transports (61x) -->
+    <record id="l10n_ci_note_23" model="account.report">
+        <field name="name">Note 23 - Transport expenses</field>
+        <field name="name@fr">Note 23 - Transports</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_23_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_23_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_23_sur_achats" model="account.report.line">
+                <field name="name">Transport on purchases</field>
+                <field name="name@fr">Transports sur achats</field>
+                <field name="code">CI_N23_ACH</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_23_ach_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-611</field>
+                    </record>
+                    <record id="l10n_ci_note_23_ach_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-611</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_23_sur_ventes" model="account.report.line">
+                <field name="name">Transport on sales</field>
+                <field name="name@fr">Transports sur ventes</field>
+                <field name="code">CI_N23_VTE</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_23_vte_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-612</field>
+                    </record>
+                    <record id="l10n_ci_note_23_vte_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-612</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_23_personnel" model="account.report.line">
+                <field name="name">Staff transport</field>
+                <field name="name@fr">Transports du personnel</field>
+                <field name="code">CI_N23_PERS</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_23_pers_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-614</field>
+                    </record>
+                    <record id="l10n_ci_note_23_pers_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-614</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_23_autres" model="account.report.line">
+                <field name="name">Other transport costs</field>
+                <field name="name@fr">Autres frais de transport</field>
+                <field name="code">CI_N23_AUTRES</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_23_autres_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-613 - 618 - 619</field>
+                    </record>
+                    <record id="l10n_ci_note_23_autres_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-613 - 618 - 619</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_23_total" model="account.report.line">
+                <field name="name">TOTAL TRANSPORT (RG)</field>
+                <field name="name@fr">TOTAL TRANSPORTS (RG)</field>
+                <field name="code">CI_N23_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_23_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N23_ACH.balance + CI_N23_VTE.balance + CI_N23_PERS.balance + CI_N23_AUTRES.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_23_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N23_ACH.balance_prev + CI_N23_VTE.balance_prev + CI_N23_PERS.balance_prev + CI_N23_AUTRES.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 24 – Services extérieurs (62x, 63x) -->
+    <record id="l10n_ci_note_24" model="account.report">
+        <field name="name">Note 24 - External services</field>
+        <field name="name@fr">Note 24 - Services extérieurs</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_24_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_24_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_24_sous_trait" model="account.report.line">
+                <field name="name">Subcontracting</field>
+                <field name="name@fr">Sous-traitance générale</field>
+                <field name="code">CI_N24_621</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_621_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-621</field>
+                    </record>
+                    <record id="l10n_ci_note_24_621_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-621</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_locations" model="account.report.line">
+                <field name="name">Rents and lease charges</field>
+                <field name="name@fr">Locations et charges locatives</field>
+                <field name="code">CI_N24_622</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_622_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-622</field>
+                    </record>
+                    <record id="l10n_ci_note_24_622_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-622</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_credit_bail" model="account.report.line">
+                <field name="name">Finance lease fees</field>
+                <field name="name@fr">Redevances de crédit-bail</field>
+                <field name="code">CI_N24_623</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_623_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-623</field>
+                    </record>
+                    <record id="l10n_ci_note_24_623_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-623</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_entretien" model="account.report.line">
+                <field name="name">Maintenance and repairs</field>
+                <field name="name@fr">Entretien, réparations et maintenance</field>
+                <field name="code">CI_N24_624</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_624_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-624</field>
+                    </record>
+                    <record id="l10n_ci_note_24_624_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-624</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_assurances" model="account.report.line">
+                <field name="name">Insurance premiums</field>
+                <field name="name@fr">Primes d'assurance</field>
+                <field name="code">CI_N24_625</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_625_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-625</field>
+                    </record>
+                    <record id="l10n_ci_note_24_625_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-625</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_publicite" model="account.report.line">
+                <field name="name">Advertising and communications</field>
+                <field name="name@fr">Publicité, publications, relations publiques</field>
+                <field name="code">CI_N24_627</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_627_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-626 - 627</field>
+                    </record>
+                    <record id="l10n_ci_note_24_627_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-626 - 627</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_telecom" model="account.report.line">
+                <field name="name">Telecommunications</field>
+                <field name="name@fr">Frais de télécommunications</field>
+                <field name="code">CI_N24_628</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_628_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-628</field>
+                    </record>
+                    <record id="l10n_ci_note_24_628_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-628</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_honoraires" model="account.report.line">
+                <field name="name">Fees and commissions</field>
+                <field name="name@fr">Rémunérations d'intermédiaires et honoraires</field>
+                <field name="code">CI_N24_632</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_632_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-631 - 632</field>
+                    </record>
+                    <record id="l10n_ci_note_24_632_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-631 - 632</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_formation" model="account.report.line">
+                <field name="name">Staff training costs</field>
+                <field name="name@fr">Frais de formation du personnel</field>
+                <field name="code">CI_N24_633</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_633_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-633</field>
+                    </record>
+                    <record id="l10n_ci_note_24_633_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-633</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_autres" model="account.report.line">
+                <field name="name">Other external services (RH)</field>
+                <field name="name@fr">Autres services extérieurs (RH)</field>
+                <field name="code">CI_N24_AUTRES</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_autres_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-629 - 634 - 635 - 637 - 638</field>
+                    </record>
+                    <record id="l10n_ci_note_24_autres_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-629 - 634 - 635 - 637 - 638</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_24_total" model="account.report.line">
+                <field name="name">TOTAL EXTERNAL SERVICES (RH)</field>
+                <field name="name@fr">TOTAL SERVICES EXTÉRIEURS (RH)</field>
+                <field name="code">CI_N24_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_24_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N24_621.balance + CI_N24_622.balance + CI_N24_623.balance + CI_N24_624.balance + CI_N24_625.balance + CI_N24_627.balance + CI_N24_628.balance + CI_N24_632.balance + CI_N24_633.balance + CI_N24_AUTRES.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_24_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N24_621.balance_prev + CI_N24_622.balance_prev + CI_N24_623.balance_prev + CI_N24_624.balance_prev + CI_N24_625.balance_prev + CI_N24_627.balance_prev + CI_N24_628.balance_prev + CI_N24_632.balance_prev + CI_N24_633.balance_prev + CI_N24_AUTRES.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 25 – Impôts et taxes (64x) -->
+    <record id="l10n_ci_note_25" model="account.report">
+        <field name="name">Note 25 - Taxes and duties</field>
+        <field name="name@fr">Note 25 - Impôts et taxes</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_25_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_25_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_25_impots" model="account.report.line">
+                <field name="name">Direct taxes</field>
+                <field name="name@fr">Impôts et taxes directes</field>
+                <field name="code">CI_N25_641</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_641_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-641</field>
+                    </record>
+                    <record id="l10n_ci_note_25_641_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-641</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_25_cotisations" model="account.report.line">
+                <field name="name">Employer social security contributions</field>
+                <field name="name@fr">Cotisations patronales et charges sociales</field>
+                <field name="code">CI_N25_642</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_642_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-642</field>
+                    </record>
+                    <record id="l10n_ci_note_25_642_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-642</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_25_tva" model="account.report.line">
+                <field name="name">Indirect taxes (VAT, etc.)</field>
+                <field name="name@fr">Taxes sur le chiffre d'affaires</field>
+                <field name="code">CI_N25_643</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_643_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-643</field>
+                    </record>
+                    <record id="l10n_ci_note_25_643_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-643</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_25_droits" model="account.report.line">
+                <field name="name">Registration and stamp duties</field>
+                <field name="name@fr">Droits d'enregistrement et de timbre</field>
+                <field name="code">CI_N25_644</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_644_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-644</field>
+                    </record>
+                    <record id="l10n_ci_note_25_644_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-644</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_25_amendes" model="account.report.line">
+                <field name="name">Fines and penalties</field>
+                <field name="name@fr">Amendes et pénalités fiscales</field>
+                <field name="code">CI_N25_645</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_645_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-645 - 646</field>
+                    </record>
+                    <record id="l10n_ci_note_25_645_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-645 - 646</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_25_total" model="account.report.line">
+                <field name="name">TOTAL TAXES (RI)</field>
+                <field name="name@fr">TOTAL IMPÔTS ET TAXES (RI)</field>
+                <field name="code">CI_N25_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_25_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N25_641.balance + CI_N25_642.balance + CI_N25_643.balance + CI_N25_644.balance + CI_N25_645.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_25_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N25_641.balance_prev + CI_N25_642.balance_prev + CI_N25_643.balance_prev + CI_N25_644.balance_prev + CI_N25_645.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 26 – Autres charges d'exploitation (65x) -->
+    <record id="l10n_ci_note_26" model="account.report">
+        <field name="name">Note 26 - Other operating expenses</field>
+        <field name="name@fr">Note 26 - Autres charges d'exploitation</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_26_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_26_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_26_pertes_change" model="account.report.line">
+                <field name="name">Foreign exchange losses</field>
+                <field name="name@fr">Pertes de change exploitation</field>
+                <field name="code">CI_N26_651</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_26_651_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-651</field>
+                    </record>
+                    <record id="l10n_ci_note_26_651_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-651</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_26_autres" model="account.report.line">
+                <field name="name">Other miscellaneous charges (RJ)</field>
+                <field name="name@fr">Autres charges diverses (RJ)</field>
+                <field name="code">CI_N26_AUTRES</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_26_autres_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-658</field>
+                    </record>
+                    <record id="l10n_ci_note_26_autres_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-658</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_26_total" model="account.report.line">
+                <field name="name">TOTAL OTHER CHARGES (RJ)</field>
+                <field name="name@fr">TOTAL AUTRES CHARGES (RJ)</field>
+                <field name="code">CI_N26_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_26_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N26_651.balance + CI_N26_AUTRES.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_26_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N26_651.balance_prev + CI_N26_AUTRES.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 27A – Charges de personnel (66x) -->
+    <record id="l10n_ci_note_27a" model="account.report">
+        <field name="name">Note 27A - Staff costs</field>
+        <field name="name@fr">Note 27A - Charges de personnel</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_27a_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_27a_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_27a_remunerations" model="account.report.line">
+                <field name="name">Staff remuneration</field>
+                <field name="name@fr">Rémunérations du personnel</field>
+                <field name="code">CI_N27A_661</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27a_661_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-661 - 662 - 663</field>
+                    </record>
+                    <record id="l10n_ci_note_27a_661_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-661 - 662 - 663</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_27a_charges_soc" model="account.report.line">
+                <field name="name">Social security charges</field>
+                <field name="name@fr">Charges sociales patronales</field>
+                <field name="code">CI_N27A_664</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27a_664_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-664</field>
+                    </record>
+                    <record id="l10n_ci_note_27a_664_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-664</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_27a_avantages" model="account.report.line">
+                <field name="name">Benefits in kind</field>
+                <field name="name@fr">Avantages en nature accordés au personnel</field>
+                <field name="code">CI_N27A_666</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27a_666_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-666</field>
+                    </record>
+                    <record id="l10n_ci_note_27a_666_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-666</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_27a_autres" model="account.report.line">
+                <field name="name">Other staff costs</field>
+                <field name="name@fr">Autres charges de personnel</field>
+                <field name="code">CI_N27A_AUTRES</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27a_autres_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-667 - 668</field>
+                    </record>
+                    <record id="l10n_ci_note_27a_autres_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-667 - 668</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_27a_total" model="account.report.line">
+                <field name="name">TOTAL STAFF COSTS (RK)</field>
+                <field name="name@fr">TOTAL CHARGES DE PERSONNEL (RK)</field>
+                <field name="code">CI_N27A_TOTAL</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27a_total_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N27A_661.balance + CI_N27A_664.balance + CI_N27A_666.balance + CI_N27A_AUTRES.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_27a_total_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N27A_661.balance_prev + CI_N27A_664.balance_prev + CI_N27A_666.balance_prev + CI_N27A_AUTRES.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 27B – Effectifs et masse salariale (headcount + payroll breakdown) -->
+    <record id="l10n_ci_note_27b" model="account.report">
+        <field name="name">Note 27B - Headcount and payroll breakdown</field>
+        <field name="name@fr">Note 27B - Effectifs, masse salariale et frais de personnel</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_27b_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_27b_sal_net" model="account.report.line">
+                <field name="name">Net wages paid (421)</field>
+                <field name="name@fr">Salaires nets versés (421)</field>
+                <field name="code">CI_N27B_421</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27b_421_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">421 + 422 + 423 + 424 + 425 + 426 + 427 + 428</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_27b_charges_brutes" model="account.report.line">
+                <field name="name">Gross payroll charges (66x)</field>
+                <field name="name@fr">Total charges de personnel brutes (66x)</field>
+                <field name="code">CI_N27B_66</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_27b_66_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-661 - 662 - 663 - 664 - 666 - 667 - 668</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 28 – Dotations aux amortissements et provisions (681, 691, 694, 697) -->
+    <record id="l10n_ci_note_28" model="account.report">
+        <field name="name">Note 28 - Depreciation, amortisation and provisions</field>
+        <field name="name@fr">Note 28 - Dotations aux amortissements et aux provisions</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_28_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_28_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_28_dot_amort" model="account.report.line">
+                <field name="name">Depreciation and amortisation charges</field>
+                <field name="name@fr">Dotations aux amortissements</field>
+                <field name="code">CI_N28_681</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_28_681_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-681 - 682</field>
+                    </record>
+                    <record id="l10n_ci_note_28_681_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-681 - 682</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_28_dot_prov_expl" model="account.report.line">
+                <field name="name">Operating provisions and impairments</field>
+                <field name="name@fr">Dotations provisions et dépréciations d'exploitation</field>
+                <field name="code">CI_N28_691</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_28_691_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-691 - 694 - 695</field>
+                    </record>
+                    <record id="l10n_ci_note_28_691_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-691 - 694 - 695</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_28_dot_prov_fin" model="account.report.line">
+                <field name="name">Financial provisions</field>
+                <field name="name@fr">Dotations provisions financières</field>
+                <field name="code">CI_N28_697</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_28_697_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-697</field>
+                    </record>
+                    <record id="l10n_ci_note_28_697_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-697</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_28_reprises_expl" model="account.report.line">
+                <field name="name">Reversal of operating provisions (TJ)</field>
+                <field name="name@fr">Reprises de provisions d'exploitation (TJ)</field>
+                <field name="code">CI_N28_791</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_28_791_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">791 + 798</field>
+                    </record>
+                    <record id="l10n_ci_note_28_791_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">791 + 798</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_28_reprises_fin" model="account.report.line">
+                <field name="name">Reversal of financial provisions (TL)</field>
+                <field name="name@fr">Reprises de provisions financières (TL)</field>
+                <field name="code">CI_N28_796</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_28_796_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">796</field>
+                    </record>
+                    <record id="l10n_ci_note_28_796_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">796</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 29 – Charges et revenus financiers (67x, 77x) -->
+    <record id="l10n_ci_note_29" model="account.report">
+        <field name="name">Note 29 - Financial expenses and income</field>
+        <field name="name@fr">Note 29 - Charges et revenus financiers</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_29_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_29_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <!-- CHARGES FINANCIÈRES -->
+            <record id="l10n_ci_note_29_section_charges" model="account.report.line">
+                <field name="name">Financial expenses</field>
+                <field name="name@fr">Charges financières</field>
+                <field name="code">CI_N29_SEC_CH</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+            <record id="l10n_ci_note_29_interets" model="account.report.line">
+                <field name="name">Interest on borrowings (RM)</field>
+                <field name="name@fr">Intérêts des emprunts et dettes (RM)</field>
+                <field name="code">CI_N29_671</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_671_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-671 - 672 - 673</field>
+                    </record>
+                    <record id="l10n_ci_note_29_671_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-671 - 672 - 673</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_escomptes" model="account.report.line">
+                <field name="name">Discounts granted</field>
+                <field name="name@fr">Escomptes accordés</field>
+                <field name="code">CI_N29_674</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_674_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-674 - 675</field>
+                    </record>
+                    <record id="l10n_ci_note_29_674_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-674 - 675</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_pertes_fin" model="account.report.line">
+                <field name="name">Foreign exchange losses and other financial charges</field>
+                <field name="name@fr">Pertes de change et autres charges financières</field>
+                <field name="code">CI_N29_676</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_676_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-676 - 677 - 678</field>
+                    </record>
+                    <record id="l10n_ci_note_29_676_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-676 - 677 - 678</field>
+                    </record>
+                </field>
+            </record>
+            <!-- REVENUS FINANCIERS -->
+            <record id="l10n_ci_note_29_section_revenus" model="account.report.line">
+                <field name="name">Financial income</field>
+                <field name="name@fr">Revenus financiers</field>
+                <field name="code">CI_N29_SEC_REV</field>
+                <field name="hierarchy_level" eval="1"/>
+            </record>
+            <record id="l10n_ci_note_29_interets_pretes" model="account.report.line">
+                <field name="name">Interest income and dividends (TK)</field>
+                <field name="name@fr">Intérêts et dividendes reçus (TK)</field>
+                <field name="code">CI_N29_771</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_771_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">771 + 772 + 773 + 774</field>
+                    </record>
+                    <record id="l10n_ci_note_29_771_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">771 + 772 + 773 + 774</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_escomp_obtenus" model="account.report.line">
+                <field name="name">Discounts obtained</field>
+                <field name="name@fr">Escomptes obtenus</field>
+                <field name="code">CI_N29_775</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_775_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">775</field>
+                    </record>
+                    <record id="l10n_ci_note_29_775_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">775</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_gains_change" model="account.report.line">
+                <field name="name">Foreign exchange gains and other financial income</field>
+                <field name="name@fr">Gains de change et autres revenus financiers</field>
+                <field name="code">CI_N29_776</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_776_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">776 + 777 + 778</field>
+                    </record>
+                    <record id="l10n_ci_note_29_776_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">776 + 777 + 778</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_transferts" model="account.report.line">
+                <field name="name">Financial expense transfers (TM)</field>
+                <field name="name@fr">Transferts de charges financières (TM)</field>
+                <field name="code">CI_N29_786</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_786_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">786</field>
+                    </record>
+                    <record id="l10n_ci_note_29_786_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">786</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_29_xf" model="account.report.line">
+                <field name="name">NET FINANCIAL RESULT (XF)</field>
+                <field name="name@fr">RÉSULTAT FINANCIER NET (XF)</field>
+                <field name="code">CI_N29_XF</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_29_xf_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N29_671.balance + CI_N29_674.balance + CI_N29_676.balance + CI_N29_771.balance + CI_N29_775.balance + CI_N29_776.balance + CI_N29_786.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_29_xf_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N29_671.balance_prev + CI_N29_674.balance_prev + CI_N29_676.balance_prev + CI_N29_771.balance_prev + CI_N29_775.balance_prev + CI_N29_776.balance_prev + CI_N29_786.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+    <!-- NOTE 30 – Autres charges et produits HAO (81x–84x, 87x) -->
+    <record id="l10n_ci_note_30" model="account.report">
+        <field name="name">Note 30 - Other HAO expenses and income</field>
+        <field name="name@fr">Note 30 - Autres charges et produits HAO</field>
+        <field name="availability_condition">coa_children</field>
+        <field name="chart_template">l10n_ci</field>
+        <field name="filter_unfold_all" eval="True"/>
+        <field name="filter_date_range" eval="False"/>
+        <field name="column_ids">
+            <record id="l10n_ci_note_30_col_n" model="account.report.column">
+                <field name="name">Amount (N)</field>
+                <field name="name@fr">Montant (N)</field>
+                <field name="expression_label">balance</field>
+            </record>
+            <record id="l10n_ci_note_30_col_n1" model="account.report.column">
+                <field name="name">Amount (N-1)</field>
+                <field name="name@fr">Montant (N-1)</field>
+                <field name="expression_label">balance_prev</field>
+                <field name="optional" eval="True"/>
+            </record>
+        </field>
+        <field name="line_ids">
+            <record id="l10n_ci_note_30_vcai" model="account.report.line">
+                <field name="name">Net book value of assets disposed (RO)</field>
+                <field name="name@fr">Valeur comptable des cessions d'immobilisations (RO)</field>
+                <field name="code">CI_N30_RO</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_ro_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-811 - 812 - 813 - 814 - 815 - 816 - 817 - 818</field>
+                    </record>
+                    <record id="l10n_ci_note_30_ro_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-811 - 812 - 813 - 814 - 815 - 816 - 817 - 818</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_30_produits_cess" model="account.report.line">
+                <field name="name">Proceeds from asset disposals (TN)</field>
+                <field name="name@fr">Produits des cessions d'immobilisations (TN)</field>
+                <field name="code">CI_N30_TN</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_tn_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">821 + 822 + 823 + 824 + 825 + 826 + 827 + 828</field>
+                    </record>
+                    <record id="l10n_ci_note_30_tn_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">821 + 822 + 823 + 824 + 825 + 826 + 827 + 828</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_30_charges_hao" model="account.report.line">
+                <field name="name">Other HAO charges (RP)</field>
+                <field name="name@fr">Autres charges HAO (RP)</field>
+                <field name="code">CI_N30_RP</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_rp_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-831 - 832 - 833 - 834 - 835 - 836 - 837 - 838</field>
+                    </record>
+                    <record id="l10n_ci_note_30_rp_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-831 - 832 - 833 - 834 - 835 - 836 - 837 - 838</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_30_produits_hao" model="account.report.line">
+                <field name="name">Other HAO income (TO)</field>
+                <field name="name@fr">Autres produits HAO (TO)</field>
+                <field name="code">CI_N30_TO</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_to_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">841 + 842 + 843 + 844 + 845 + 846 + 847 + 848</field>
+                    </record>
+                    <record id="l10n_ci_note_30_to_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">841 + 842 + 843 + 844 + 845 + 846 + 847 + 848</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_30_participation" model="account.report.line">
+                <field name="name">Employee profit-sharing (RQ)</field>
+                <field name="name@fr">Participation des travailleurs (RQ)</field>
+                <field name="code">CI_N30_RQ</field>
+                <field name="groupby">account_id</field>
+                <field name="foldable" eval="True"/>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_rq_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-871 - 872 - 873</field>
+                    </record>
+                    <record id="l10n_ci_note_30_rq_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">account_codes</field>
+                        <field name="date_scope">strict_range</field>
+                        <field name="formula">-871 - 872 - 873</field>
+                    </record>
+                </field>
+            </record>
+            <record id="l10n_ci_note_30_xh" model="account.report.line">
+                <field name="name">HAO RESULT (XH)</field>
+                <field name="name@fr">RÉSULTAT HAO (XH)</field>
+                <field name="code">CI_N30_XH</field>
+                <field name="expression_ids">
+                    <record id="l10n_ci_note_30_xh_bal" model="account.report.expression">
+                        <field name="label">balance</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N30_RO.balance + CI_N30_TN.balance + CI_N30_RP.balance + CI_N30_TO.balance</field>
+                    </record>
+                    <record id="l10n_ci_note_30_xh_prev" model="account.report.expression">
+                        <field name="label">balance_prev</field>
+                        <field name="engine">aggregation</field>
+                        <field name="formula">CI_N30_RO.balance_prev + CI_N30_TN.balance_prev + CI_N30_RP.balance_prev + CI_N30_TO.balance_prev</field>
+                    </record>
+                </field>
+            </record>
+        </field>
+    </record>
+
+</data>
+</odoo>
