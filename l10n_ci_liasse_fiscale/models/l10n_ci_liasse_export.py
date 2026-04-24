@@ -123,11 +123,12 @@ class L10nCiLiasseExport(models.AbstractModel):
 
     def _get_report_options(self, report, date_from, date_to, company, previous=False):
         """Build account.report options dict for a given period."""
+        from dateutil.relativedelta import relativedelta
         if previous:
-            from dateutil.relativedelta import relativedelta
             date_from = date_from - relativedelta(years=1)
             date_to = date_to - relativedelta(years=1)
-        return report._get_options({
+        # get_options (no underscore) is the public API in Odoo 17+
+        return report.get_options({
             'date': {
                 'date_from': fields.Date.to_string(date_from),
                 'date_to': fields.Date.to_string(date_to),
@@ -146,23 +147,29 @@ class L10nCiLiasseExport(models.AbstractModel):
         if not report:
             return {}, {}
 
+        # Build a lookup: account.report.line db-id → code (for all lines of this report)
+        line_code_by_id = {
+            rec.id: rec.code
+            for rec in self.env['account.report.line'].search([
+                ('report_id', '=', report.id),
+                ('code', '!=', False),
+            ])
+        }
+
         result_cur, result_prev = {}, {}
 
         for period, target in [('current', result_cur), ('previous', result_prev)]:
             previous = (period == 'previous')
             options = self._get_report_options(report, date_from, date_to, company, previous)
             lines = report._get_lines(options)
+            col_defs = options.get('columns', [])
             for line in lines:
-                code = line.get('columns_label') or ''
-                # line code is stored in line['id'] as model_id or via line_model
-                line_model = line.get('line_model')
-                if line_model:
-                    rec = self.env[line_model].browse(line['id'])
-                    code = getattr(rec, 'code', '') or ''
+                line_id = line.get('id')
+                code = line_code_by_id.get(line_id) if isinstance(line_id, int) else None
                 if not code:
                     continue
                 col_vals = {}
-                for col, col_def in zip(line.get('columns', []), options.get('columns', [])):
+                for col, col_def in zip(line.get('columns', []), col_defs):
                     label = col_def.get('expression_label', '')
                     val = col.get('no_format', 0) or 0
                     col_vals[label] = val
