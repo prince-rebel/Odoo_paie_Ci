@@ -31,7 +31,9 @@ class L10nCiLiasseWizard(models.TransientModel):
         default='NO',
     )
     xml_file = fields.Binary(string='XML File', readonly=True)
-    xml_filename = fields.Char(string='Filename', readonly=True)
+    xml_filename = fields.Char(string='XML Filename', readonly=True)
+    xlsx_file = fields.Binary(string='Excel File', readonly=True)
+    xlsx_filename = fields.Char(string='Excel Filename', readonly=True)
     state = fields.Selection(
         [('draft', 'Parameters'), ('done', 'Generated')],
         default='draft',
@@ -60,6 +62,38 @@ class L10nCiLiasseWizard(models.TransientModel):
         self.write({
             'xml_file': base64.b64encode(xml_bytes),
             'xml_filename': filename,
+            'state': 'done',
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': self._name,
+            'res_id': self.id,
+            'view_mode': 'form',
+            'target': 'new',
+        }
+
+    def action_generate_excel(self):
+        self.ensure_one()
+        if not self.date_from or not self.date_to:
+            raise UserError(_('Please set start and end dates.'))
+        if self.date_from > self.date_to:
+            raise UserError(_('Start date must be before end date.'))
+
+        export_helper = self.env['l10n.ci.liasse.export']
+        xlsx_bytes = export_helper.generate_excel(
+            date_from=self.date_from,
+            date_to=self.date_to,
+            company=self.company_id,
+        )
+
+        filename = 'liasse_fiscale_{}_{}_{}.xlsx'.format(
+            self.company_id.vat or self.company_id.name.replace(' ', '_'),
+            self.liasse_type,
+            self.date_to.year,
+        )
+        self.write({
+            'xlsx_file': base64.b64encode(xlsx_bytes),
+            'xlsx_filename': filename,
             'state': 'done',
         })
         return {

@@ -261,3 +261,199 @@ class L10nCiLiasseExport(models.AbstractModel):
 
         xml_bytes = etree.tostring(root, xml_declaration=True, encoding='UTF-8', pretty_print=True)
         return xml_bytes
+
+    def generate_excel(self, date_from, date_to, company):
+        """
+        Generate a multi-sheet XLSX workbook — one tab per financial statement and note.
+        Returns bytes.
+        """
+        try:
+            import openpyxl
+            from openpyxl.styles import Font, PatternFill, Alignment
+            from openpyxl.utils import get_column_letter
+        except ImportError:
+            from odoo.exceptions import UserError
+            raise UserError("openpyxl est requis pour l'export Excel.")
+
+        from io import BytesIO
+
+        # ── Palette ──────────────────────────────────────────────────────────
+        BG_DARK   = '1F4E79'   # bleu DGI foncé   → en-têtes société/rapport
+        BG_MID    = '2E75B6'   # bleu moyen        → ligne période
+        BG_TOTAL  = 'DEEAF1'   # bleu très clair   → lignes total (level 0)
+        BG_SECT   = 'BDD7EE'   # bleu clair        → sections (level 1)
+        FG_WHITE  = 'FFFFFF'
+
+        def _hdr(cell, bg=BG_DARK, fg=FG_WHITE, bold=True, sz=10, halign='center'):
+            cell.font = Font(name='Calibri', bold=bold, color=fg, size=sz)
+            cell.fill = PatternFill(fill_type='solid', fgColor=bg)
+            cell.alignment = Alignment(horizontal=halign, vertical='center', wrap_text=True)
+
+        def _total(cell, bold=True):
+            cell.font = Font(name='Calibri', bold=bold, size=10)
+            cell.fill = PatternFill(fill_type='solid', fgColor=BG_TOTAL)
+
+        def _sect(cell):
+            cell.font = Font(name='Calibri', bold=True, size=10)
+            cell.fill = PatternFill(fill_type='solid', fgColor=BG_SECT)
+
+        def _num(val):
+            if val is None:
+                return None
+            try:
+                v = float(val)
+                return int(round(v)) if v != 0.0 else None
+            except (TypeError, ValueError):
+                return None
+
+        wb = openpyxl.Workbook()
+        wb.remove(wb.active)
+
+        date_from_str = fields.Date.to_string(date_from)
+        date_to_str   = fields.Date.to_string(date_to)
+
+        def _add_sheet(report_xmlid, sheet_title):
+            report = self.env.ref(report_xmlid, raise_if_not_found=False)
+            if not report:
+                return
+
+            options = report.get_options({
+                'date': {
+                    'date_from': date_from_str,
+                    'date_to':   date_to_str,
+                    'mode':      'range',
+                    'filter':    'custom',
+                },
+                'multi_company': [{'id': company.id, 'name': company.name}],
+            })
+            lines    = report._get_lines(options)
+            col_defs = options.get('columns', [])
+            ncols    = 2 + len(col_defs)
+
+            # Map line DB-id → code
+            line_code_map = {
+                r.id: r.code
+                for r in self.env['account.report.line'].search([
+                    ('report_id', '=', report.id),
+                    ('code', '!=', False),
+                ])
+            }
+
+            ws = wb.create_sheet(title=sheet_title[:31])
+
+            # ── Rows 1-3 : société / période / rapport ─────────────────────
+            for r, (text, bg) in enumerate([
+                (company.name,                                       BG_DARK),
+                (f"Exercice du {date_from_str} au {date_to_str}",   BG_MID),
+                (report.name,                                        BG_MID),
+            ], start=1):
+                ws.merge_cells(start_row=r, start_column=1,
+                               end_row=r,   end_column=ncols)
+                _hdr(ws.cell(row=r, column=1, value=text), bg=bg,
+                     sz=12 if r == 1 else 10)
+                ws.row_dimensions[r].height = 18 if r == 1 else 15
+
+            # ── Row 4 : column headers ──────────────────────────────────────
+            _hdr(ws.cell(row=4, column=1, value='Code'))
+            _hdr(ws.cell(row=4, column=2, value='Libellé'), halign='left')
+            for ci, cd in enumerate(col_defs):
+                _hdr(ws.cell(row=4, column=3 + ci, value=cd.get('name', '')))
+            ws.row_dimensions[4].height = 30
+
+            # Column widths
+            ws.column_dimensions['A'].width = 12
+            ws.column_dimensions['B'].width = 52
+            for ci in range(len(col_defs)):
+                ws.column_dimensions[get_column_letter(3 + ci)].width = 18
+
+            # ── Data rows ──────────────────────────────────────────────────
+            row = 5
+            for line in lines:
+                lid   = line.get('id')
+                code  = line_code_map.get(lid, '') if isinstance(lid, int) else ''
+                name  = line.get('name', '')
+                level = line.get('level', 2)
+                cols  = line.get('columns', [])
+
+                indent = '  ' * level
+                is_total = (level == 0)
+                is_sect  = (level == 1)
+
+                apply = _total if is_total else (_sect if is_sect else None)
+
+                c_code = ws.cell(row=row, column=1, value=code or None)
+                c_name = ws.cell(row=row, column=2, value=indent + name)
+                c_name.alignment = Alignment(horizontal='left', vertical='center')
+
+                if apply:
+                    apply(c_code); apply(c_name)
+
+                for ci, col_val in enumerate(cols):
+                    v   = _num(col_val.get('no_format'))
+                    c   = ws.cell(row=row, column=3 + ci, value=v)
+                    c.alignment = Alignment(horizontal='right', vertical='center')
+                    if v is not None:
+                        c.number_format = '#,##0'
+                    if apply:
+                        apply(c)
+
+                row += 1
+
+        # ── Sheet list ──────────────────────────────────────────────────────
+        SHEETS = [
+            ('l10n_syscohada_reports.account_financial_report_syscohada_bilan', 'Bilan'),
+            ('l10n_syscohada_reports.account_financial_report_syscohada_pl',    'Compte de Résultat'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_tft',      'TFT'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3a',  'Note 3A'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3b',  'Note 3B'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3c',  'Note 3C'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3cbis','Note 3C BIS'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3d',  'Note 3D'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_3e',  'Note 3E'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_4',   'Note 4'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_5',   'Note 5'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_6',   'Note 6'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_7',   'Note 7'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_8',   'Note 8'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_9',   'Note 9'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_10',  'Note 10'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_11',  'Note 11'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_12',  'Note 12'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_13',  'Note 13'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_14',  'Note 14'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_16a', 'Note 16A'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_17',  'Note 17'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_18',  'Note 18'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_19',  'Note 19'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_20',  'Note 20'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_21',  'Note 21'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_22',  'Note 22'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_23',  'Note 23'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_24',  'Note 24'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_25',  'Note 25'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_26',  'Note 26'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_27a', 'Note 27A'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_27b', 'Note 27B'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_28',  'Note 28'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_29',  'Note 29'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_30',  'Note 30'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_31',  'Note 31'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_32',  'Note 32'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_33',  'Note 33'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_34',  'Note 34'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_35',  'Note 35'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_36',  'Note 36'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_37',  'Note 37'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_38',  'Note 38'),
+            ('l10n_ci_liasse_fiscale.l10n_ci_note_39',  'Note 39'),
+        ]
+
+        for xmlid, title in SHEETS:
+            try:
+                _add_sheet(xmlid, title)
+            except Exception:
+                pass  # skip unavailable reports silently
+
+        buf = BytesIO()
+        wb.save(buf)
+        return buf.getvalue()

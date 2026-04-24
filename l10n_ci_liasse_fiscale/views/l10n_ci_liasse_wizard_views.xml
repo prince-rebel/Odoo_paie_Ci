@@ -17,18 +17,25 @@
                     </group>
                 </group>
 
-                <group invisible="state != 'done'" string="Fichier généré">
-                    <field name="xml_file" filename="xml_filename" widget="binary"/>
+                <group invisible="state != 'done'" string="Fichiers générés">
+                    <field name="xml_file" filename="xml_filename" widget="binary" string="Fichier XML (e-impôts DGI)"/>
                     <field name="xml_filename" invisible="True"/>
+                    <field name="xlsx_file" filename="xlsx_filename" widget="binary" string="Classeur Excel (multi-onglets)"/>
+                    <field name="xlsx_filename" invisible="True"/>
                 </group>
 
                 <footer>
                     <button name="action_generate"
-                            string="Generate XML"
+                            string="Générer XML (e-impôts DGI)"
                             type="object"
                             class="btn-primary"
                             invisible="state != 'draft'"/>
-                    <button string="Close"
+                    <button name="action_generate_excel"
+                            string="Exporter Excel (multi-onglets)"
+                            type="object"
+                            class="btn-secondary"
+                            invisible="state != 'draft'"/>
+                    <button string="Fermer"
                             class="btn-secondary"
                             special="cancel"/>
                 </footer>
