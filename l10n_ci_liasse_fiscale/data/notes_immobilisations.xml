@@ -633,8 +633,6 @@
                 <field name="name">Intangible and tangible assets</field>
                 <field name="name@fr">Cessions immo incorporelles et corporelles</field>
                 <field name="code">CI_N3D_CORP</field>
-                <field name="groupby">account_id</field>
-                <field name="foldable" eval="True"/>
                 <field name="expression_ids">
                     <record id="l10n_ci_note_3d_corp_proc" model="account.report.expression">
                         <field name="label">proceeds</field>
@@ -657,8 +655,6 @@
                 <field name="name">Financial assets</field>
                 <field name="name@fr">Cessions immo financières</field>
                 <field name="code">CI_N3D_FIN</field>
-                <field name="groupby">account_id</field>
-                <field name="foldable" eval="True"/>
                 <field name="expression_ids">
                     <record id="l10n_ci_note_3d_fin_proc" model="account.report.expression">
                         <field name="label">proceeds</field>
