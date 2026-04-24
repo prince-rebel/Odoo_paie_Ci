@@ -2,7 +2,7 @@
 {
     'name': 'Ivory Coast - Liasse Fiscale SYSCOHADA',
     'version': '1.0',
-    'author': 'Odoo / Custom',
+    'author': 'Djakaridja Traoré',
     'description': """
 Liasse Fiscale DGI Côte d'Ivoire — SYSCOHADA révisé
 =====================================================
@@ -23,6 +23,7 @@ Liasse Fiscale DGI Côte d'Ivoire — SYSCOHADA révisé
         'data/notes_charges_produits.xml',
         'data/notes_resultats.xml',
         'views/l10n_ci_liasse_wizard_views.xml',
+        'views/l10n_ci_reports_menus.xml',
     ],
     'auto_install': False,
     'license': 'OEEL-1',

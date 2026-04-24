@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ══════════════════════════════════════════════════
+         ACTIONS CLIENT — un par account.report
+         tag='account_report' = même viewer que Bilan/CR
+    ═══════════════════════════════════════════════════════ -->
+
+    <!-- TFT -->
+    <record id="action_l10n_ci_tft" model="ir.actions.client">
+        <field name="name">Cash Flow Statement — TFT (SYSCOHADA)</field>
+        <field name="name@fr">Tableau des Flux de Trésorerie (SYSCOHADA)</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_tft')}"/>
+    </record>
+
+    <!-- Notes 3A–4 : Immobilisations -->
+    <record id="action_l10n_ci_note_3a" model="ir.actions.client">
+        <field name="name">Note 3A - Fixed assets movements</field>
+        <field name="name@fr">Note 3A - Tableau des immobilisations brutes</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3a')}"/>
+    </record>
+    <record id="action_l10n_ci_note_3b" model="ir.actions.client">
+        <field name="name">Note 3B - Finance lease assets</field>
+        <field name="name@fr">Note 3B - Biens pris en location-acquisition</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3b')}"/>
+    </record>
+    <record id="action_l10n_ci_note_3c" model="ir.actions.client">
+        <field name="name">Note 3C - Accumulated depreciation</field>
+        <field name="name@fr">Note 3C - Tableau des amortissements</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3c')}"/>
+    </record>
+    <record id="action_l10n_ci_note_3cbis" model="ir.actions.client">
+        <field name="name">Note 3C BIS - Impairment of fixed assets</field>
+        <field name="name@fr">Note 3C BIS - Dépréciations des immobilisations</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3cbis')}"/>
+    </record>
+    <record id="action_l10n_ci_note_3d" model="ir.actions.client">
+        <field name="name">Note 3D - Gains and losses on disposals</field>
+        <field name="name@fr">Note 3D - Plus-values et moins-values de cession</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3d')}"/>
+    </record>
+    <record id="action_l10n_ci_note_3e" model="ir.actions.client">
+        <field name="name">Note 3E - Revaluation information</field>
+        <field name="name@fr">Note 3E - Informations sur les réévaluations</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_3e')}"/>
+    </record>
+    <record id="action_l10n_ci_note_4" model="ir.actions.client">
+        <field name="name">Note 4 - Financial assets and subsidiaries</field>
+        <field name="name@fr">Note 4 - Immobilisations financières et filiales</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_4')}"/>
+    </record>
+
+    <!-- Notes 5–20 : Actif circulant, Passif -->
+    <record id="action_l10n_ci_note_5" model="ir.actions.client">
+        <field name="name">Note 5 - HAO current assets and liabilities</field>
+        <field name="name@fr">Note 5 - Actif et dettes circulants HAO</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_5')}"/>
+    </record>
+    <record id="action_l10n_ci_note_6" model="ir.actions.client">
+        <field name="name">Note 6 - Inventories</field>
+        <field name="name@fr">Note 6 - Stocks et encours</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_6')}"/>
+    </record>
+    <record id="action_l10n_ci_note_7" model="ir.actions.client">
+        <field name="name">Note 7 - Trade receivables</field>
+        <field name="name@fr">Note 7 - Clients</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_7')}"/>
+    </record>
+    <record id="action_l10n_ci_note_8" model="ir.actions.client">
+        <field name="name">Note 8 - Other receivables</field>
+        <field name="name@fr">Note 8 - Autres créances</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_8')}"/>
+    </record>
+    <record id="action_l10n_ci_note_9" model="ir.actions.client">
+        <field name="name">Note 9 - Short-term investments</field>
+        <field name="name@fr">Note 9 - Titres de placement</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_9')}"/>
+    </record>
+    <record id="action_l10n_ci_note_10" model="ir.actions.client">
+        <field name="name">Note 10 - Notes receivable</field>
+        <field name="name@fr">Note 10 - Valeurs à encaisser</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_10')}"/>
+    </record>
+    <record id="action_l10n_ci_note_11" model="ir.actions.client">
+        <field name="name">Note 11 - Cash and bank balances</field>
+        <field name="name@fr">Note 11 - Disponibilités</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_11')}"/>
+    </record>
+    <record id="action_l10n_ci_note_12" model="ir.actions.client">
+        <field name="name">Note 12 - Translation differences</field>
+        <field name="name@fr">Note 12 - Écarts de conversion et transferts</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_12')}"/>
+    </record>
+    <record id="action_l10n_ci_note_13" model="ir.actions.client">
+        <field name="name">Note 13 - Share capital</field>
+        <field name="name@fr">Note 13 - Capital</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_13')}"/>
+    </record>
+    <record id="action_l10n_ci_note_14" model="ir.actions.client">
+        <field name="name">Note 14 - Share premiums and reserves</field>
+        <field name="name@fr">Note 14 - Primes et réserves</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_14')}"/>
+    </record>
+    <record id="action_l10n_ci_note_16a" model="ir.actions.client">
+        <field name="name">Note 16A - Financial debts and borrowings</field>
+        <field name="name@fr">Note 16A - Dettes financières et ressources assimilées</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_16a')}"/>
+    </record>
+    <record id="action_l10n_ci_note_17" model="ir.actions.client">
+        <field name="name">Note 17 - Trade payables</field>
+        <field name="name@fr">Note 17 - Fournisseurs d'exploitation</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_17')}"/>
+    </record>
+    <record id="action_l10n_ci_note_18" model="ir.actions.client">
+        <field name="name">Note 18 - Tax and social liabilities</field>
+        <field name="name@fr">Note 18 - Dettes fiscales et sociales</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_18')}"/>
+    </record>
+    <record id="action_l10n_ci_note_19" model="ir.actions.client">
+        <field name="name">Note 19 - Other liabilities and short-term provisions</field>
+        <field name="name@fr">Note 19 - Autres dettes et provisions CT</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_19')}"/>
+    </record>
+    <record id="action_l10n_ci_note_20" model="ir.actions.client">
+        <field name="name">Note 20 - Bank overdrafts and treasury</field>
+        <field name="name@fr">Note 20 - Banques, crédits d'escompte et trésorerie</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_20')}"/>
+    </record>
+
+    <!-- Notes 21–30 : Charges et Produits -->
+    <record id="action_l10n_ci_note_21" model="ir.actions.client">
+        <field name="name">Note 21 - Revenue and other income</field>
+        <field name="name@fr">Note 21 - CA et autres produits</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_21')}"/>
+    </record>
+    <record id="action_l10n_ci_note_22" model="ir.actions.client">
+        <field name="name">Note 22 - Purchases</field>
+        <field name="name@fr">Note 22 - Achats</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_22')}"/>
+    </record>
+    <record id="action_l10n_ci_note_23" model="ir.actions.client">
+        <field name="name">Note 23 - Transport costs</field>
+        <field name="name@fr">Note 23 - Transports</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_23')}"/>
+    </record>
+    <record id="action_l10n_ci_note_24" model="ir.actions.client">
+        <field name="name">Note 24 - External services</field>
+        <field name="name@fr">Note 24 - Services extérieurs</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_24')}"/>
+    </record>
+    <record id="action_l10n_ci_note_25" model="ir.actions.client">
+        <field name="name">Note 25 - Taxes and duties</field>
+        <field name="name@fr">Note 25 - Impôts et taxes</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_25')}"/>
+    </record>
+    <record id="action_l10n_ci_note_26" model="ir.actions.client">
+        <field name="name">Note 26 - Other operating expenses</field>
+        <field name="name@fr">Note 26 - Autres charges</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_26')}"/>
+    </record>
+    <record id="action_l10n_ci_note_27a" model="ir.actions.client">
+        <field name="name">Note 27A - Personnel costs</field>
+        <field name="name@fr">Note 27A - Charges de personnel</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_27a')}"/>
+    </record>
+    <record id="action_l10n_ci_note_27b" model="ir.actions.client">
+        <field name="name">Note 27B - Headcount and payroll</field>
+        <field name="name@fr">Note 27B - Effectifs et masse salariale</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_27b')}"/>
+    </record>
+    <record id="action_l10n_ci_note_28" model="ir.actions.client">
+        <field name="name">Note 28 - Depreciation and provisions charges</field>
+        <field name="name@fr">Note 28 - Dotations et charges prov./dépréc.</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_28')}"/>
+    </record>
+    <record id="action_l10n_ci_note_29" model="ir.actions.client">
+        <field name="name">Note 29 - Financial charges and income</field>
+        <field name="name@fr">Note 29 - Charges et revenus financiers</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_29')}"/>
+    </record>
+    <record id="action_l10n_ci_note_30" model="ir.actions.client">
+        <field name="name">Note 30 - Other HAO charges and income</field>
+        <field name="name@fr">Note 30 - Autres charges et produits HAO</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_30')}"/>
+    </record>
+
+    <!-- Notes 31–39 : Résultats et indicateurs -->
+    <record id="action_l10n_ci_note_31" model="ir.actions.client">
+        <field name="name">Note 31 - Profit distribution (5 years)</field>
+        <field name="name@fr">Note 31 - Répartition résultat 5 exercices</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_31')}"/>
+    </record>
+    <record id="action_l10n_ci_note_32" model="ir.actions.client">
+        <field name="name">Note 32 - Production detail</field>
+        <field name="name@fr">Note 32 - Détail production de l'exercice</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_32')}"/>
+    </record>
+    <record id="action_l10n_ci_note_33" model="ir.actions.client">
+        <field name="name">Note 33 - Purchases for production detail</field>
+        <field name="name@fr">Note 33 - Détail achats destinés à la production</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_33')}"/>
+    </record>
+    <record id="action_l10n_ci_note_34" model="ir.actions.client">
+        <field name="name">Note 34 - Key financial ratios</field>
+        <field name="name@fr">Note 34 - Indicateurs financiers de synthèse</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_34')}"/>
+    </record>
+    <record id="action_l10n_ci_note_35" model="ir.actions.client">
+        <field name="name">Note 35 - Social and environmental information</field>
+        <field name="name@fr">Note 35 - Infos sociales, environnementales</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_35')}"/>
+    </record>
+    <record id="action_l10n_ci_note_36" model="ir.actions.client">
+        <field name="name">Note 36 - Reference codes (CIAP)</field>
+        <field name="name@fr">Note 36 - Table des codes (CIAP)</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_36')}"/>
+    </record>
+    <record id="action_l10n_ci_note_37" model="ir.actions.client">
+        <field name="name">Note 37 - Corporate income tax</field>
+        <field name="name@fr">Note 37 - Détermination de l'impôt sur le résultat</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_37')}"/>
+    </record>
+    <record id="action_l10n_ci_note_38" model="ir.actions.client">
+        <field name="name">Note 38 - Subsequent events</field>
+        <field name="name@fr">Note 38 - Événements postérieurs à la clôture</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_38')}"/>
+    </record>
+    <record id="action_l10n_ci_note_39" model="ir.actions.client">
+        <field name="name">Note 39 - Changes in accounting policies</field>
+        <field name="name@fr">Note 39 - Changements de méthodes et corrections</field>
+        <field name="tag">account_report</field>
+        <field name="context" eval="{'report_id': ref('l10n_ci_liasse_fiscale.l10n_ci_note_39')}"/>
+    </record>
+
+    <!-- ══════════════════════════════════════════════════
+         STRUCTURE DE MENUS
+         Accounting > Reporting > Liasse Fiscale CI
+    ═══════════════════════════════════════════════════════ -->
+
+    <!-- Sous-menu TFT -->
+    <menuitem id="l10n_ci_menu_tft"
+              name="TFT — Flux de Trésorerie"
+              parent="l10n_ci_liasse_menu_root"
+              action="action_l10n_ci_tft"
+              sequence="20"/>
+
+    <!-- Parent : Notes Annexes -->
+    <menuitem id="l10n_ci_menu_notes_root"
+              name="Notes Annexes"
+              parent="l10n_ci_liasse_menu_root"
+              sequence="30"/>
+
+    <!-- Sous-groupe : Immobilisations (Notes 3A–4) -->
+    <menuitem id="l10n_ci_menu_notes_immo"
+              name="Immobilisations (Notes 3A–4)"
+              parent="l10n_ci_menu_notes_root"
+              sequence="10"/>
+
+    <menuitem id="l10n_ci_menu_note_3a" name="Note 3A — Immo brutes"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3a" sequence="10"/>
+    <menuitem id="l10n_ci_menu_note_3b" name="Note 3B — Location-acquisition"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3b" sequence="20"/>
+    <menuitem id="l10n_ci_menu_note_3c" name="Note 3C — Amortissements"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3c" sequence="30"/>
+    <menuitem id="l10n_ci_menu_note_3cbis" name="Note 3C BIS — Dépréciations"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3cbis" sequence="40"/>
+    <menuitem id="l10n_ci_menu_note_3d" name="Note 3D — Plus/moins-values"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3d" sequence="50"/>
+    <menuitem id="l10n_ci_menu_note_3e" name="Note 3E — Réévaluations"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_3e" sequence="60"/>
+    <menuitem id="l10n_ci_menu_note_4"  name="Note 4 — Immo financières"
+              parent="l10n_ci_menu_notes_immo" action="action_l10n_ci_note_4"  sequence="70"/>
+
+    <!-- Sous-groupe : Actif circulant & Passif (Notes 5–20) -->
+    <menuitem id="l10n_ci_menu_notes_actif_passif"
+              name="Actif circulant &amp; Passif (Notes 5–20)"
+              parent="l10n_ci_menu_notes_root"
+              sequence="20"/>
+
+    <menuitem id="l10n_ci_menu_note_5"   name="Note 5 — HAO circulant"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_5"  sequence="10"/>
+    <menuitem id="l10n_ci_menu_note_6"   name="Note 6 — Stocks"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_6"  sequence="20"/>
+    <menuitem id="l10n_ci_menu_note_7"   name="Note 7 — Clients"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_7"  sequence="30"/>
+    <menuitem id="l10n_ci_menu_note_8"   name="Note 8 — Autres créances"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_8"  sequence="40"/>
+    <menuitem id="l10n_ci_menu_note_9"   name="Note 9 — Titres placement"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_9"  sequence="50"/>
+    <menuitem id="l10n_ci_menu_note_10"  name="Note 10 — Valeurs à encaisser"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_10" sequence="60"/>
+    <menuitem id="l10n_ci_menu_note_11"  name="Note 11 — Disponibilités"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_11" sequence="70"/>
+    <menuitem id="l10n_ci_menu_note_12"  name="Note 12 — Écarts de conversion"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_12" sequence="80"/>
+    <menuitem id="l10n_ci_menu_note_13"  name="Note 13 — Capital"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_13" sequence="90"/>
+    <menuitem id="l10n_ci_menu_note_14"  name="Note 14 — Primes &amp; réserves"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_14" sequence="100"/>
+    <menuitem id="l10n_ci_menu_note_16a" name="Note 16A — Dettes financières"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_16a" sequence="110"/>
+    <menuitem id="l10n_ci_menu_note_17"  name="Note 17 — Fournisseurs"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_17" sequence="120"/>
+    <menuitem id="l10n_ci_menu_note_18"  name="Note 18 — Dettes fiscales &amp; sociales"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_18" sequence="130"/>
+    <menuitem id="l10n_ci_menu_note_19"  name="Note 19 — Autres dettes"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_19" sequence="140"/>
+    <menuitem id="l10n_ci_menu_note_20"  name="Note 20 — Banques &amp; trésorerie passif"
+              parent="l10n_ci_menu_notes_actif_passif" action="action_l10n_ci_note_20" sequence="150"/>
+
+    <!-- Sous-groupe : Charges & Produits (Notes 21–30) -->
+    <menuitem id="l10n_ci_menu_notes_charges"
+              name="Charges &amp; Produits (Notes 21–30)"
+              parent="l10n_ci_menu_notes_root"
+              sequence="30"/>
+
+    <menuitem id="l10n_ci_menu_note_21"  name="Note 21 — CA et autres produits"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_21"  sequence="10"/>
+    <menuitem id="l10n_ci_menu_note_22"  name="Note 22 — Achats"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_22"  sequence="20"/>
+    <menuitem id="l10n_ci_menu_note_23"  name="Note 23 — Transports"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_23"  sequence="30"/>
+    <menuitem id="l10n_ci_menu_note_24"  name="Note 24 — Services extérieurs"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_24"  sequence="40"/>
+    <menuitem id="l10n_ci_menu_note_25"  name="Note 25 — Impôts et taxes"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_25"  sequence="50"/>
+    <menuitem id="l10n_ci_menu_note_26"  name="Note 26 — Autres charges"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_26"  sequence="60"/>
+    <menuitem id="l10n_ci_menu_note_27a" name="Note 27A — Charges de personnel"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_27a" sequence="70"/>
+    <menuitem id="l10n_ci_menu_note_27b" name="Note 27B — Effectifs &amp; masse salariale"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_27b" sequence="80"/>
+    <menuitem id="l10n_ci_menu_note_28"  name="Note 28 — Dotations"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_28"  sequence="90"/>
+    <menuitem id="l10n_ci_menu_note_29"  name="Note 29 — Charges/revenus financiers"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_29"  sequence="100"/>
+    <menuitem id="l10n_ci_menu_note_30"  name="Note 30 — Charges/produits HAO"
+              parent="l10n_ci_menu_notes_charges" action="action_l10n_ci_note_30"  sequence="110"/>
+
+    <!-- Sous-groupe : Résultats & Indicateurs (Notes 31–39) -->
+    <menuitem id="l10n_ci_menu_notes_resultats"
+              name="Résultats &amp; Indicateurs (Notes 31–39)"
+              parent="l10n_ci_menu_notes_root"
+              sequence="40"/>
+
+    <menuitem id="l10n_ci_menu_note_31"  name="Note 31 — Résultat 5 exercices"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_31"  sequence="10"/>
+    <menuitem id="l10n_ci_menu_note_32"  name="Note 32 — Détail production"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_32"  sequence="20"/>
+    <menuitem id="l10n_ci_menu_note_33"  name="Note 33 — Détail achats production"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_33"  sequence="30"/>
+    <menuitem id="l10n_ci_menu_note_34"  name="Note 34 — Indicateurs financiers"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_34"  sequence="40"/>
+    <menuitem id="l10n_ci_menu_note_35"  name="Note 35 — Infos sociales"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_35"  sequence="50"/>
+    <menuitem id="l10n_ci_menu_note_36"  name="Note 36 — Codes CIAP"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_36"  sequence="60"/>
+    <menuitem id="l10n_ci_menu_note_37"  name="Note 37 — Impôt sur le résultat (IS)"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_37"  sequence="70"/>
+    <menuitem id="l10n_ci_menu_note_38"  name="Note 38 — Événements postérieurs"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_38"  sequence="80"/>
+    <menuitem id="l10n_ci_menu_note_39"  name="Note 39 — Changements de méthodes"
+              parent="l10n_ci_menu_notes_resultats" action="action_l10n_ci_note_39"  sequence="90"/>
+
+</odoo>
