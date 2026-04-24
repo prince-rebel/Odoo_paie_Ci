@@ -84,6 +84,7 @@ class L10nCiLiasseWizard(models.TransientModel):
             date_from=self.date_from,
             date_to=self.date_to,
             company=self.company_id,
+            liasse_type=self.liasse_type,
         )
 
         filename = 'liasse_fiscale_{}_{}_{}.xlsx'.format(
