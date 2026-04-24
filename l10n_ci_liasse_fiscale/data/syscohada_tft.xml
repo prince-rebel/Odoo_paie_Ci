@@ -69,6 +69,7 @@
                         <field name="label">balance</field>
                         <field name="engine">account_codes</field>
                         <field name="formula">-13 + 681 + 691 + 694 + 695 + 697 + 791 + 796 + 786 + 811 + 812 + 813 + 816 + 821 + 822 + 826 + 841 + 842</field>
+                        <field name="subformula" eval="False"/>
                     </record>
                 </field>
             </record>
