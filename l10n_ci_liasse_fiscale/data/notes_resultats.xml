@@ -20,7 +20,6 @@
                 <field name="name">Year N-1</field>
                 <field name="name@fr">Exercice N-1</field>
                 <field name="expression_label">balance_prev</field>
-                <field name="optional" eval="True"/>
             </record>
         </field>
         <field name="line_ids">
@@ -129,7 +128,6 @@
                 <field name="name">Amount (N-1)</field>
                 <field name="name@fr">Montant (N-1)</field>
                 <field name="expression_label">balance_prev</field>
-                <field name="optional" eval="True"/>
             </record>
         </field>
         <field name="line_ids">
@@ -217,7 +215,6 @@
                 <field name="name">Amount (N-1)</field>
                 <field name="name@fr">Montant (N-1)</field>
                 <field name="expression_label">balance_prev</field>
-                <field name="optional" eval="True"/>
             </record>
         </field>
         <field name="line_ids">
@@ -305,7 +302,6 @@
                 <field name="name">Amount (N-1)</field>
                 <field name="name@fr">Montant (N-1)</field>
                 <field name="expression_label">balance_prev</field>
-                <field name="optional" eval="True"/>
             </record>
         </field>
         <field name="line_ids">
@@ -498,7 +494,6 @@
                 <field name="name">Amount (N-1)</field>
                 <field name="name@fr">Montant (N-1)</field>
                 <field name="expression_label">balance_prev</field>
-                <field name="optional" eval="True"/>
             </record>
         </field>
         <field name="line_ids">

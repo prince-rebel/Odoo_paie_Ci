@@ -17,7 +17,6 @@
                 <field name="name">Ref</field>
                 <field name="name@fr">Réf</field>
                 <field name="expression_label">note</field>
-                <field name="optional" eval="True"/>
             </record>
             <record id="l10n_ci_tft_col_balance" model="account.report.column">
                 <field name="name">Amount (N)</field>
