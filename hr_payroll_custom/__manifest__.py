@@ -17,6 +17,9 @@
         'data/hr_salary_rule_data.xml',
         'data/hr_salary_rule_trsp_fix.xml',
         'data/hr_payslip_input_type_data.xml',
+        'data/prime_type_system_data.xml',
+
+        'views/prime_type_view.xml',
 
         'wizards/payroll_variables_wizard_view.xml',
         'wizards/benefits_in_kind_301_view.xml',
@@ -71,5 +74,6 @@
     'demo': ['Demo'],
     'installable': True,
     'application': True,
-    'auto_install': False
+    'auto_install': False,
+    'post_init_hook': 'post_init_hook',
 }

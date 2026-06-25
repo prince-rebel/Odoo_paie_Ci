@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ─── LIST VIEW ─── -->
+        <record id="prime_type_list_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.prime_type.list</field>
+            <field name="model">hr_payroll_custom.prime_type</field>
+            <field name="arch" type="xml">
+                <list string="Types de primes">
+                    <field name="code" string="Code"/>
+                    <field name="name" string="Libellé"/>
+                    <field name="is_taxable" string="Imposable" widget="boolean_toggle"/>
+                    <field name="appears_on_payslip" string="Visible bulletin" widget="boolean_toggle"/>
+                    <field name="description" string="Description" optional="show"/>
+                    <field name="is_system" string="Système" optional="hide"/>
+                    <field name="active" widget="boolean_toggle" optional="hide"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- ─── FORM VIEW ─── -->
+        <record id="prime_type_form_view" model="ir.ui.view">
+            <field name="name">hr_payroll_custom.prime_type.form</field>
+            <field name="model">hr_payroll_custom.prime_type</field>
+            <field name="arch" type="xml">
+                <form string="Type de prime">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Libellé de la rubrique"/>
+                            <h1>
+                                <field name="name" placeholder="Ex: Prime de logement, Prime d'objectif..."
+                                       readonly="is_system"/>
+                            </h1>
+                        </div>
+
+                        <div class="alert alert-warning" role="alert"
+                             attrs="{'invisible': [('is_system', '=', False)]}">
+                            <strong>Rubrique système</strong> — Cette rubrique est gérée par le module (TRSP, ASM ou CMU).
+                            Sa règle salariale est définie dans le code et ne peut pas être modifiée ici.
+                        </div>
+
+                        <group>
+                            <group string="Identification">
+                                <field name="code" placeholder="Ex: LOG, PROD, OBJ"
+                                       readonly="is_system"/>
+                                <field name="description" readonly="is_system"/>
+                                <field name="active" widget="boolean_toggle"/>
+                                <field name="is_system" readonly="1" invisible="not is_system"/>
+                            </group>
+                            <group string="Paramètres paie">
+                                <field name="is_taxable" widget="boolean_toggle"
+                                       readonly="is_system"
+                                       help="Imposable : entre dans le Brut (ITS + CNPS). &#10;Non imposable : ajoutée au Brut Total uniquement (ex: transport, logement)."/>
+                                <field name="appears_on_payslip" widget="boolean_toggle"
+                                       readonly="is_system"/>
+                            </group>
+                        </group>
+
+                        <group string="Éléments générés automatiquement"
+                               attrs="{'invisible': [('input_type_id', '=', False)]}">
+                            <field name="input_type_id" readonly="1" string="Type d'entrée"/>
+                            <field name="salary_rule_id" readonly="1" string="Règle salariale"
+                                   attrs="{'invisible': [('salary_rule_id', '=', False)]}"/>
+                        </group>
+
+                        <div class="alert alert-info" role="alert"
+                             attrs="{'invisible': ['|', ('is_system', '=', True), ('input_type_id', '!=', False)]}">
+                            La règle salariale et le type d'entrée seront créés automatiquement lors de l'enregistrement.
+                        </div>
+                        <div class="alert alert-success" role="alert"
+                             attrs="{'invisible': ['|', ('is_system', '=', True), ('input_type_id', '=', False)]}">
+                            Cette rubrique est active. Elle apparaîtra dans la liste des primes du contrat
+                            et sera calculée automatiquement sur les bulletins.
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ─── ACTION ─── -->
+        <record id="prime_type_action" model="ir.actions.act_window">
+            <field name="name">Types de primes</field>
+            <field name="res_model">hr_payroll_custom.prime_type</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Créez votre première rubrique de prime
+                </p>
+                <p>
+                    Chaque rubrique crée automatiquement une règle salariale.
+                    Elle sera disponible immédiatement dans les contrats des employés.
+                </p>
+            </field>
+        </record>
+
+        <!-- ─── SERVER ACTION : migration one-shot des contrats existants ─── -->
+        <record id="action_migrate_legacy_premiums" model="ir.actions.server">
+            <field name="name">Migrer les primes existantes (TRSP / ASM / CMU)</field>
+            <field name="model_id" ref="hr_payroll_custom.model_hr_payroll_custom_prime_type"/>
+            <field name="binding_model_id" ref="hr_payroll_custom.model_hr_payroll_custom_prime_type"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="state">code</field>
+            <field name="code">action = records.action_migrate_legacy_premiums()</field>
+            <field name="groups_id" eval="[(4, ref('hr_payroll.group_hr_payroll_manager'))]"/>
+        </record>
+
+        <!-- ─── MENU CONFIGURATION (nouveau groupe) ─── -->
+        <menuitem
+            id="menu_payroll_configuration"
+            name="Configuration"
+            parent="hr_work_entry_enterprise.menu_hr_payroll_root"
+            sequence="99"
+            groups="hr_payroll.group_hr_payroll_manager"/>
+
+        <!-- ─── MENU ITEM Types de primes ─── -->
+        <menuitem
+            id="menu_prime_type"
+            name="Types de primes"
+            parent="hr_payroll_custom.menu_payroll_configuration"
+            action="prime_type_action"
+            sequence="5"
+            groups="hr_payroll.group_hr_payroll_manager"/>
+
+    </data>
+</odoo>

@@ -27,8 +27,13 @@
                         <field name="fixed_premiums_ids" nolabel="1" colspan="2"
                                context="{'default_version_id': version_id}">
                             <list editable="top">
-                                <field name="input_type_id"/>
-                                <field name="amount"/>
+                                <field name="prime_type_id" string="Rubrique"
+                                       placeholder="Sélectionner une prime..."/>
+                                <field name="is_taxable" string="Imposable" readonly="1"
+                                       optional="show"/>
+                                <field name="amount" string="Montant (FCFA)"/>
+                                <field name="input_type_id" string="Type (système)"
+                                       optional="hide"/>
                             </list>
                         </field>
                     </group>

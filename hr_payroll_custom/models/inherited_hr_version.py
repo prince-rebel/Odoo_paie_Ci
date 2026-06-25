@@ -45,7 +45,19 @@ class FixedPremiums(models.Model):
     _name = 'hr_payroll_custom.fixed_premiums'
     _description = "Primes fixes"
 
-    input_type_id = fields.Many2one('hr.payslip.input.type', 'Type de prime')
+    prime_type_id = fields.Many2one(
+        'hr_payroll_custom.prime_type', 'Type de prime',
+        help="Sélectionnez une rubrique créée dans la configuration des primes. "
+             "La règle salariale correspondante sera appliquée automatiquement."
+    )
+    # Kept for backward compatibility (TRSP, ASM, CMU legacy lines)
+    input_type_id = fields.Many2one('hr.payslip.input.type', 'Type (système)')
+    is_taxable = fields.Boolean('Imposable', related='prime_type_id.is_taxable', store=False)
     # Migration Odoo 19 : contract_id → version_id
     version_id = fields.Many2one('hr.version', 'Dossier employé', ondelete='cascade')
     amount = fields.Integer('Montant')
+
+    @api.onchange('prime_type_id')
+    def _onchange_prime_type_id(self):
+        if self.prime_type_id:
+            self.input_type_id = self.prime_type_id.input_type_id

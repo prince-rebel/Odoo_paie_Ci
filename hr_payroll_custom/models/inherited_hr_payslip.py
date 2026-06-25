@@ -116,7 +116,13 @@ class HrPayslip(models.Model):
 
             if slip.version_id and slip.version_id.fixed_premiums_ids:
                 for fp in slip.version_id.fixed_premiums_ids:
-                    if fp.input_type_id.code == 'TRSP':
+                    # Effective input type: prefer prime_type_id link, fall back to legacy input_type_id
+                    eff_input_type = (
+                        fp.prime_type_id.input_type_id if fp.prime_type_id else fp.input_type_id
+                    )
+                    if not eff_input_type:
+                        continue
+                    if eff_input_type.code == 'TRSP':
                         # Injecter TRSP_IMP uniquement si prime > plafond légal
                         if fp.amount > bonus_legal:
                             input_type_trsp_imp = self.env['hr.payslip.input.type'].search(
@@ -132,9 +138,9 @@ class HrPayslip(models.Model):
                             })
                     else:
                         payroll_input.append({
-                            'name': fp.input_type_id.name,
+                            'name': eff_input_type.name,
                             'amount': fp.amount,
-                            'input_type_id': fp.input_type_id.id
+                            'input_type_id': eff_input_type.id
                         })
 
             for dico in payroll_input:

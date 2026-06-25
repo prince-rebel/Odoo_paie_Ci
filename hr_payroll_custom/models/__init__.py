@@ -16,3 +16,4 @@ from . import its_monthly
 from . import statement_301
 from . import statement_disa
 from . import balance_any_account
+from . import prime_type
