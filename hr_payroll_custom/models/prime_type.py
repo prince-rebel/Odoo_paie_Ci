@@ -90,6 +90,8 @@ class PrimeType(models.Model):
         Migrate FixedPremiums lines that use input_type_id directly (TRSP, ASM, CMU)
         to the corresponding prime_type_id. Safe to run multiple times.
         """
+        if not self.env.user.has_group('hr_payroll.group_hr_payroll_manager'):
+            raise ValidationError("Seuls les gestionnaires de paie peuvent effectuer cette migration.")
         prime_types = self.env['hr_payroll_custom.prime_type'].search([
             ('input_type_id', '!=', False)
         ])
