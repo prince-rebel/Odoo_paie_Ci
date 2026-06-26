@@ -35,7 +35,7 @@
                         </div>
 
                         <div class="alert alert-warning" role="alert"
-                             attrs="{'invisible': [('is_system', '=', False)]}">
+                             invisible="not is_system">
                             <strong>Rubrique système</strong> — Cette rubrique est gérée par le module (TRSP, ASM ou CMU).
                             Sa règle salariale est définie dans le code et ne peut pas être modifiée ici.
                         </div>
@@ -58,18 +58,18 @@
                         </group>
 
                         <group string="Éléments générés automatiquement"
-                               attrs="{'invisible': [('input_type_id', '=', False)]}">
+                               invisible="not input_type_id">
                             <field name="input_type_id" readonly="1" string="Type d'entrée"/>
                             <field name="salary_rule_id" readonly="1" string="Règle salariale"
-                                   attrs="{'invisible': [('salary_rule_id', '=', False)]}"/>
+                                   invisible="not salary_rule_id"/>
                         </group>
 
                         <div class="alert alert-info" role="alert"
-                             attrs="{'invisible': ['|', ('is_system', '=', True), ('input_type_id', '!=', False)]}">
+                             invisible="is_system or input_type_id">
                             La règle salariale et le type d'entrée seront créés automatiquement lors de l'enregistrement.
                         </div>
                         <div class="alert alert-success" role="alert"
-                             attrs="{'invisible': ['|', ('is_system', '=', True), ('input_type_id', '=', False)]}">
+                             invisible="is_system or not input_type_id">
                             Cette rubrique est active. Elle apparaîtra dans la liste des primes du contrat
                             et sera calculée automatiquement sur les bulletins.
                         </div>
