@@ -11,6 +11,7 @@ from . import cmu_monthly
 from . import fdfp_monthly
 from . import fdfp_settings
 from . import inherited_hr_employee
+from . import inherited_hr_payslip_input_type
 from . import inherited_hr_leave
 from . import its_monthly
 from . import statement_301

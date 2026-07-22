@@ -15,6 +15,33 @@
                 <field name='part_cmu' position="after">
                     <field name="cmu_contributor"/>
                 </field>
+                <notebook position="inside">
+                    <page string="Primes" name="primes_page">
+                        <div class="alert alert-info mb-3" role="alert">
+                            <i class="fa fa-info-circle me-1"/>
+                            <strong>Comment ajouter une prime :</strong>
+                            <ul class="mb-0">
+                                <li>Prime déjà connue (Transport, Rendement, Gratification,
+                                    Congé, Indemnité de représentation...) : sélectionnez-la
+                                    dans la liste et indiquez le montant.</li>
+                                <li>Nouvelle prime qui n'existe pas encore : tapez son nom
+                                    puis cliquez sur "Créer et modifier..." pour préciser si
+                                    elle est <strong>imposable</strong> ou
+                                    <strong>non imposable</strong>. Elle sera ensuite prise
+                                    en compte automatiquement dans le bulletin de paie, sans
+                                    intervention technique.</li>
+                            </ul>
+                        </div>
+                        <field name="fixed_premiums_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="input_type_id"
+                                       options="{'no_quick_create': True}"
+                                       context="{'form_view_ref': 'hr_payroll_custom.view_hr_payslip_input_type_form_premium'}"/>
+                                <field name="amount"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
             </field>
         </record>
 
