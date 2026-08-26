@@ -161,6 +161,23 @@ result = inputs['GRATIF'].amount
             ]]></field>
         </record>
 
+        <!-- [113] AUTRES_PRIM_IMP - Primes libres imposables (créées par l'utilisateur) -->
+        <record id="salary_rule_autres_prim_imp" model="hr.salary.rule">
+            <field name="name">Autres primes imposables</field>
+            <field name="code">AUTRES_PRIM_IMP</field>
+            <field name="sequence">113</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_prim"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[
+result = any(l.input_type_id.premium_treatment == 'taxable' for l in payslip.input_line_ids)
+            ]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = sum(l.amount for l in payslip.input_line_ids if l.input_type_id.premium_treatment == 'taxable')
+            ]]></field>
+        </record>
+
         <!-- [116] BASEH - Base horaire -->
         <record id="salary_rule_baseh" model="hr.salary.rule">
             <field name="name">Base horaire</field>
@@ -799,6 +816,23 @@ result = inputs.get('IND_REPR').amount
             ]]></field>
         </record>
 
+        <!-- [511] AUTRES_PRIM_NI - Primes libres non imposables (créées par l'utilisateur) -->
+        <record id="salary_rule_autres_prim_ni" model="hr.salary.rule">
+            <field name="name">Autres primes non imposables</field>
+            <field name="code">AUTRES_PRIM_NI</field>
+            <field name="sequence">511</field>
+            <field name="struct_id" ref="structure_cdi_cdd"/>
+            <field name="category_id" ref="cat_indmni"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python"><![CDATA[
+result = any(l.input_type_id.premium_treatment == 'non_taxable' for l in payslip.input_line_ids)
+            ]]></field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"><![CDATA[
+result = sum(l.amount for l in payslip.input_line_ids if l.input_type_id.premium_treatment == 'non_taxable')
+            ]]></field>
+        </record>
+
         <!-- [600] BRUT_TOTAL - Salaire Brut Total -->
         <record id="salary_rule_brut_total" model="hr.salary.rule">
             <field name="name">Salaire Brut Total</field>
@@ -809,7 +843,7 @@ result = inputs.get('IND_REPR').amount
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-result = round(BRUT) + categories.get("INDMNI ") or 0
+result = round(BRUT) + (categories.get("INDMNI") or 0)
             ]]></field>
         </record>
 

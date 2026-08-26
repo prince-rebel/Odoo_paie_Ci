@@ -26,6 +26,7 @@
         'wizards/benefits_in_kind_disa_view.xml',
         'wizards/inverse_calculation_view.xml',
 
+        'views/hr_payslip_input_type_view.xml',
         'views/hr_employee_view_inherit.xml',
         'views/hr_version_view_inherit.xml',
         'views/hr_payroll_view_inherit.xml',

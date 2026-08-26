@@ -47,5 +47,20 @@
             <field name="code">SURSA</field>
         </record>
 
+        <!-- Types "bucket" partagés : toute prime libre (créée par l'utilisateur,
+             sans règle salariale dédiée) transite par l'un de ces deux types
+             techniques, pour que le mécanisme natif Odoo "same_type_input_lines"
+             génère une ligne de bulletin distincte par prime, affichée sous son
+             propre nom (et non sous ce libellé technique). -->
+        <record id="input_type_autres_prim_imp" model="hr.payslip.input.type">
+            <field name="name">Autres primes imposables</field>
+            <field name="code">AUTRES_PRIM_IMP</field>
+        </record>
+
+        <record id="input_type_autres_prim_ni" model="hr.payslip.input.type">
+            <field name="name">Autres primes non imposables</field>
+            <field name="code">AUTRES_PRIM_NI</field>
+        </record>
+
     </data>
 </odoo>
