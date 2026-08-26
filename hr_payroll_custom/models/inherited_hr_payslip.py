@@ -332,7 +332,7 @@ class HrPayslip(models.Model):
                     total_employee = ''
 
                 if line.code == 'ITS':
-                    # ITS_P est calculé après BRUT_TOTAL (seq 702), accessible via get_amount_rubrique
+                    # ITS_P (seq 702) est calculé après BRUT (seq 300), accessible via get_amount_rubrique
                     its_p = rec.get_amount_rubrique('ITS_P')
                     rate_employer = '1,20' if its_p else ''
                     total_employer = '{0:,.0f}'.format(round(its_p)).replace(',', ' ') if its_p else ''
@@ -355,9 +355,11 @@ class HrPayslip(models.Model):
                 else:
                     pass
 
-                # Pour ITS : la colonne Base affiche le brut imposable (BRUT_TOTAL), pas le montant ITS
+                # Pour ITS : la colonne Base affiche le brut imposable (BRUT), pas le montant ITS.
+                # ITS_P (part patronale) est désormais basée sur BRUT (et non plus BRUT_TOTAL),
+                # comme la part salariale : les deux parts partagent la même base affichée ici.
                 if line.code == 'ITS':
-                    amount_display = '{0:,.0f}'.format(round(rec.get_amount_rubrique('BRUT_TOTAL'))).replace(',', ' ')
+                    amount_display = '{0:,.0f}'.format(round(rec.get_amount_rubrique('BRUT'))).replace(',', ' ')
                 else:
                     amount_display = '{0:,.0f}'.format(round(line.amount)).replace(',', ' ')
 
