@@ -341,7 +341,7 @@ result = max(0, result1 - reduction)
             <field name="amount_percentage">6.3</field>
         </record>
 
-        <!-- [702] ITS_P - ITS Patronale (1,2% du brut imposable) — doit être après BRUT_TOTAL (seq 600) -->
+        <!-- [702] ITS_P - ITS Patronale (1,2% du brut imposable) — doit être après BRUT (seq 300) -->
         <record id="salary_rule_its_p" model="hr.salary.rule">
             <field name="name">ITS Patronale (1,2%)</field>
             <field name="code">ITS_P</field>
@@ -350,7 +350,7 @@ result = max(0, result1 - reduction)
             <field name="category_id" ref="cat_imp_emp"/>
             <field name="condition_select">none</field>
             <field name="amount_select">percentage</field>
-            <field name="amount_percentage_base">BRUT_TOTAL</field>
+            <field name="amount_percentage_base">BRUT</field>
             <field name="amount_percentage">1.2</field>
             <field name="quantity">1.0</field>
             <field name="appears_on_payslip" eval="False"/>
@@ -823,7 +823,7 @@ result = round(BRUT) + categories.get("INDMNI ") or 0
             <field name="condition_select">none</field>
             <field name="amount_select">code</field>
             <field name="amount_python_compute"><![CDATA[
-result = round(BRUT) - round(RET) + round( categories.get("INDMNI ") or 0)
+result = round(BRUT) - round(RET) + round(categories.get("INDMNI", 0))
             ]]></field>
         </record>
 
