@@ -112,6 +112,14 @@
                 groups="hr_payroll.group_hr_payroll_user"/>
 
         <menuitem
+                id="contribution_summary_menu"
+                name="État résumé des cotisations"
+                sequence="5"
+                parent="hr_payroll_custom.payroll_declaration_menu"
+                action="hr_payroll_custom.contribution_summary_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
                 id="end_of_year_declaration_menu"
                 name="Déclarations de fin d'année"
                 parent="hr_payroll_custom.payroll_declaration_menu"
@@ -163,6 +171,22 @@
                 sequence="60"
                 parent="hr_payroll_custom.payroll_declaration_config_menu"
                 action="hr_payroll_custom.fdfp_settings_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="contribution_summary_group_menu"
+                name="Groupes état résumé des cotisations"
+                sequence="70"
+                parent="hr_payroll_custom.payroll_declaration_config_menu"
+                action="hr_payroll_custom.contribution_summary_group_act_window"
+                groups="hr_payroll.group_hr_payroll_user"/>
+
+        <menuitem
+                id="contribution_summary_rubric_menu"
+                name="Rubriques état résumé des cotisations"
+                sequence="80"
+                parent="hr_payroll_custom.payroll_declaration_config_menu"
+                action="hr_payroll_custom.contribution_summary_rubric_act_window"
                 groups="hr_payroll.group_hr_payroll_user"/>
 
     </data>

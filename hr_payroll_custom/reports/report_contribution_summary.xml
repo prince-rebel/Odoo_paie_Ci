@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="paper_format_contribution_summary" model="report.paperformat">
+            <field name="name">A4 - État résumé des cotisations</field>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">38</field>
+            <field name="margin_bottom">10</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_spacing">34</field>
+            <field name="header_line" eval="False"/>
+            <field name="dpi">90</field>
+        </record>
+
+        <template id="report_contribution_summary">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="now" t-value="context_timestamp(datetime.datetime.now())"/>
+                    <t t-set="groups" t-value="o._get_report_groups()"/>
+
+                    <!-- En-tête répété sur chaque page -->
+                    <div class="header" style="font-family:Arial,Helvetica,sans-serif;font-size:11px;">
+                        <table style="width:100%;border:1px solid #000;border-collapse:collapse;">
+                            <tr>
+                                <td style="width:22%;padding:4px 6px;vertical-align:top;">
+                                    <div>Date du jour : <span t-esc="now.strftime('%d/%m/%y')"/></div>
+                                    <div>Heure : <span t-esc="now.strftime('%H:%M')"/></div>
+                                    <div style="margin-top:8px;">Édition en : <span t-esc="o.currency_id.name"/></div>
+                                </td>
+                                <td style="width:56%;text-align:center;vertical-align:top;padding:4px;">
+                                    <div style="font-size:20px;font-weight:bold;">
+                                        État résumé des cotisations <span style="letter-spacing:4px;">MENSUEL</span>
+                                    </div>
+                                    <div>Période du <span t-esc="o.date_from.strftime('%d/%m/%y')"/>
+                                        au <span t-esc="o.date_to.strftime('%d/%m/%y')"/></div>
+                                </td>
+                                <td style="width:22%;text-align:right;vertical-align:top;padding:4px 6px;">
+                                    <div>Page : <span class="page"/> / <span class="topage"/></div>
+                                    <div style="margin-top:22px;">
+                                        (<t t-esc="dict(o._fields['closure_mode'].selection).get(o.closure_mode)"/>)
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="border-top:1px solid #000;">
+                                <td colspan="3" style="padding:3px 6px;">
+                                    Société : <span t-esc="o.company_id.name"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class="article" t-att-data-oe-model="o._name" t-att-data-oe-id="o.id"
+                         style="font-family:Arial,Helvetica,sans-serif;font-size:10.5px;">
+                        <div class="page">
+                            <style>
+                                .rc-table { width:100%; border-collapse:collapse; border:1px solid #000; }
+                                .rc-table th { font-weight:normal; text-align:center; vertical-align:top;
+                                               border:1px solid #000; padding:2px 3px; }
+                                .rc-table td { border-left:1px solid #000; border-right:1px solid #000;
+                                               padding:1px 4px; white-space:nowrap; }
+                                .rc-num { text-align:right; }
+                                .rc-total td { background-color:#a9c8ee; font-weight:bold; padding:4px;
+                                               border-top:1px solid #000; border-bottom:1px solid #000; }
+                                .rc-total td.rc-blank { background-color:#fff; }
+                            </style>
+
+                            <div style="border:1px solid #000;border-bottom:none;padding:4px 6px;">
+                                <div>Salariés :
+                                    <t t-if="o.employee_ids">
+                                        <t t-esc="', '.join(o.employee_ids.mapped('name'))"/>
+                                    </t>
+                                    <t t-else="">Tous</t>
+                                    <span style="margin-left:30px;">Bulletins : <t t-esc="o.payslip_count"/></span>
+                                </div>
+                                <div style="margin-top:10px;">Total</div>
+                            </div>
+
+                            <table class="rc-table">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" colspan="2" style="vertical-align:middle;">Rubriques de cotisations</th>
+                                        <th rowspan="2">Taux<br/>salarial</th>
+                                        <th rowspan="2">Taux<br/>patronal</th>
+                                        <th rowspan="2">Taux global</th>
+                                        <th rowspan="2">Assiette de<br/>cotisation</th>
+                                        <th rowspan="2">Base</th>
+                                        <th rowspan="2">Montant salarial</th>
+                                        <th rowspan="2">Montant patronal</th>
+                                        <th rowspan="2">Montant global</th>
+                                        <th colspan="2">Effectifs</th>
+                                    </tr>
+                                    <tr>
+                                        <th>H.</th>
+                                        <th>F.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="groups" t-as="g">
+                                        <tr t-foreach="g['lines']" t-as="l">
+                                            <td class="rc-num" style="width:5%;border-right:none;" t-esc="l.code"/>
+                                            <td style="border-left:none;" t-esc="l.name"/>
+                                            <td class="rc-num"><t t-if="l.rate_total" t-esc="o._fmt_rate(l.rate_employee)"/></td>
+                                            <td class="rc-num"><t t-if="l.rate_total" t-esc="o._fmt_rate(l.rate_employer)"/></td>
+                                            <td class="rc-num"><t t-if="l.rate_total" t-esc="o._fmt_rate(l.rate_total)"/></td>
+                                            <td class="rc-num" t-esc="o._fmt_amount(l.assiette)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(l.base)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(l.amount_employee)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(l.amount_employer)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(l.amount_total)"/>
+                                            <td class="rc-num" t-esc="l.headcount_male or ''"/>
+                                            <td class="rc-num" t-esc="l.headcount_female or ''"/>
+                                        </tr>
+                                        <tr class="rc-total">
+                                            <td class="rc-blank"/>
+                                            <td>Total <t t-esc="g['name']"/></td>
+                                            <td colspan="5"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(g['total_employee'], blank_zero=False)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(g['total_employer'], blank_zero=False)"/>
+                                            <td class="rc-num" t-esc="o._fmt_amount(g['total_global'], blank_zero=False)"/>
+                                            <td class="rc-blank"/>
+                                            <td class="rc-blank"/>
+                                        </tr>
+                                    </t>
+                                    <tr class="rc-total">
+                                        <td class="rc-blank"/>
+                                        <td>Total</td>
+                                        <td colspan="5"/>
+                                        <td class="rc-num" t-esc="o._fmt_amount(o.total_employee, blank_zero=False)"/>
+                                        <td class="rc-num" t-esc="o._fmt_amount(o.total_employer, blank_zero=False)"/>
+                                        <td class="rc-num" t-esc="o._fmt_amount(o.total_global, blank_zero=False)"/>
+                                        <td class="rc-blank"/>
+                                        <td class="rc-blank"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_contribution_summary" model="ir.actions.report">
+            <field name="name">État résumé des cotisations (PDF)</field>
+            <field name="model">hr_payroll_custom.contribution_summary</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_contribution_summary</field>
+            <field name="report_file">hr_payroll_custom.report_contribution_summary</field>
+            <field name="print_report_name">'Etat resume des cotisations - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_contribution_summary"/>
+            <field name="binding_type">report</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_contribution_summary"/>
+        </record>
+
+        <record id="action_report_contribution_summary_xlsx" model="ir.actions.report">
+            <field name="name">État résumé des cotisations (Excel)</field>
+            <field name="model">hr_payroll_custom.contribution_summary</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">hr_payroll_custom.report_contribution_summary_xls</field>
+            <field name="report_file">hr_payroll_custom.report_contribution_summary_xls</field>
+            <field name="print_report_name">'Etat resume des cotisations - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="model_hr_payroll_custom_contribution_summary"/>
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+</odoo>

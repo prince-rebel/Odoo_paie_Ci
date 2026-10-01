@@ -1,10 +1,11 @@
 {
     'name': 'Personnalisation du module Paye',
-    'version': '19.0.1.2.2',
+    'version': '19.0.1.3.0',
     'summary': "Ce module permet de personnaliser le module paye natif afin de l'adapter aux réalités Ivoiriennes",
     'description': """
     - Prise en compte des primes dans le contrat
-    - Prise en compte des déclarations fiscales et sociales""",
+    - Prise en compte des déclarations fiscales et sociales
+    - État résumé des cotisations mensuel (PDF / Excel), rubriques paramétrables""",
     'category': 'Human Resources/Payroll',
     'author': 'Djakaridja Traore',
     'website': 'https://www.neuronestech.com/',
@@ -18,6 +19,7 @@
         'data/hr_salary_rule_trsp_fix.xml',
         'data/hr_payslip_input_type_data.xml',
         'data/prime_type_system_data.xml',
+        'data/contribution_summary_data.xml',
 
         'views/prime_type_view.xml',
 
@@ -43,6 +45,7 @@
         'views/statement_301_view.xml',
         'views/statement_disa_view.xml',
         'views/balance_any_account_view.xml',
+        'views/contribution_summary_view.xml',
 
 
         'wizards/pay_book_wizard_view.xml',
@@ -69,6 +72,7 @@
         'reports/report_disa_supplement.xml',
         'reports/report_fdfp_monthly.xml',
         'reports/report_cnps_monthly.xml',
+        'reports/report_contribution_summary.xml',
         'reports/report_view.xml',
 
     ],

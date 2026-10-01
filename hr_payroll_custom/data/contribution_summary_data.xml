@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Paramétrage par défaut de l'état résumé des cotisations.
+         noupdate : les ajustements faits chez le client ne sont pas écrasés à la mise à jour. -->
+    <data noupdate="1">
+
+        <record id="contribution_summary_company_rule" model="ir.rule">
+            <field name="name">État résumé des cotisations : multi-société</field>
+            <field name="model_id" ref="model_hr_payroll_custom_contribution_summary"/>
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <!-- Groupes -->
+        <record id="contribution_summary_group_impot" model="hr_payroll_custom.contribution_summary_group">
+            <field name="name">IMPOT</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="contribution_summary_group_cnps" model="hr_payroll_custom.contribution_summary_group">
+            <field name="name">C.N.P.S</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="contribution_summary_group_fdfp" model="hr_payroll_custom.contribution_summary_group">
+            <field name="name">F D F P</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <!-- IMPOT -->
+        <record id="contribution_summary_rubric_its_p" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">10</field>
+            <field name="code">4310</field>
+            <field name="name">Contribution Employeur</field>
+            <field name="group_id" ref="contribution_summary_group_impot"/>
+            <field name="employer_rule_code">ITS_P</field>
+        </record>
+        <record id="contribution_summary_rubric_its" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">20</field>
+            <field name="code">4400</field>
+            <field name="name">ITS</field>
+            <field name="group_id" ref="contribution_summary_group_impot"/>
+            <field name="employee_rule_code">ITS</field>
+        </record>
+
+        <!-- C.N.P.S -->
+        <record id="contribution_summary_rubric_pf" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">10</field>
+            <field name="code">4500</field>
+            <field name="name">Prestations Familiales</field>
+            <field name="group_id" ref="contribution_summary_group_cnps"/>
+            <field name="employer_rule_code">PF</field>
+        </record>
+        <record id="contribution_summary_rubric_act" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">20</field>
+            <field name="code">4520</field>
+            <field name="name">Accident du Travail</field>
+            <field name="group_id" ref="contribution_summary_group_cnps"/>
+            <field name="employer_rule_code">ACT</field>
+        </record>
+        <record id="contribution_summary_rubric_cmu" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">30</field>
+            <field name="code">5010</field>
+            <field name="name">Couverture Maladie Universelle</field>
+            <field name="group_id" ref="contribution_summary_group_cnps"/>
+            <field name="employee_rule_code">CMU</field>
+            <field name="employer_rule_code">CMU_P</field>
+            <field name="rate_employee">50.0</field>
+            <field name="rate_employer">50.0</field>
+        </record>
+        <record id="contribution_summary_rubric_cnps" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">40</field>
+            <field name="code">5020</field>
+            <field name="name">Retenue CNPS</field>
+            <field name="group_id" ref="contribution_summary_group_cnps"/>
+            <field name="employee_rule_code">CNPS</field>
+        </record>
+        <record id="contribution_summary_rubric_cnps_p" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">50</field>
+            <field name="code">5030</field>
+            <field name="name">Retraite Générale CNPS</field>
+            <field name="group_id" ref="contribution_summary_group_cnps"/>
+            <field name="employer_rule_code">CNPS_P</field>
+        </record>
+
+        <!-- F D F P -->
+        <record id="contribution_summary_rubric_taxeap" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">10</field>
+            <field name="code">5200</field>
+            <field name="name">Taxe d'apprentissage</field>
+            <field name="group_id" ref="contribution_summary_group_fdfp"/>
+            <field name="employer_rule_code">TAXEAP</field>
+        </record>
+        <record id="contribution_summary_rubric_taxefp" model="hr_payroll_custom.contribution_summary_rubric">
+            <field name="sequence">20</field>
+            <field name="code">5300</field>
+            <field name="name">FPC</field>
+            <field name="group_id" ref="contribution_summary_group_fdfp"/>
+            <field name="employer_rule_code">TAXEFP</field>
+        </record>
+
+    </data>
+</odoo>
