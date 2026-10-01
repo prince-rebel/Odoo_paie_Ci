@@ -6,11 +6,11 @@
             <field name="name">A4 - État résumé des cotisations</field>
             <field name="format">A4</field>
             <field name="orientation">Portrait</field>
-            <field name="margin_top">38</field>
+            <field name="margin_top">30</field>
             <field name="margin_bottom">10</field>
             <field name="margin_left">7</field>
             <field name="margin_right">7</field>
-            <field name="header_spacing">34</field>
+            <field name="header_spacing">26</field>
             <field name="header_line" eval="False"/>
             <field name="dpi">90</field>
         </record>
@@ -116,7 +116,7 @@
                                         <tr class="rc-total">
                                             <td class="rc-blank"/>
                                             <td>Total <t t-esc="g['name']"/></td>
-                                            <td colspan="5"/>
+                                            <td colspan="5" class="rc-blank"/>
                                             <td class="rc-num" t-esc="o._fmt_amount(g['total_employee'], blank_zero=False)"/>
                                             <td class="rc-num" t-esc="o._fmt_amount(g['total_employer'], blank_zero=False)"/>
                                             <td class="rc-num" t-esc="o._fmt_amount(g['total_global'], blank_zero=False)"/>
@@ -127,7 +127,7 @@
                                     <tr class="rc-total">
                                         <td class="rc-blank"/>
                                         <td>Total</td>
-                                        <td colspan="5"/>
+                                        <td colspan="5" class="rc-blank"/>
                                         <td class="rc-num" t-esc="o._fmt_amount(o.total_employee, blank_zero=False)"/>
                                         <td class="rc-num" t-esc="o._fmt_amount(o.total_employer, blank_zero=False)"/>
                                         <td class="rc-num" t-esc="o._fmt_amount(o.total_global, blank_zero=False)"/>

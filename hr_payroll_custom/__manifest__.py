@@ -1,6 +1,6 @@
 {
     'name': 'Personnalisation du module Paye',
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.3.1',
     'summary': "Ce module permet de personnaliser le module paye natif afin de l'adapter aux réalités Ivoiriennes",
     'description': """
     - Prise en compte des primes dans le contrat

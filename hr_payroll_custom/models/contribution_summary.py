@@ -35,7 +35,7 @@ class ContributionSummaryRubric(models.Model):
     name = fields.Char("Libellé", required=True)
     group_id = fields.Many2one('hr_payroll_custom.contribution_summary_group', "Groupe", required=True,
                                ondelete='restrict')
-    group_sequence = fields.Integer(related='group_id.sequence', store=True)
+    group_sequence = fields.Integer(related='group_id.sequence', store=True, string="Séquence du groupe")
     employee_rule_code = fields.Char(
         "Code règle part salariale",
         help="Code de la règle salariale portant la retenue salariale (ex. : CNPS, ITS, CMU).")
@@ -271,7 +271,7 @@ class ContributionSummaryLine(models.Model):
                                  ondelete='cascade')
     rubric_id = fields.Many2one('hr_payroll_custom.contribution_summary_rubric', "Rubrique", ondelete='set null')
     group_id = fields.Many2one('hr_payroll_custom.contribution_summary_group', "Groupe", ondelete='restrict')
-    group_sequence = fields.Integer(related='group_id.sequence', store=True)
+    group_sequence = fields.Integer(related='group_id.sequence', store=True, string="Séquence du groupe")
     sequence = fields.Integer("Séquence")
     code = fields.Char("N°")
     name = fields.Char("Rubrique de cotisation")
