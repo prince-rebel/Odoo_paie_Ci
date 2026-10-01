@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- ══════════════════════════════════════════════════════════
+             Formulaire de création d'un type de prime, avec indications
+             claires pour un utilisateur non technicien (imposable ou non).
+        ══════════════════════════════════════════════════════════ -->
+        <record id="view_hr_payslip_input_type_form_premium" model="ir.ui.view">
+            <field name="name">hr.payslip.input.type.form.premium</field>
+            <field name="model">hr.payslip.input.type</field>
+            <field name="arch" type="xml">
+                <form string="Type de prime">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1><field name="name" placeholder="Ex : Prime de risque"/></h1>
+                        </div>
+                        <group>
+                            <field name="code" placeholder="Suggéré automatiquement depuis le nom"/>
+                            <field name="premium_treatment" widget="radio"/>
+                        </group>
+                        <div class="alert alert-info" role="alert"
+                             invisible="premium_treatment != 'none'">
+                            <i class="fa fa-info-circle me-1"/>
+                            Si cette prime existe déjà dans le calcul (Transport, Rendement,
+                            Gratification, Congé, Indemnité de représentation...), laissez
+                            "Aucun". Sinon, choisissez Imposable ou Non imposable pour
+                            qu'elle soit automatiquement prise en compte.
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

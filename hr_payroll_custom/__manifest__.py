@@ -1,6 +1,6 @@
 {
     'name': 'Personnalisation du module Paye',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.2.0',
     'summary': "Ce module permet de personnaliser le module paye natif afin de l'adapter aux réalités Ivoiriennes",
     'description': """
     - Prise en compte des primes dans le contrat
@@ -23,6 +23,7 @@
         'wizards/benefits_in_kind_disa_view.xml',
         'wizards/inverse_calculation_view.xml',
 
+        'views/hr_payslip_input_type_view.xml',
         'views/hr_employee_view_inherit.xml',
         'views/hr_version_view_inherit.xml',
         'views/hr_payroll_view_inherit.xml',

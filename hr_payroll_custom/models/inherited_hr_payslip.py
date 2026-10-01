@@ -106,9 +106,20 @@ class HrPayslip(models.Model):
             # Récupère les inputs de base Odoo (congés, heures sup, etc.)
             super(HrPayslip, slip)._compute_input_line_ids()
 
-            # Supprime le TRSP que super() ajoute (géré par la règle salariale)
+            input_type_trsp_imp = self.env['hr.payslip.input.type'].search([('code', '=', 'TRSP_IMP')], limit=1)
+            bucket_imp = self.env.ref('hr_payroll_custom.input_type_autres_prim_imp', raise_if_not_found=False)
+            bucket_ni = self.env.ref('hr_payroll_custom.input_type_autres_prim_ni', raise_if_not_found=False)
+
+            # Exclut TOUTES les lignes qui vont être régénérées ci-dessous depuis
+            # les primes fixes du contrat (dédiées ou libres), pour ne jamais
+            # accumuler de doublons lors des recalculs successifs du bulletin
+            # (compute_sheet() peut appeler cette méthode plusieurs fois).
+            excluded_type_ids = set(slip.version_id.fixed_premiums_ids.input_type_id.ids) if slip.version_id else set()
+            for bucket in (input_type_trsp_imp, bucket_imp, bucket_ni):
+                if bucket:
+                    excluded_type_ids.add(bucket.id)
             res = slip.input_line_ids.filtered(
-                lambda l: l.input_type_id.code != 'TRSP'
+                lambda l: l.input_type_id.id not in excluded_type_ids
             )
 
             payroll_input = []
@@ -119,8 +130,6 @@ class HrPayslip(models.Model):
                     if fp.input_type_id.code == 'TRSP':
                         # Injecter TRSP_IMP uniquement si prime > plafond légal
                         if fp.amount > bonus_legal:
-                            input_type_trsp_imp = self.env['hr.payslip.input.type'].search(
-                                [('code', '=', 'TRSP_IMP')], limit=1)
                             if not input_type_trsp_imp:
                                 raise ValidationError(
                                     _("Vous devez définir la prime de transport imposable avec le code "
@@ -130,6 +139,21 @@ class HrPayslip(models.Model):
                                 'amount': fp.amount - bonus_legal,
                                 'input_type_id': input_type_trsp_imp.id
                             })
+                    elif fp.input_type_id.premium_treatment == 'taxable' and bucket_imp:
+                        # Prime libre imposable : transite par le type "bucket" partagé
+                        # (mécanisme same_type_input_lines) pour que chaque prime
+                        # s'affiche sur le bulletin sous son propre nom.
+                        payroll_input.append({
+                            'name': fp.input_type_id.name,
+                            'amount': fp.amount,
+                            'input_type_id': bucket_imp.id,
+                        })
+                    elif fp.input_type_id.premium_treatment == 'non_taxable' and bucket_ni:
+                        payroll_input.append({
+                            'name': fp.input_type_id.name,
+                            'amount': fp.amount,
+                            'input_type_id': bucket_ni.id,
+                        })
                     else:
                         payroll_input.append({
                             'name': fp.input_type_id.name,
