@@ -3,7 +3,7 @@
     <data>
         <record id="structure_cdi_cdd" model="hr.payroll.structure">
             <field name="name">CDI/CDD</field>
-            <field name="type_id">1</field>
+            <field name="type_id" ref="hr.structure_type_employee"/>
         </record>
 
 
