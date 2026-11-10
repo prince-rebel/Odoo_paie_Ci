@@ -1,6 +1,6 @@
 {
     'name': 'Personnalisation des modules Employé et Contrat',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.0.1',
     'summary': "Ce module permet de personnaliser le module employé natif Odoo afin de l'adapter aux réalités Ivoiriennes",
     'description': 'Description',
     'category': 'Human Resources/Employees',
