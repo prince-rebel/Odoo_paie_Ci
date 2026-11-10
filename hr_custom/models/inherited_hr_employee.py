@@ -149,11 +149,12 @@ class HrEmployee(models.Model):
     hiring_date = fields.Date("Date d'embauche", tracking=True)
     seniority_employee = fields.Integer("Anciennété", compute="_get_seniority")
     age = fields.Integer('Âge employé', compute='_get_age_employee')
-    total_children = fields.Integer('Nombre enfant total', compute='_compute_children')
+    total_children = fields.Integer('Nombre enfant total', compute='_compute_children',
+                                    store=True, readonly=False)
     childrens_ids = fields.One2many('hr_custom.employee_children', 'employee_id', 'Enfants')
     diplome_id = fields.Many2one('hr_custom.diploma', 'Diplôme', help="Renseigner le diplôme le plus élévé")
     study_area_id = fields.Many2one('hr_custom.study_area', 'Domaine', help="Renseigner le domaine d'étude")
-    children = fields.Integer(compute="_compute_children", tracking=True)
+    children = fields.Integer(compute="_compute_children", store=True, readonly=False, tracking=True)
     salary_category_id = fields.Many2one('hr_custom.salary_category', 'Catégorie salariale',
                                          help="Catégorie salariale de l'employé")
     piece_identite_id = fields.Many2one("hr_custom.identity_card", "Pièce d'identité")
@@ -188,10 +189,14 @@ class HrEmployee(models.Model):
     birthplace = fields.Char("Lieu de naissance", groups="hr.group_hr_user", tracking=True)
     num_cmu_conjoint = fields.Char('N° CMU conjoint', tracking=True)
 
-    @api.depends("childrens_ids")
+    @api.depends("childrens_ids", "childrens_ids.active", "childrens_ids.date_of_birth",
+                 "childrens_ids.study_certificate", "company_id.max_age_child",
+                 "company_id.max_age_child_certificat")
     def _compute_children(self):
         """
-            Function to determine the number of children taken into account in the calculation of certain premiums
+            Function to determine the number of children taken into account in the calculation of certain premiums.
+            The fields are stored and editable: a value typed by the user is kept, and it is recalculated
+            only when the list of children (or the age limits of the company) changes.
         :return:
         """
         for emp in self:
