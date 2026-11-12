@@ -7,7 +7,7 @@
             <t t-set="fmt" t-value="lambda v: '{0:,.0f}'.format(int(v or 0)).replace(',', ' ')"/>
             <div class="page" style="padding:0; margin:0;">
                 <style type="text/css">
-                    .sg { width:100%; height:360mm; border-collapse:collapse; table-layout:fixed;
+                    .sg { width:100%; height:322mm; border-collapse:collapse; table-layout:fixed;
                           font-family:Arial, Helvetica, sans-serif; font-size:10.5px; color:#000; border:1px solid #000; }
                     .sg td, .sg th { padding:1px 3px; vertical-align:top; }
                     .sg .c { border-left:1px solid #000; }
@@ -223,7 +223,7 @@
         <template id="hr_payroll_custom.report_payslip_sage">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
-                    <t t-call="hr_payroll_custom.report_payslip_sage_page"/>
+                    <t t-call="web.basic_layout"><t t-call="hr_payroll_custom.report_payslip_sage_page"/></t>
                 </t>
             </t>
         </template>
