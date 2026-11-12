@@ -116,6 +116,7 @@
                         <td class="c r"><span t-out="p['amount']"/></td>
                         <td class="c"/><td class="c r"><span t-out="p['total']"/></td><td class="c"/><td class="c"/><td class="c"/>
                     </tr>
+                    <tr class="ln"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
                     <tr class="ln" t-foreach="o.get_gross()" t-as="l">
                         <td/><td class="c" style="font-weight:bold;">TOTAL BRUT IMPOSABLE</td><td class="c"/><td class="c"/>
                         <td class="c"/><td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="l['total']"/></td><td class="c"/><td class="c"/><td class="c"/>
@@ -132,6 +133,7 @@
                         <td class="c r"><span t-out="j['rate_employer']"/></td>
                         <td class="c r"><span t-out="j['total_employer']"/></td>
                     </tr>
+                    <tr class="ln"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
                     <tr class="ln" t-foreach="o.get_total_tax()" t-as="tt">
                         <td/><td class="c" style="font-weight:bold;">TOTAL RETENUES IMPOTS</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/>
                         <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tt['total_employee']"/></td>
@@ -150,12 +152,14 @@
                         <td class="c r"><span t-out="j['rate_employer']"/></td>
                         <td class="c r"><span t-out="j['total_employer']"/></td>
                     </tr>
+                    <tr class="ln"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
                     <tr class="ln" t-foreach="o.get_total_various_deduction()" t-as="tvd">
                         <td/><td class="c" style="font-weight:bold;">TOTAL RETENUES DIVERSES</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/>
                         <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tvd['total_employee']"/></td>
                         <td class="c"/>
                         <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tvd['total_employer']"/></td>
                     </tr>
+                    <tr class="ln"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
                     <tr class="ln" t-foreach="o.get_tax_free_allowance()" t-as="m">
                         <td class="r"><span t-out="m['sequence']"/></td>
                         <td class="c"><span t-out="m['name']"/></td>
