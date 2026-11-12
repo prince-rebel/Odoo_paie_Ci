@@ -263,6 +263,25 @@ class HrPayslip(models.Model):
         # result = format_amount.manageSeparator(total)
         return total
 
+    def get_year_cumuls(self):
+        """
+        Cumuls annuels (du 1er janvier à la fin de la période du bulletin) pour le bulletin modèle Sage.
+        """
+        self.ensure_one()
+        slips = self.env['hr.payslip'].search([
+            ('employee_id', '=', self.employee_id.id),
+            ('date_from', '>=', self.date_from.replace(month=1, day=1)),
+            ('date_to', '<=', self.date_to),
+            ('state', 'in', ('validated', 'paid', 'done')),
+        ])
+        if self.id not in slips.ids:
+            slips |= self
+        lines = slips.mapped('line_ids')
+        return {
+            code: sum(lines.filtered(lambda l, c=code: l.code == c).mapped('total'))
+            for code in ('BRUT', 'NET_IMP', 'RET', 'TTL_IMP_PART')
+        }
+
     def get_gross_data(self):
         """
         Function allowing to return the constituent elements of the gross salary
