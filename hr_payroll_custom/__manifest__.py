@@ -1,6 +1,6 @@
 {
     'name': 'Personnalisation du module Paye',
-    'version': '19.0.1.3.1',
+    'version': '19.0.1.3.2',
     'summary': "Ce module permet de personnaliser le module paye natif afin de l'adapter aux réalités Ivoiriennes",
     'description': """
     - Prise en compte des primes dans le contrat
@@ -65,6 +65,7 @@
         'reports/report_employee_absent_previous_pay.xml',
         'reports/report_change_in_paid_staffs.xml',
         'reports/report_payslip.xml',
+        'reports/report_payslip_sage.xml',
         'reports/report_payroll_by_post.xml',
         'reports/report_its_monthly.xml',
         'reports/report_statement_301.xml',
