@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Bulletin de paie : présentation de type Sage, cadre pleine page A4 -->
+        <template id="hr_payroll_custom.report_payslip_sage_page">
+            <t t-set="dp" t-value="o.get_personnal_info()[0]"/>
+            <t t-set="fmt" t-value="lambda v: '{0:,.0f}'.format(int(v or 0)).replace(',', ' ')"/>
+            <div class="page" style="padding:0; margin:0;">
+                <style type="text/css">
+                    .sg { width:100%; height:360mm; border-collapse:collapse; table-layout:fixed;
+                          font-family:Arial, Helvetica, sans-serif; font-size:10.5px; color:#000; border:1px solid #000; }
+                    .sg td, .sg th { padding:1px 3px; vertical-align:top; }
+                    .sg .c { border-left:1px solid #000; }
+                    .sg .r { text-align:right; white-space:nowrap; }
+                    .sg .ctr { text-align:center; }
+                    .sg .hd td { border:1px solid #000; }
+                    .sg .lbl { text-align:center; font-size:10px; }
+                    .sg .val { font-size:10.5px; }
+                    .sg .th { text-align:center; font-weight:normal; border-top:1px solid #000; border-bottom:1px solid #000; padding:4px 3px; font-size:11px; }
+                    .sg .stot { font-weight:normal; }
+                    .sg .line td { line-height:1.25; }
+                    .sg .cum td, .sg .cum th { border:1px solid #000; text-align:center; font-weight:normal; font-size:10px; }
+                    .sg .cum td.n { text-align:right; font-size:11px; }
+                    .sg .net { font-weight:bold; font-size:12px; }
+                </style>
+                <table class="sg">
+                    <colgroup>
+                        <col style="width:7%"/>
+                        <col style="width:31%"/>
+                        <col style="width:7%"/>
+                        <col style="width:11%"/>
+                        <col style="width:6%"/>
+                        <col style="width:11%"/>
+                        <col style="width:11%"/>
+                        <col style="width:6%"/>
+                        <col style="width:10%"/>
+                    </colgroup>
+                    <!-- ====== EN-TETE ====== -->
+                    <tr style="height:1px;">
+                        <td colspan="9" style="padding:0; border-bottom:1px solid #000;">
+                            <table style="width:100%; border-collapse:collapse; table-layout:fixed;" class="hd">
+                                <tr>
+                                    <td rowspan="4" style="width:38%; border:0; border-right:1px solid #000; text-align:center; vertical-align:middle; padding:6px;">
+                                        <t t-if="o.company_id.logo">
+                                            <img t-att-src="'data:image/png;base64,%s' % o.company_id.logo.decode('utf-8')"
+                                                 style="max-height:60px; max-width:140px; display:block; margin:0 auto 4px auto;"/>
+                                        </t>
+                                        <div style="font-size:12px; font-weight:bold;"><span t-out="o.company_id.name"/></div>
+                                        <div><span t-out="o.company_id.street or ''"/></div>
+                                        <div><span t-out="o.company_id.phone or ''"/></div>
+                                    </td>
+                                    <td colspan="3" style="border:0; border-bottom:1px solid #000; padding:5px; font-size:17px;">BULLETIN DE PAIE</td>
+                                    <td colspan="2" style="border:0; border-bottom:1px solid #000; border-left:1px solid #000; padding:5px;">
+                                        Période du : <span t-field="o.date_from"/> au : <span t-field="o.date_to"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="border:0; border-bottom:1px solid #000;"><div class="lbl">Matricule</div><div class="val ctr"><span t-out="dp['identification_id']"/></div></td>
+                                    <td style="border:0; border-bottom:1px solid #000; border-left:1px solid #000;"><div class="lbl">Ancienneté</div>
+                                        <div class="val ctr">
+                                            <t t-if="dp['slip_seniority_year'] > 0"><span t-out="dp['slip_seniority_year']"/> an(s) et </t>
+                                            <span t-out="dp['slip_seniority_month']"/> mois
+                                        </div></td>
+                                    <td style="border:0; border-bottom:1px solid #000; border-left:1px solid #000;"><div class="lbl"><span t-out="dp['employee_type']"/></div><div class="val ctr"><span t-out="dp['matricule'] or ''"/></div></td>
+                                    <td colspan="2" style="border:0; border-bottom:1px solid #000; border-left:1px solid #000;"><div class="lbl">Paiement</div><div class="val ctr"><span t-field="o.employee_id.payment_method"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border:0; border-bottom:1px solid #000;"><div class="lbl">Catégorie</div><div class="val ctr"><span t-out="dp['categorie_salariale']"/></div></td>
+                                    <td colspan="2" style="border:0; border-bottom:1px solid #000; border-left:1px solid #000;"><div class="lbl">Emploi occupé</div><div class="val ctr"><span t-out="dp['job'] or ''"/></div></td>
+                                    <td style="border:0; border-bottom:1px solid #000; border-left:1px solid #000;"><div class="lbl">Département</div><div class="val ctr"><span t-out="dp['department'] or ''"/></div></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="border:0;"><div class="lbl">Date d'embauche</div><div class="val ctr"><span t-out="dp['hiring_date']"/></div></td>
+                                    <td colspan="2" style="border:0; border-left:1px solid #000;"><div class="lbl">Nombre de parts</div><div class="val ctr"><span t-out="dp['igr_part']"/></div></td>
+                                    <td style="border:0; border-left:1px solid #000;"><div class="lbl">Contrat</div><div class="val ctr"><span t-field="o.version_id.contract_type_id"/></div></td>
+                                </tr>
+                            </table>
+                            <table style="width:100%; border-collapse:collapse; table-layout:fixed; border-top:1px solid #000;">
+                                <tr>
+                                    <td style="width:38%; border-right:1px solid #000; padding:4px;">
+                                        <table style="width:100%; font-size:10.5px; border-collapse:collapse;">
+                                            <tr><td></td><td class="r">Acquis</td><td class="r">Reste à prendre</td><td class="r">Pris</td></tr>
+                                            <tr><td>Congés</td>
+                                                <td class="r"><span t-field="o.acquired_leave"/></td>
+                                                <td class="r"><span t-field="o.available_leave"/></td>
+                                                <td class="r"><span t-field="o.taked_leave"/></td></tr>
+                                        </table>
+                                    </td>
+                                    <td style="padding:10px 14px; font-size:13px;">
+                                        <strong><span t-out="dp['employee_name']"/></strong>
+                                        <div style="font-size:10.5px;"><span t-out="dp['zip'] or ''"/></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- ====== ENTETE COLONNES ====== -->
+                    <tr>
+                        <th class="th" rowspan="2" style="vertical-align:middle;">N°</th>
+                        <th class="th c" rowspan="2" style="vertical-align:middle;">Désignation</th>
+                        <th class="th c" rowspan="2" style="vertical-align:middle;">Nombre</th>
+                        <th class="th c" rowspan="2" style="vertical-align:middle;">Base</th>
+                        <th class="th c" colspan="3" style="border-bottom:0;">Part salariale</th>
+                        <th class="th c" colspan="2" style="border-bottom:0;">Part patronale</th>
+                    </tr>
+                    <tr>
+                        <th class="th c">Taux</th><th class="th c">Gain</th><th class="th c">Retenue</th>
+                        <th class="th c">Taux</th><th class="th c">Retenue</th>
+                    </tr>
+                    <!-- ====== LIGNES ====== -->
+                    <tr class="line" t-foreach="o.get_gross_data()" t-as="p">
+                        <td class="r"><span t-out="p['sequence']"/></td>
+                        <td class="c"><span t-out="p['name']"/></td>
+                        <td class="c r"><span t-out="p['quantity']"/></td>
+                        <td class="c r"><span t-out="p['amount']"/></td>
+                        <td class="c"/><td class="c r"><span t-out="p['total']"/></td><td class="c"/><td class="c"/><td class="c"/>
+                    </tr>
+                    <tr class="line" t-foreach="o.get_gross()" t-as="l">
+                        <td/><td class="c" style="font-weight:bold;">TOTAL BRUT IMPOSABLE</td><td class="c"/><td class="c"/>
+                        <td class="c"/><td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="l['total']"/></td><td class="c"/><td class="c"/><td class="c"/>
+                    </tr>
+                    <tr class="line"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
+                    <tr class="line" t-foreach="o.get_tax_data()" t-as="j">
+                        <td class="r"><span t-out="j['sequence']"/></td>
+                        <td class="c"><span t-out="j['name']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="j['amount']"/></td>
+                        <td class="c r"><span t-out="j['rate_employee']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="j['total_employee']"/></td>
+                        <td class="c r"><span t-out="j['rate_employer']"/></td>
+                        <td class="c r"><span t-out="j['total_employer']"/></td>
+                    </tr>
+                    <tr class="line" t-foreach="o.get_total_tax()" t-as="tt">
+                        <td/><td class="c" style="font-weight:bold;">TOTAL RETENUES IMPOTS</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/>
+                        <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tt['total_employee']"/></td>
+                        <td class="c"/>
+                        <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tt['total_employer']"/></td>
+                    </tr>
+                    <tr class="line"><td/><td class="c">&#160;</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/></tr>
+                    <tr class="line" t-foreach="o.get_various_deductions()" t-as="j">
+                        <td class="r"><span t-out="j['sequence']"/></td>
+                        <td class="c"><span t-out="j['name']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="j['amount']"/></td>
+                        <td class="c r"><span t-out="j['rate_employee']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="j['total_employee']"/></td>
+                        <td class="c r"><span t-out="j['rate_employer']"/></td>
+                        <td class="c r"><span t-out="j['total_employer']"/></td>
+                    </tr>
+                    <tr class="line" t-foreach="o.get_total_various_deduction()" t-as="tvd">
+                        <td/><td class="c" style="font-weight:bold;">TOTAL RETENUES DIVERSES</td><td class="c"/><td class="c"/><td class="c"/><td class="c"/>
+                        <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tvd['total_employee']"/></td>
+                        <td class="c"/>
+                        <td class="c r" style="font-weight:bold; border-top:1px solid #000;"><span t-out="tvd['total_employer']"/></td>
+                    </tr>
+                    <tr class="line" t-foreach="o.get_tax_free_allowance()" t-as="m">
+                        <td class="r"><span t-out="m['sequence']"/></td>
+                        <td class="c"><span t-out="m['name']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="m['amount']"/></td>
+                        <td class="c"/><td class="c r"><span t-out="m['total']"/></td><td class="c"/><td class="c"/><td class="c"/>
+                    </tr>
+                    <tr class="line" t-foreach="o.get_tax_free_withholding()" t-as="n">
+                        <td class="r"><span t-out="n['sequence']"/></td>
+                        <td class="c"><span t-out="n['name']"/></td>
+                        <td class="c"/>
+                        <td class="c r"><span t-out="n['amount']"/></td>
+                        <td class="c"/><td class="c"/><td class="c r"><span t-out="n['total']"/></td><td class="c"/><td class="c"/>
+                    </tr>
+                    <!-- ====== LIGNE EXTENSIBLE : remplit la page ====== -->
+                    <tr style="height:100%;">
+                        <td/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/><td class="c"/>
+                    </tr>
+                    <!-- ====== CUMULS / NET A PAYER ====== -->
+                    <tr>
+                        <td colspan="9" style="padding:0; border-top:1px solid #000;">
+                            <table class="cum" style="width:100%; border-collapse:collapse; table-layout:fixed;">
+                                <tr>
+                                    <th style="width:9%;">Cumuls</th>
+                                    <td style="width:13%;">Salaire brut</td>
+                                    <td style="width:13%;">Net imposable</td>
+                                    <td style="width:13%;">Charges salariales</td>
+                                    <td style="width:13%;">Charges patronales</td>
+                                    <td style="width:10%;">Jours travaillés</td>
+                                    <td style="width:11%;">Avantages en nature</td>
+                                    <td class="net" style="width:18%; border-bottom:0;">NET A PAYER</td>
+                                </tr>
+                                <tr>
+                                    <th>Période</th>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('BRUT'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('NET_IMP'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('RET'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('TTL_IMP_PART'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('TJRPAY'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_natural_advantage())"/></td>
+                                    <td rowspan="2" class="net" style="font-size:16px; vertical-align:middle; text-align:right; padding-right:8px; border-top:0;">
+                                        <span t-out="fmt(o.get_amount_rubrique('NET'))"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Année</th>
+                                    <td class="n"><span t-out="fmt(o.get_sum_rubrique('BASE_BRUT_AN'))"/></td>
+                                    <td class="n"/>
+                                    <td class="n"><span t-out="fmt(o.get_sum_rubrique('TCS_A_CNPS'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_sum_rubrique('TCP_A_CNPS'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_amount_rubrique('TWDAYS'))"/></td>
+                                    <td class="n"><span t-out="fmt(o.get_somme_natural_advantage())"/></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr style="height:1px;">
+                        <td colspan="9" style="border:0; font-size:9px; padding-top:3px;">
+                            Pour vous aider à faire valoir vos droits, conservez ce bulletin de paie sans limitation de durée.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+        <template id="hr_payroll_custom.report_payslip_sage">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="hr_payroll_custom.report_payslip_sage_page"/>
+                </t>
+            </t>
+        </template>
+
+        <record id="action_report_payslip_sage" model="ir.actions.report">
+            <field name="name">Bulletin (modèle Sage)</field>
+            <field name="model">hr.payslip</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">hr_payroll_custom.report_payslip_sage</field>
+            <field name="report_file">hr_payroll_custom.report_payslip_sage</field>
+            <field name="print_report_name">"'Bulletin - %s' % (object.employee_id.name)"</field>
+            <field name="paperformat_id" ref="hr_payroll_custom.paper_format_payslip"/>
+            <field name="binding_model_id" ref="hr_payroll.model_hr_payslip"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>
