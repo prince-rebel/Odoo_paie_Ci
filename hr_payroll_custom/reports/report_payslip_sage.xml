@@ -15,9 +15,11 @@
 .sg .ctr { text-align:center; }
 .sg .lbl { text-align:center; font-size:12.7px; }
 .sg .val { font-size:12.7px; }
-.sg .th { text-align:center; font-weight:normal; border-top:1px solid #000; border-bottom:1px solid #000; padding:2px; font-size:12.7px; }
+.sg .th { text-align:center; font-weight:normal; border-top:1px solid #000; border-bottom:1px solid #000; padding:5px 2px; font-size:12.7px; }
 .sg tr { border:0; }
-.sg .ln td { border-top:0; border-bottom:0; }
+.sg .ln td { border-top:0; border-bottom:0; padding:0 2px; line-height:1.12; }
+.sg .hd td { padding:2px 3px 13px 3px; }
+.sg .cg td { padding:3px 2px 9px 2px; }
 .sg .cum td, .sg .cum th { border:1px solid #000; text-align:center; font-weight:normal; font-size:12.7px; padding:1px 2px; }
 .sg .cum td.n { text-align:right; font-size:12.7px; }
 .sg .net { font-weight:bold; font-size:13.5px; }
@@ -76,8 +78,8 @@
                             </table>
                             <table style="width:100%; border-collapse:collapse; table-layout:fixed; border-top:1px solid #000;">
                                 <tr>
-                                    <td style="width:38%; border-right:1px solid #000; padding:4px;">
-                                        <table style="width:100%; font-size:12.7px; border-collapse:collapse;">
+                                    <td style="width:38%; height:120px; border-right:1px solid #000; padding:4px;">
+                                        <table class="cg" style="width:100%; font-size:12.7px; border-collapse:collapse;">
                                             <tr><td></td><td class="r">Acquis</td><td class="r">Reste à prendre</td><td class="r">Pris</td></tr>
                                             <tr><td>Congés</td>
                                                 <td class="r"><span t-field="o.acquired_leave"/></td>
@@ -85,7 +87,7 @@
                                                 <td class="r"><span t-field="o.taked_leave"/></td></tr>
                                         </table>
                                     </td>
-                                    <td style="padding:4px 8px; font-size:14px;">
+                                    <td style="padding:30px 8px 4px 8px; font-size:14px;">
                                         <strong><span t-out="dp['employee_name']"/></strong>
                                         <div style="font-size:12.7px;"><span t-out="dp['zip'] or ''"/></div>
                                     </td>
